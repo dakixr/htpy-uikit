@@ -22,12 +22,6 @@
 
 ## CLI
 
-- **List**: `htpyuikit list`
-- **Add (interactive)**: `htpyuikit add` (uses questionary)
-- **Add specific**: `htpyuikit add button card --dest ./components`
-- **Add all**: `htpyuikit add --all --dest ./components`
-- **Theme**: `htpyuikit add-theme --dest ./styles/htpy-uikit.css`
-
 ```
 Usage: htpyuikit [OPTIONS] COMMAND [ARGS]...
 
@@ -49,8 +43,8 @@ Commands:
 
 ```toml
 [tool.htpy-uikit]
-components_dir = "./components"          # default for `add`
-theme_path     = "./styles/htpy-uikit.css"  # default for `add-theme`
+components_dir = "components"             # default for `add`
+theme_path     = "styles/htpy-uikit.css"  # default for `add-theme`
 ```
 
 ## Themes
