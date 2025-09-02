@@ -16,9 +16,9 @@
 
 - **With uv (recommended)**:
   - Direct from git: `uv add --dev git+https://github.com/dakixr/htpy-uikit.git`
-  - Local checkout: `uv add --dev -e ../path/to/htpy-uikit`
+  - Local checkout: `uv add --dev ../path/to/htpy-uikit`
   - Run CLI via your env: `uv run htpyuikit list`
-- **Or with pip**: `pip install -e .` (inside this repo)
+- **Or with pip**: `pip install .` (inside this repo)
 
 ## CLI
 
