@@ -7,6 +7,7 @@ from htpy import path
 from htpy import span
 from htpy import svg
 from htpy import with_children
+from markupsafe import Markup
 
 from ._utils import random_string
 
@@ -110,8 +111,12 @@ def modal(
             "inset-0 h-full max-h-full bg-black/50"
         ),
         **{
-            "@modal-open.window": f"if ($event.detail === '{id}') show = true",
-            "@modal-close.window": f"if ($event.detail === '{id}') show = false",
+            "@modal-open.window": Markup(
+                f"console.log('modal-open', $event.detail); if ($event.detail === '{id}') show = true;"
+            ),
+            "@modal-close.window": Markup(
+                f"console.log('modal-close', $event.detail); if ($event.detail === '{id}') show = false"
+            ),
             "@click": "show = false",
         },
     )[
@@ -179,7 +184,7 @@ def hx_modal(
             width=width,
             height=height,
             close_button_attrs={
-                "@click": "show = false; setTimeout(() => $el.closest('[x-data]').remove(), 200)",
+                "@click": "show = false; setTimeout(() => $el.remove(), 200)",
                 "type": "button",
             },
             panel_attrs={
