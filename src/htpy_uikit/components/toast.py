@@ -346,14 +346,15 @@ def toast_trigger(
 
     return span(
         **{
-            "@click": Markup(
+            "x-data": "",
+            "@click": (
                 code_trigger_toast(
                     category=category,
                     title=title,
                     description=description,
                     duration_ms=duration_ms,
                 )
-            )
+            ),
         },
         class_=class_,
     )[children]
@@ -380,7 +381,7 @@ def code_trigger_toast(
         window.dispatchEvent(new CustomEvent('ui:toast', {{ detail: payload }}));
     """
 
-    return code
+    return Markup(code)
 
 
 def build_toast_event(

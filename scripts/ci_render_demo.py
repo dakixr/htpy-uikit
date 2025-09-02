@@ -24,7 +24,6 @@ def _build_shell(content_node) -> str:
             meta(charset="utf-8"),
             meta(name="viewport", content="width=device-width, initial-scale=1"),
             title()["htpy-uikit demo"],
-            link(rel="stylesheet", href="./theme.css"),
             link(rel="stylesheet", href="./tailwind.css"),
             script(defer=True, src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"),
             # Initialize theme inline to avoid FOUC
