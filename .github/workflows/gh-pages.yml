@@ -40,6 +40,19 @@ jobs:
         run: |
           uv run python scripts/ci_render_demo.py
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Tailwind CLI
+        run: |
+          npm install tailwindcss @tailwindcss/cli
+
+      - name: Build Tailwind CSS (v4 via @tailwindcss/cli)
+        run: |
+          npx @tailwindcss/cli -i scripts/tailwind.config.css -o dist/tailwind.css --minify
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
