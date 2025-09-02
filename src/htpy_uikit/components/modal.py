@@ -43,7 +43,7 @@ def _modal_panel(
     button_kwargs: dict[str, str] = {
         "type": "button",
         "class_": (
-            "text-muted-foreground bg-transparent hover:text-foreground rounded-lg "
+            "cursor-pointer text-muted-foreground bg-transparent hover:text-foreground rounded-lg "
             "text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-accent dark:hover:text-white"
         ),
     }
@@ -55,7 +55,7 @@ def _modal_panel(
             class_="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-border"
         )[
             h3(class_="text-lg font-semibold text-card-foreground")[title],
-            button(**button_kwargs, class_="cursor-pointer")[
+            button(**button_kwargs)[
                 icon_close(class_="w-3 h-3"),
                 span(class_="sr-only")[("Close modal")],
             ],
