@@ -56,7 +56,7 @@ def _modal_panel(
         )[
             h3(class_="text-lg font-semibold text-card-foreground")[title],
             button(**button_kwargs)[
-                icon_close(class_="w-3 h-3"),
+                icon_close(class_="size-5"),
                 span(class_="sr-only")[("Close modal")],
             ],
         ],

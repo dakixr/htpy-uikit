@@ -670,12 +670,6 @@ def components_demo_page() -> Node:
                                     p[
                                         "You can put any content here, including forms, images, or other components."
                                     ],
-                                    div(class_="mt-4 flex gap-2 justify-end")[
-                                        button_component(variant="outline")["Cancel"],
-                                        button_component(variant="primary")[
-                                            "Save Changes"
-                                        ],
-                                    ],
                                 ]
                             ],
                         ]
