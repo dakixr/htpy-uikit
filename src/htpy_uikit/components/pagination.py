@@ -8,8 +8,7 @@ from htpy import nav
 from htpy import span
 from htpy import ul
 
-from htpy_uikit.utils import merge_classes
-
+from ._utils import merge_classes
 from .icons import icon_chevron_left
 from .icons import icon_chevron_right
 from .icons import icon_more

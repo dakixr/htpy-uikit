@@ -5,10 +5,9 @@ from htpy import Renderable
 from htpy import span
 from htpy import with_children
 
-from htpy_uikit.utils import merge_classes
-
-from .types import TAlign
-from .types import TSide
+from ._types import TAlign
+from ._types import TSide
+from ._utils import merge_classes
 
 
 @with_children

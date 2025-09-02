@@ -7,9 +7,18 @@ requires-python = ">=3.12"
 dependencies = [
     "htpy>=25.8.1",
     "sourcetypes>=0.0.4",
+    "click>=8.1.7",
+    "questionary>=2.1.1",
 ]
+
+[project.scripts]
+htpyuikit = "htpy_uikit.cli:main"
 
 
 [tool.ruff.lint.isort]
 force-single-line = true
 
+
+[tool.htpy-uikit]
+components_dir = ".testing/ui"                  # default for `add`
+theme_path     = ".testing/styles/htpy-uikit.css"  # default for `add-theme`

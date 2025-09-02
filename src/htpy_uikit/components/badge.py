@@ -1,9 +1,14 @@
 from typing import assert_never
 
-from htpy import Node, Renderable, a, span, with_children
+from htpy import Node
+from htpy import Renderable
+from htpy import a
+from htpy import span
+from htpy import with_children
 
+from ._types import BadgeStatus
+from ._types import BadgeVariant
 from .icons import icon_arrow_right
-from .types import BadgeStatus, BadgeVariant
 
 
 def _compute_badge_classes(variant: BadgeVariant, extra: str | None = None) -> str:

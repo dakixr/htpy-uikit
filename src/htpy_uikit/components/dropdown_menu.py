@@ -9,8 +9,7 @@ from htpy import span
 from htpy import with_children
 from sourcetypes import js
 
-from htpy_uikit.utils import merge_classes
-
+from ._utils import merge_classes
 from .button import button_component
 from .icons import icon_check
 

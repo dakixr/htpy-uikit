@@ -1,10 +1,18 @@
-from htpy import Renderable, div, label, option, select, span
+from htpy import Renderable
+from htpy import div
 from htpy import input as input_
+from htpy import label
+from htpy import option
+from htpy import select
+from htpy import span
 from sourcetypes import js
 
+from ._types import SelectGroup
+from ._types import SelectItem
+from ._types import SelectOption
 from .button import button_component
-from .icons import icon_check, icon_chevron_down
-from .types import SelectGroup, SelectItem, SelectOption
+from .icons import icon_check
+from .icons import icon_chevron_down
 
 
 def native_select(

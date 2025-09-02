@@ -9,9 +9,8 @@ from htpy import li
 from htpy import ol
 from htpy import span
 
-from htpy_uikit.utils import merge_classes
-from htpy_uikit.utils import random_string
-
+from ._utils import merge_classes
+from ._utils import random_string
 from .dropdown_menu import dropdown_menu
 from .dropdown_menu import dropdown_menu_item
 from .dropdown_menu import dropdown_menu_label

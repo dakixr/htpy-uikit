@@ -3,12 +3,11 @@ from htpy import div
 from htpy import h2
 from htpy import section
 
-from htpy_uikit.utils import merge_classes
-
+from ._types import AlertVariant
+from ._utils import merge_classes
 from .icons import icon_circle_alert
 from .icons import icon_circle_check
 from .icons import icon_info
-from .types import AlertVariant
 
 
 def alert(

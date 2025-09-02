@@ -9,7 +9,7 @@ from htpy import input as input_
 from htpy import label
 from htpy import span
 
-from htpy_uikit.utils import merge_classes
+from ._utils import merge_classes
 
 
 def slider(

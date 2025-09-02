@@ -1,9 +1,15 @@
 from typing import assert_never
 
-from htpy import Node, Renderable, button, span, with_children
+from htpy import Node
+from htpy import Renderable
+from htpy import button
+from htpy import span
+from htpy import with_children
 
+from ._types import ButtonSize
+from ._types import ButtonType
+from ._types import ButtonVariant
 from .icons import icon_spinner
-from .types import ButtonSize, ButtonType, ButtonVariant
 
 
 @with_children

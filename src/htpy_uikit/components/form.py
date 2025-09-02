@@ -1,7 +1,13 @@
-from htpy import Node, Renderable, div, h3, p, with_children
+from htpy import Node
+from htpy import Renderable
+from htpy import div
 from htpy import form as form_element
+from htpy import h3
+from htpy import p
+from htpy import with_children
 
-from .types import FormAlign, FormMethod
+from ._types import FormAlign
+from ._types import FormMethod
 
 
 @with_children

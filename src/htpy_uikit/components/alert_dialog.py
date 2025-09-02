@@ -13,9 +13,8 @@ from htpy import p
 from htpy import section
 from htpy import with_children
 
-from htpy_uikit.utils import random_string
-
-from .button import ButtonVariant
+from ._types import ButtonVariant
+from ._utils import random_string
 from .button import button_component
 
 # Type definitions for alert dialog component

@@ -15,14 +15,13 @@ from htpy import with_children
 from markupsafe import Markup
 from sourcetypes import js
 
-from htpy_uikit.utils import merge_classes
-
+from ._types import TAlign
+from ._types import TCategory
+from ._utils import merge_classes
 from .button import button_component
 from .icons import toast_icon_error
 from .icons import toast_icon_info
 from .icons import toast_icon_success
-from .types import TAlign
-from .types import TCategory
 
 
 def toaster(

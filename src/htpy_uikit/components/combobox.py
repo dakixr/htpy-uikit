@@ -1,10 +1,15 @@
-from htpy import Renderable, div, header, span
+from htpy import Renderable
+from htpy import div
+from htpy import header
 from htpy import input as input_
+from htpy import span
 from sourcetypes import js
 
+from ._types import SelectOption
 from .button import button_component
-from .icons import icon_check, icon_chevrons_up_down, icon_search
-from .types import SelectOption
+from .icons import icon_check
+from .icons import icon_chevrons_up_down
+from .icons import icon_search
 
 
 def combobox(

@@ -1,6 +1,10 @@
-from htpy import Renderable, div, img, span
+from htpy import Renderable
+from htpy import div
+from htpy import img
+from htpy import span
 
-from .types import AvatarImage, AvatarSize
+from ._types import AvatarImage
+from ._types import AvatarSize
 
 _size_classes: dict[AvatarSize, str] = {
     "xs": "size-6",

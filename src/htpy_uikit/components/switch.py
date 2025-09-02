@@ -5,11 +5,9 @@ from htpy import div
 from htpy import input as input_
 from htpy import label
 
-from htpy_uikit.utils import merge_classes
-
-# span not used directly here
+from ._types import TColor
+from ._utils import merge_classes
 from .label import label_component
-from .types import TColor
 
 
 def switch(

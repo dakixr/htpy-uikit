@@ -8,7 +8,7 @@ from htpy import th
 from htpy import thead
 from htpy import tr
 
-from htpy_uikit.utils import merge_classes
+from ._utils import merge_classes
 
 
 def table_component(

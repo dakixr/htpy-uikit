@@ -1,10 +1,11 @@
 from uuid import uuid4
 
-from htpy import Renderable, span
+from htpy import Renderable
 from htpy import input as input_
+from htpy import span
 
+from ._types import InputType
 from .label import label_component
-from .types import InputType
 
 
 def input_component(

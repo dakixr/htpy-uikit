@@ -11,7 +11,7 @@ from htpy import span
 from htpy import svg
 from htpy import with_children
 
-from htpy_uikit.utils import merge_classes
+from ._utils import merge_classes
 
 
 def dialog(

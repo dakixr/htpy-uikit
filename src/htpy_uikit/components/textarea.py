@@ -1,6 +1,9 @@
 from uuid import uuid4
 
-from htpy import Renderable, div, span, textarea
+from htpy import Renderable
+from htpy import div
+from htpy import span
+from htpy import textarea
 
 from .label import label_component
 

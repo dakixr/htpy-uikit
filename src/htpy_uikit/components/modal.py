@@ -8,7 +8,7 @@ from htpy import span
 from htpy import svg
 from htpy import with_children
 
-from htpy_uikit.utils import random_string
+from ._utils import random_string
 
 
 def _modal_panel(

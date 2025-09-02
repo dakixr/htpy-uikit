@@ -5,8 +5,7 @@ from htpy import Renderable
 from htpy import div
 from htpy import with_children
 
-from htpy_uikit.utils import merge_classes
-
+from ._utils import merge_classes
 from .button import ButtonVariant
 from .button import button_component
 

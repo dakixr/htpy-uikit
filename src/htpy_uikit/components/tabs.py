@@ -4,9 +4,8 @@ from htpy import button
 from htpy import div
 from htpy import nav
 
-from htpy_uikit.utils import merge_classes
-
-from .types import TabContentItem
+from ._types import TabContentItem
+from ._utils import merge_classes
 
 
 def tabs(
