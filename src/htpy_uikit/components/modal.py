@@ -140,9 +140,10 @@ def attrs_btn_open_modal(id: str) -> dict:
         dict: Button attributes for Alpine.js
     """
     return {
+        "x-data": "",
         "@click": Markup(
             f"window.dispatchEvent(new CustomEvent('modal-open', {{ detail: '{id}' }}));"
-        )
+        ),
     }
 
 
