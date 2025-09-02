@@ -37,7 +37,7 @@ def _build_shell(content_node) -> str:
                 )
             ],
         ],
-        body(class_="bg-background text-foreground")[content_node],
+        body(class_="bg-background text-foreground", x_data="")[content_node],
     ]
     return str(doc)
 
