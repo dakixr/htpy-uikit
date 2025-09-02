@@ -151,6 +151,7 @@ def cli() -> None:
 
 @cli.command("list")
 def list_cmd() -> None:
+    """List available components."""
     comps = list_components()
     if not comps:
         click.echo("No components found.")

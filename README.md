@@ -28,6 +28,23 @@
 - **Add all**: `htpyuikit add --all --dest ./components`
 - **Theme**: `htpyuikit add-theme --dest ./styles/htpy-uikit.css`
 
+```
+Usage: htpyuikit [OPTIONS] COMMAND [ARGS]...
+
+  htpy-uikit CLI: list and scaffold components into your app.
+
+Options:
+  --version   Show the version and exit.
+  -h, --help  Show this message and exit.
+
+Commands:
+  add        Copy one or more components into your app (with deps).
+  add-theme  Copy a theme CSS file into your app.
+  list       List available components.
+  themes     List available themes.
+```
+
+
 ## Config (pyproject.toml)
 
 ```toml
