@@ -9,6 +9,7 @@ from htpy import link
 from htpy import meta
 from htpy import script
 from htpy import title
+from markupsafe import Markup
 
 from htpy_uikit.demo import components_demo_page
 
@@ -26,6 +27,16 @@ def _build_shell(content_node) -> str:
             link(rel="stylesheet", href="./theme.css"),
             link(rel="stylesheet", href="./tailwind.css"),
             script(defer=True, src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"),
+            # Initialize theme inline to avoid FOUC
+            script[
+                Markup(
+                    """
+                    localStorage.getItem('color-theme') !== 'light' ?
+                    document.documentElement.classList.add('dark') :
+                    document.documentElement.classList.remove('dark');
+                    """
+                )
+            ],
         ],
         body(class_="bg-background text-foreground")[content_node],
     ]
