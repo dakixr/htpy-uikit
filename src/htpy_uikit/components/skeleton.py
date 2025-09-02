@@ -150,12 +150,16 @@ def skeleton_table(rows: int = 5, columns: int = 4, **kwargs) -> Renderable:
     table_rows = []
 
     # Header row
-    header_cells = [skeleton(height="h-8", width="w-full", rounded="sm") for _ in range(columns)]
+    header_cells = [
+        skeleton(height="h-8", width="w-full", rounded="sm") for _ in range(columns)
+    ]
     table_rows.append(div(class_="flex gap-6")[*header_cells])
 
     # Data rows
     for _ in range(rows):
-        data_cells = [skeleton(height="h-6", width="w-full", rounded="sm") for _ in range(columns)]
+        data_cells = [
+            skeleton(height="h-6", width="w-full", rounded="sm") for _ in range(columns)
+        ]
         table_rows.append(div(class_="flex gap-6")[*data_cells])
 
     return div(class_="space-y-4", **kwargs)[*table_rows]

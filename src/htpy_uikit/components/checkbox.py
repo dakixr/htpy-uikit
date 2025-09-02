@@ -92,7 +92,9 @@ def checkbox_component(
     elements = []
 
     # Default inline checkbox with right-aligned label/description block
-    container_class = "flex items-start gap-3" if description else "flex items-center gap-3"
+    container_class = (
+        "flex items-start gap-3" if description else "flex items-center gap-3"
+    )
     # Nudge checkbox down slightly when we have a description so titles align visually
     if description:
         checkbox_attrs["class_"] = f"{checkbox_attrs['class_']} mt-1"
@@ -105,7 +107,8 @@ def checkbox_component(
                     class_="leading-snug select-none cursor-pointer",
                     **({"for": id} if id else {}),
                 )[label_text],
-                description and p(class_="text-muted-foreground text-sm leading-snug")[description],
+                description
+                and p(class_="text-muted-foreground text-sm leading-snug")[description],
             ]
             if label_text or description
             else None,
@@ -183,13 +186,19 @@ def checkbox_card_component(
 
     # Determine card-inner classes to color full card area on checked state and hover effects
     if card_color == "blue":
-        classes_card_checked = "peer-checked:bg-blue-700/30 peer-checked:border-blue-700/60"
+        classes_card_checked = (
+            "peer-checked:bg-blue-700/30 peer-checked:border-blue-700/60"
+        )
         classes_card_hover = "peer-not-checked:hover:bg-blue-50 peer-not-checked:hover:border-blue-200 dark:peer-not-checked:hover:bg-blue-950/20 dark:peer-not-checked:hover:border-blue-800/40"
     elif card_color == "green":
-        classes_card_checked = "peer-checked:bg-green-700/30 peer-checked:border-green-700/60"
+        classes_card_checked = (
+            "peer-checked:bg-green-700/30 peer-checked:border-green-700/60"
+        )
         classes_card_hover = "peer-not-checked:hover:bg-green-50 peer-not-checked:hover:border-green-200 dark:peer-not-checked:hover:bg-green-950/20 dark:peer-not-checked:hover:border-green-800/40"
     elif card_color == "red":
-        classes_card_checked = "peer-checked:bg-red-700/30 peer-checked:border-red-700/60"
+        classes_card_checked = (
+            "peer-checked:bg-red-700/30 peer-checked:border-red-700/60"
+        )
         classes_card_hover = "peer-not-checked:hover:bg-red-50 peer-not-checked:hover:border-red-200 dark:peer-not-checked:hover:bg-red-950/20 dark:peer-not-checked:hover:border-red-800/40"
     else:
         assert_never(card_color)
@@ -204,7 +213,8 @@ def checkbox_card_component(
         input_(**checkbox_attrs),
         div(class_=card_inner_classes)[
             div(class_="grid gap-2")[
-                label_text and span(class_="text-sm leading-none font-medium")[label_text],
+                label_text
+                and span(class_="text-sm leading-none font-medium")[label_text],
                 description and p(class_="text-muted-foreground text-sm")[description],
             ],
         ],

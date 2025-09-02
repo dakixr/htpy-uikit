@@ -40,9 +40,7 @@ def navbar(
         else "w-full border-b border-border/40 bg-background"
     )
 
-    base_inner = (
-        "flex h-14 items-center justify-between gap-2 max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto"
-    )
+    base_inner = "flex h-14 items-center justify-between gap-2 max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto"
 
     outer_cls = f"{base_outer} {outer_class}".strip() if outer_class else base_outer
     inner_cls = f"{base_inner} {inner_class}".strip() if inner_class else base_inner
@@ -61,7 +59,9 @@ def navbar(
 
     # Center area grows; hide if none provided
     if center_children:
-        inner_content.append(div(class_="flex-1 flex items-center justify-center")[center_children])
+        inner_content.append(
+            div(class_="flex-1 flex items-center justify-center")[center_children]
+        )
     else:
         # keep layout stable when center is empty
         inner_content.append(div(class_="flex-1"))
@@ -77,7 +77,9 @@ def navbar(
         content = inner
     else:
         # when container=False, remove max width classes by overriding
-        content = div(class_="flex h-14 items-center justify-between gap-2")[inner_content]
+        content = div(class_="flex h-14 items-center justify-between gap-2")[
+            inner_content
+        ]
 
     return outer(class_=outer_cls, **attrs)[content]
 

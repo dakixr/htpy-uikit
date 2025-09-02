@@ -83,7 +83,9 @@ def card(
         if title:
             header_children.append(h2(class_="leading-none font-semibold")[title])
         if description:
-            header_children.append(p(class_="text-muted-foreground text-sm")[description])
+            header_children.append(
+                p(class_="text-muted-foreground text-sm")[description]
+            )
         # Action on the right
         if action:
             header_children.append(div({"data_slot": "card-action"})[action])
@@ -162,7 +164,11 @@ def card_with_footer(
 
     # Use the unified card() with footer
     return card(
-        title=title, description=description, footer_content=footer_content, class_=class_, **attrs
+        title=title,
+        description=description,
+        footer_content=footer_content,
+        class_=class_,
+        **attrs,
     )[children]
 
 

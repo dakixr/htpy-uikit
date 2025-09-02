@@ -6,6 +6,10 @@
 - Copy components into your app (not import at runtime) so Tailwind sees classes and you can fully customize
 - Ships a default theme (CSS variables) you can import and override
 
+## Demo
+
+🚀 **[Live Demo](https://dakixr.github.io/htpy-uikit/)** - See all components in action with the kitchen sink demo
+
 ## Install
 
 - **Dev-only**: add this library as a development dependency (no runtime import)

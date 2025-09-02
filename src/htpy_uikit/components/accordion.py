@@ -1,6 +1,14 @@
-from typing import NotRequired, Sequence, TypedDict
+from typing import NotRequired
+from typing import Sequence
+from typing import TypedDict
 
-from htpy import Node, Renderable, details, h2, p, section, summary
+from htpy import Node
+from htpy import Renderable
+from htpy import details
+from htpy import h2
+from htpy import p
+from htpy import section
+from htpy import summary
 
 from .icons import icon_chevron_down
 
