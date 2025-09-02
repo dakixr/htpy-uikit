@@ -240,14 +240,7 @@ def add_cmd(components: tuple[str, ...], dest: Path | None, select_all: bool, fo
     cfg = _load_config()
     default_dest = Path(cfg.get("components_dir") or Path("./components")).resolve()
     if dest is None:
-        # Interactive destination prompt similar to component add
-        answer = questionary.text(
-            "Destination path for theme CSS:", default=str(default_dest)
-        ).ask()
-        if not answer:
-            click.echo("No destination provided.")
-            return
-        dest = Path(answer).expanduser().resolve()
+        dest = default_dest
 
     entry_files = [c.path for c in chosen]
     files = _resolve_dependencies(entry_files)
