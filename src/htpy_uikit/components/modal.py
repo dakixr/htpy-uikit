@@ -3,13 +3,12 @@ from htpy import Renderable
 from htpy import button
 from htpy import div
 from htpy import h3
-from htpy import path
 from htpy import span
-from htpy import svg
 from htpy import with_children
 from markupsafe import Markup
 
 from ._utils import random_string
+from .icons import icon_close
 
 
 def _modal_panel(
@@ -56,21 +55,8 @@ def _modal_panel(
             class_="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-border"
         )[
             h3(class_="text-lg font-semibold text-card-foreground")[title],
-            button(**button_kwargs)[
-                svg(
-                    class_="w-3 h-3",
-                    xmlns="http://www.w3.org/2000/svg",
-                    fill="none",
-                    viewbox="0 0 14 14",
-                )[
-                    path(
-                        stroke="currentColor",
-                        stroke_linecap="round",
-                        stroke_linejoin="round",
-                        stroke_width="2",
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6",
-                    )
-                ],
+            button(**button_kwargs, class_="cursor-pointer")[
+                icon_close(class_="w-3 h-3"),
                 span(class_="sr-only")[("Close modal")],
             ],
         ],
