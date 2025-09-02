@@ -1,0 +1,50 @@
+name: Build and Deploy Demo
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv (with Python)
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: '3.12'
+
+      - name: Sync project dependencies (uv)
+        run: |
+          uv sync
+
+      - name: Render demo to static HTML (uv run)
+        env:
+          PYTHONPATH: src
+        run: |
+          uv run python scripts/ci_render_demo.py
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

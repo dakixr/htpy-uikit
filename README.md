@@ -20,6 +20,13 @@ CLI
 - Add all: `htpyuikit add --all --dest ./components`
 - Theme: `htpyuikit add-theme --dest ./styles/htpy-uikit.css`
 
+CI/CD (GitHub Pages)
+- The workflow at `.github/workflows/gh-pages.yml` builds `demo.py` into `dist/index.html` and deploys to GitHub Pages.
+- Conventions expected by the workflow:
+  - `demo.py` at the repo root, exposing `components_demo_page()` that returns an htpy node (the full page content).
+  - Theme is copied from `src/htpy_uikit/tailwind-themes/theme.css` and linked in the page.
+  - Tailwind and Alpine are provided via CDN in the generated HTML for the demo.
+
 Add copies code with deps into a single directory (no rewriting):
 - `./components/*.py` (your selections + shared `_utils.py`, `_types.py`, `icons.py`)
   - `icons.py` can also be selected explicitly from the list.
