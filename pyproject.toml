@@ -1,0 +1,15 @@
+[project]
+name = "htpy-uikit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "htpy>=25.8.1",
+    "sourcetypes>=0.0.4",
+]
+
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
