@@ -47,6 +47,10 @@ theme_path     = "./styles/htpy-uikit.css"  # default for `add-theme`
 - **Import in your Tailwind input CSS**:
   - `@import "./styles/htpy-uikit.css";`
 
+## Credits
+
+All component styles are adapted from [Basecoat UI](https://basecoatui.com/), a beautiful components library built with Tailwind CSS. A big thank you to the creators for their excellent work and for making it available to the community!
+
 ## Notes
 
 - Requires Tailwind and Alpine in your app
