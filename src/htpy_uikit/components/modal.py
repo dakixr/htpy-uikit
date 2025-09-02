@@ -36,7 +36,7 @@ def _modal_panel(
     """
 
     panel_kwargs: dict[str, str] = {
-        "class_": f"bg-white dark:bg-gray-950 rounded-lg shadow-sm flex flex-col {width} {height}",
+        "class_": f"bg-card text-card-foreground rounded-lg shadow-lg border border-border flex flex-col {width} {height}",
     }
     if panel_attrs:
         panel_kwargs |= panel_attrs
@@ -55,7 +55,7 @@ def _modal_panel(
         div(
             class_="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-border"
         )[
-            h3(class_="text-lg font-semibold text-foreground")[title],
+            h3(class_="text-lg font-semibold text-card-foreground")[title],
             button(**button_kwargs)[
                 svg(
                     class_="w-3 h-3",
