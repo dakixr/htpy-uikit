@@ -36,7 +36,7 @@ def _modal_panel(
     """
 
     panel_kwargs: dict[str, str] = {
-        "class_": f"bg-background rounded-lg shadow-sm flex flex-col {width} {height}",
+        "class_": f"bg-white dark:bg-gray-950 rounded-lg shadow-sm flex flex-col {width} {height}",
     }
     if panel_attrs:
         panel_kwargs |= panel_attrs
