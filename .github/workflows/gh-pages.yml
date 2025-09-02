@@ -21,14 +21,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup uv (with Python)
-        uses: astral-sh/setup-uv@v3
+      - name: Install uv and set Python
+        uses: astral-sh/setup-uv@v6
         with:
-          version: '3.12'
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
 
       - name: Sync project dependencies (uv)
         run: |
-          uv sync
+          uv sync --frozen
 
       - name: Render demo to static HTML (uv run)
         env:
