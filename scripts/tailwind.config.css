@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @source "../dist/index.html";
-@import "../src/dist/theme.css";
+@import "../dist/theme.css";
 
