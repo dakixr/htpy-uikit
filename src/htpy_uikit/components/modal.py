@@ -107,15 +107,13 @@ def modal(
         x_data="{ show: false }",
         x_show="show",
         class_=(
-            "fixed top-0 right-0 left-0 z-100 flex justify-center items-center w-screen "
+            "fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-screen "
             "inset-0 h-full max-h-full bg-black/50"
         ),
         **{
-            "@modal-open.window": Markup(
-                f"console.log('modal-open', $event.detail); if ($event.detail === '{id}') show = true;"
-            ),
+            "@modal-open.window": Markup(f"if ($event.detail === '{id}') show = true;"),
             "@modal-close.window": Markup(
-                f"console.log('modal-close', $event.detail); if ($event.detail === '{id}') show = false"
+                f"if ($event.detail === '{id}') show = false;"
             ),
             "@click": "show = false",
         },
@@ -141,7 +139,11 @@ def attrs_btn_open_modal(id: str) -> dict:
     Returns:
         dict: Button attributes for Alpine.js
     """
-    return {"@click": Markup(f"$dispatch('modal-open', '{id}')")}
+    return {
+        "@click": Markup(
+            f"window.dispatchEvent(new CustomEvent('modal-open', {{ detail: '{id}' }}));"
+        )
+    }
 
 
 @with_children
@@ -173,7 +175,7 @@ def hx_modal(
         x_data="{ show: true }",
         x_show="show",
         class_=(
-            "fixed top-0 right-0 left-0 z-100 flex justify-center items-center w-screen "
+            "fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-screen "
             "inset-0 h-full max-h-full bg-black/50"
         ),
         **{"@click": "show = false; setTimeout(() => $el.remove(), 200)"},
