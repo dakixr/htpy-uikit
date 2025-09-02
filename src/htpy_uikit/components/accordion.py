@@ -115,9 +115,7 @@ def accordion_single(
     title: str, content: Node | str, expanded: bool = False, **kwargs
 ) -> Renderable:
     """Single item accordion."""
-    items: list[AccordionItem] = [
-        {"title": title, "content": content, "expanded": expanded}
-    ]
+    items: list[AccordionItem] = [{"title": title, "content": content, "expanded": expanded}]
     return accordion(items, default_value=title if expanded else None, **kwargs)
 
 

@@ -296,12 +296,8 @@ def components_demo_page() -> Node:
                             badge(variant="outline")["Outline"],
                             # With icons
                             badge(variant="primary", left_icon=icon_check())["Badge"],
-                            badge(variant="destructive", left_icon=icon_info())[
-                                "Alert"
-                            ],
-                            badge(variant="outline", right_icon=icon_chevron_right())[
-                                "With icon"
-                            ],
+                            badge(variant="destructive", left_icon=icon_info())["Alert"],
+                            badge(variant="outline", right_icon=icon_chevron_right())["With icon"],
                             # Counters (compact)
                             badge_count(8, variant="primary"),
                             badge_count(99, variant="destructive"),
@@ -375,18 +371,14 @@ def components_demo_page() -> Node:
                                 button_component(variant="danger")["Danger"],
                                 button_component(variant="secondary")["Secondary"],
                                 button_component(variant="link")["Link"],
-                                button_component(variant="primary")[
-                                    icon_send(), "Send email"
-                                ],
+                                button_component(variant="primary")[icon_send(), "Send email"],
                             ],
                             # Row 2: call-to-action + small controls
                             div(class_="flex flex-wrap items-center gap-3")[
-                                button_component(
-                                    variant="primary", class_="rounded-full px-4"
-                                )["Learn more", icon_arrow_right()],
-                                button_component(variant="outline", loading=True)[
-                                    "Loading"
+                                button_component(variant="primary", class_="rounded-full px-4")[
+                                    "Learn more", icon_arrow_right()
                                 ],
+                                button_component(variant="outline", loading=True)["Loading"],
                                 button_component(disabled=True)["Disabled"],
                             ],
                             # Row 3: a second variation row to match reference spacing
@@ -397,26 +389,18 @@ def components_demo_page() -> Node:
                                 button_component(variant="danger")["Danger"],
                                 button_component(variant="secondary")["Secondary"],
                                 button_component(variant="link")["Link"],
-                                button_component(variant="primary")[
-                                    icon_send(), "Send"
-                                ],
+                                button_component(variant="primary")[icon_send(), "Send"],
                                 button_component(variant="outline", class_="ml-2")[
                                     icon_download(), "Download"
                                 ],
                             ],
                             # Row 4: sizes and icon-only compact group
                             div(class_="flex flex-wrap items-center gap-3")[
-                                button_component(variant="primary", size="sm")[
-                                    "Primary sm"
-                                ],
+                                button_component(variant="primary", size="sm")["Primary sm"],
                                 button_component(variant="primary")["Primary md"],
-                                button_component(variant="primary", size="lg")[
-                                    "Primary lg"
-                                ],
+                                button_component(variant="primary", size="lg")["Primary lg"],
                                 button_component(icon_only=True)[icon_download()],
-                                button_component(variant="outline", icon_only=True)[
-                                    icon_upload()
-                                ],
+                                button_component(variant="outline", icon_only=True)[icon_upload()],
                                 button_component(variant="destructive", icon_only=True)[
                                     icon_trash()
                                 ],
@@ -431,15 +415,11 @@ def components_demo_page() -> Node:
                                 button_component(variant="outline", icon_only=True)[
                                     icon_arrow_right()
                                 ],
-                                button_component(variant="ghost", icon_only=True)[
-                                    icon_more()
-                                ],
+                                button_component(variant="ghost", icon_only=True)[icon_more()],
                                 button_component(variant="destructive", icon_only=True)[
                                     icon_trash()
                                 ],
-                                button_component(variant="outline", icon_only=True)[
-                                    icon_spinner()
-                                ],
+                                button_component(variant="outline", icon_only=True)[icon_spinner()],
                             ],
                         ]
                     ],
@@ -479,18 +459,12 @@ def components_demo_page() -> Node:
                                     p[
                                         "Client requested dashboard redesign with focus on mobile responsiveness."
                                     ],
-                                    ol(
-                                        class_="mt-4 flex list-decimal flex-col gap-2 pl-6"
-                                    )[
-                                        li[
-                                            "New analytics widgets for daily/weekly metrics"
-                                        ],
+                                    ol(class_="mt-4 flex list-decimal flex-col gap-2 pl-6")[
+                                        li["New analytics widgets for daily/weekly metrics"],
                                         li["Simplified navigation menu"],
                                         li["Dark mode support"],
                                         li["Timeline: 6 weeks"],
-                                        li[
-                                            "Follow-up meeting scheduled for next Tuesday"
-                                        ],
+                                        li["Follow-up meeting scheduled for next Tuesday"],
                                     ],
                                 ]
                             ],
@@ -501,9 +475,7 @@ def components_demo_page() -> Node:
                                 footer_content=div(class_="flex items-center gap-2")[
                                     badge(variant="outline")["1"],
                                     badge(variant="outline")["2"],
-                                    span(class_="ml-auto font-medium tabular-nums")[
-                                        "$135,000"
-                                    ],
+                                    span(class_="ml-auto font-medium tabular-nums")["$135,000"],
                                 ],
                             )[
                                 div(class_="px-0")[
@@ -528,12 +500,10 @@ def components_demo_page() -> Node:
                                 footer_content=div(
                                     class_="flex flex-col items-center gap-2 w-full"
                                 )[
-                                    button_component(
-                                        variant="primary", class_="w-full"
-                                    )["Login"],
-                                    button_component(
-                                        variant="outline", class_="w-full"
-                                    )["Login with Google"],
+                                    button_component(variant="primary", class_="w-full")["Login"],
+                                    button_component(variant="outline", class_="w-full")[
+                                        "Login with Google"
+                                    ],
                                     p(class_="mt-4 text-center text-sm")[
                                         "Don't have an account? ",
                                         a(href="#", hx_boost=True)[
@@ -542,13 +512,9 @@ def components_demo_page() -> Node:
                                     ],
                                 ],
                             )[
-                                form_component(
-                                    method="post", action="/login", class_="grid gap-6"
-                                )[
+                                form_component(method="post", action="/login", class_="grid gap-6")[
                                     div(class_="grid gap-2")[
-                                        label_component(for_="demo-card-form-email")[
-                                            "Email"
-                                        ],
+                                        label_component(for_="demo-card-form-email")["Email"],
                                         input_component(
                                             type="email",
                                             id="demo-card-form-email",
@@ -557,9 +523,9 @@ def components_demo_page() -> Node:
                                     ],
                                     div(class_="grid gap-2")[
                                         div(class_="flex items-center gap-2")[
-                                            label_component(
-                                                for_="demo-card-form-password"
-                                            )["Password"],
+                                            label_component(for_="demo-card-form-password")[
+                                                "Password"
+                                            ],
                                             a(
                                                 href="#",
                                                 class_="ml-auto inline-block text-sm underline-offset-4 hover:underline",
@@ -661,9 +627,7 @@ def components_demo_page() -> Node:
                     "Modal dialogs for user interactions",
                     [
                         div(class_="flex gap-4")[
-                            button_component(**attrs_btn_open_modal("demo-modal"))[
-                                "Open Modal"
-                            ],
+                            button_component(**attrs_btn_open_modal("demo-modal"))["Open Modal"],
                             modal(id="demo-modal", title="Demo Modal")[
                                 div[
                                     p["This is a modal dialog with custom content."],
@@ -682,24 +646,18 @@ def components_demo_page() -> Node:
                     [
                         # Row 1: reference-style trigger buttons
                         div(class_="flex items-center gap-4 mb-6")[
-                            dropdown_menu(
-                                trigger=button_component(variant="outline")["Open"]
-                            )[
+                            dropdown_menu(trigger=button_component(variant="outline")["Open"])[
                                 div[
                                     dropdown_menu_group(
                                         div[
-                                            dropdown_menu_item(
-                                                "Profile", left_icon=icon_user()
-                                            ),
+                                            dropdown_menu_item("Profile", left_icon=icon_user()),
                                             dropdown_menu_item(
                                                 "Billing", left_icon=icon_credit_card()
                                             ),
                                             dropdown_menu_item(
                                                 "Settings", left_icon=icon_settings()
                                             ),
-                                            dropdown_menu_item(
-                                                "Keyboard shortcuts", shortcut="⌘K"
-                                            ),
+                                            dropdown_menu_item("Keyboard shortcuts", shortcut="⌘K"),
                                         ],
                                         label="My Account",
                                     ),
@@ -716,9 +674,7 @@ def components_demo_page() -> Node:
                                 ]
                             ],
                             dropdown_menu(
-                                trigger=button_component(variant="outline")[
-                                    "Checkboxes"
-                                ]
+                                trigger=button_component(variant="outline")["Checkboxes"]
                             )[
                                 div[
                                     dropdown_menu_group(
@@ -763,9 +719,7 @@ def components_demo_page() -> Node:
                                 ]
                             ],
                             dropdown_menu(
-                                trigger=button_component(variant="outline")[
-                                    "Radio Group"
-                                ]
+                                trigger=button_component(variant="outline")["Radio Group"]
                             )[
                                 div[
                                     dropdown_menu_group(
@@ -791,9 +745,9 @@ def components_demo_page() -> Node:
                         # Row 2: custom trigger examples (icon-only, icon+label, avatar)
                         div(class_="flex items-center gap-4")[
                             dropdown_menu(
-                                trigger=button_component(
-                                    variant="ghost", class_="p-2 rounded-md"
-                                )[icon_more()]
+                                trigger=button_component(variant="ghost", class_="p-2 rounded-md")[
+                                    icon_more()
+                                ]
                             )[
                                 div[
                                     dropdown_menu_item("Item A"),
@@ -801,9 +755,7 @@ def components_demo_page() -> Node:
                                 ]
                             ],
                             dropdown_menu(
-                                trigger=button_component(variant="outline")[
-                                    icon_more(), "More"
-                                ]
+                                trigger=button_component(variant="outline")[icon_more(), "More"]
                             )[
                                 div[
                                     dropdown_menu_item("Action 1"),
@@ -812,18 +764,12 @@ def components_demo_page() -> Node:
                             ],
                             dropdown_menu(
                                 trigger=button_component(variant="ghost")[
-                                    avatar(
-                                        src="https://github.com/dakixr.png", size="sm"
-                                    )
+                                    avatar(src="https://github.com/dakixr.png", size="sm")
                                 ]
                             )[
                                 div[
-                                    dropdown_menu_item(
-                                        "Profile", left_icon=icon_user()
-                                    ),
-                                    dropdown_menu_item(
-                                        "Sign out", left_icon=icon_logout()
-                                    ),
+                                    dropdown_menu_item("Profile", left_icon=icon_user()),
+                                    dropdown_menu_item("Sign out", left_icon=icon_logout()),
                                 ]
                             ],
                         ],
@@ -852,9 +798,7 @@ def components_demo_page() -> Node:
                                     label_text="Email Address",
                                     required=True,
                                 ),
-                                button_component(variant="primary", type="submit")[
-                                    "Submit"
-                                ],
+                                button_component(variant="primary", type="submit")["Submit"],
                             ]
                         ]
                     ],
@@ -866,12 +810,8 @@ def components_demo_page() -> Node:
                     [
                         div(class_="space-y-3")[
                             input_component(type="text", placeholder="Text"),
-                            input_component(
-                                type="text", placeholder="Disabled", disabled=True
-                            ),
-                            input_component(
-                                type="text", placeholder="Error", invalid=True
-                            ),
+                            input_component(type="text", placeholder="Disabled", disabled=True),
+                            input_component(type="text", placeholder="Error", invalid=True),
                             input_component(type="email", placeholder="Email"),
                             input_component(type="password", placeholder="Password"),
                             input_component(type="number", placeholder="Number"),
@@ -927,15 +867,9 @@ def components_demo_page() -> Node:
                     "Pagination",
                     "Navigation for multi-page content",
                     [
-                        pagination(
-                            current_page=1, total_pages=20, show_pages=5, size="md"
-                        ),
-                        pagination(
-                            current_page=5, total_pages=20, show_pages=5, size="sm"
-                        ),
-                        pagination(
-                            current_page=20, total_pages=20, show_pages=5, size="lg"
-                        ),
+                        pagination(current_page=1, total_pages=20, show_pages=5, size="md"),
+                        pagination(current_page=5, total_pages=20, show_pages=5, size="sm"),
+                        pagination(current_page=20, total_pages=20, show_pages=5, size="lg"),
                     ],
                 ),
                 # Popover
@@ -959,9 +893,7 @@ def components_demo_page() -> Node:
                                 ],
                                 form_(class_="form grid gap-2")[
                                     div(class_="grid grid-cols-3 items-center gap-4")[
-                                        label_component(for_="demo-popover-width")[
-                                            "Width"
-                                        ],
+                                        label_component(for_="demo-popover-width")["Width"],
                                         input_component(
                                             type="text",
                                             id="demo-popover-width",
@@ -982,9 +914,7 @@ def components_demo_page() -> Node:
                                         ),
                                     ],
                                     div(class_="grid grid-cols-3 items-center gap-4")[
-                                        label_component(for_="demo-popover-height")[
-                                            "Height"
-                                        ],
+                                        label_component(for_="demo-popover-height")["Height"],
                                         input_component(
                                             type="text",
                                             id="demo-popover-height",
@@ -1139,25 +1069,19 @@ def components_demo_page() -> Node:
                                                 "type": "item",
                                                 "value": "bar",
                                                 "label": "Bar",
-                                                "icon": icon_bar(
-                                                    class_="text-muted-foreground"
-                                                ),
+                                                "icon": icon_bar(class_="text-muted-foreground"),
                                             },
                                             {
                                                 "type": "item",
                                                 "value": "line",
                                                 "label": "Line",
-                                                "icon": icon_line(
-                                                    class_="text-muted-foreground"
-                                                ),
+                                                "icon": icon_line(class_="text-muted-foreground"),
                                             },
                                             {
                                                 "type": "item",
                                                 "value": "pie",
                                                 "label": "Pie",
-                                                "icon": icon_pie(
-                                                    class_="text-muted-foreground"
-                                                ),
+                                                "icon": icon_pie(class_="text-muted-foreground"),
                                             },
                                         ],
                                     }
@@ -1175,9 +1099,9 @@ def components_demo_page() -> Node:
                         div(class_="space-y-6")[
                             # Individual skeleton components
                             div[
-                                h5(
-                                    class_="text-xs font-medium text-muted-foreground mb-2"
-                                )["Basic Skeletons"],
+                                h5(class_="text-xs font-medium text-muted-foreground mb-2")[
+                                    "Basic Skeletons"
+                                ],
                                 div(class_="space-y-2")[
                                     skeleton_text(),
                                     skeleton_text(width="w-3/4"),
@@ -1189,9 +1113,9 @@ def components_demo_page() -> Node:
                             ],
                             # Media row example
                             div[
-                                h5(
-                                    class_="text-xs font-medium text-muted-foreground mb-2"
-                                )["Media rows"],
+                                h5(class_="text-xs font-medium text-muted-foreground mb-2")[
+                                    "Media rows"
+                                ],
                                 div(class_="space-y-2")[
                                     skeleton_media_row(),
                                     skeleton_media_row(),
@@ -1199,9 +1123,9 @@ def components_demo_page() -> Node:
                             ],
                             # Complex skeletons
                             div[
-                                h5(
-                                    class_="text-xs font-medium text-muted-foreground mb-2"
-                                )["Complex Skeletons"],
+                                h5(class_="text-xs font-medium text-muted-foreground mb-2")[
+                                    "Complex Skeletons"
+                                ],
                                 div(class_="flex max-sm:flex-col gap-4 w-full")[
                                     skeleton_card(),
                                     skeleton_card(),
@@ -1234,9 +1158,7 @@ def components_demo_page() -> Node:
                                 show_value=True,
                             ),
                             # Form-styled wrapper
-                            div(class_="form")[
-                                slider(min=10, max=450, value=60, show_value=True)
-                            ],
+                            div(class_="form")[slider(min=10, max=450, value=60, show_value=True)],
                         ]
                     ],
                 ),
@@ -1250,15 +1172,9 @@ def components_demo_page() -> Node:
                             div(class_="space-y-3")[
                                 switch(label_text="Airplane Mode"),
                                 switch(label_text="Bluetooth", checked=True),
-                                switch(
-                                    label_text="Bluetooth", checked=True, color="blue"
-                                ),
-                                switch(
-                                    label_text="Bluetooth", checked=True, color="green"
-                                ),
-                                switch(
-                                    label_text="Bluetooth", checked=True, color="red"
-                                ),
+                                switch(label_text="Bluetooth", checked=True, color="blue"),
+                                switch(label_text="Bluetooth", checked=True, color="green"),
+                                switch(label_text="Bluetooth", checked=True, color="red"),
                             ],
                             # Form-style rows
                             div(class_="form grid gap-4 mt-4")[
@@ -1334,9 +1250,7 @@ def components_demo_page() -> Node:
                                         "content": div(class_="card")[
                                             div(class_="px-4 py-4")[
                                                 h2(class_="font-semibold")["Account"],
-                                                p(
-                                                    class_="text-sm text-muted-foreground"
-                                                )[
+                                                p(class_="text-sm text-muted-foreground")[
                                                     "Make changes to your account here. Click save when you're done."
                                                 ],
                                             ],
@@ -1365,9 +1279,7 @@ def components_demo_page() -> Node:
                                                 ],
                                             ],
                                             div(class_="px-4 py-3")[
-                                                button_component(variant="primary")[
-                                                    "Save changes"
-                                                ]
+                                                button_component(variant="primary")["Save changes"]
                                             ],
                                         ],
                                     },
@@ -1377,9 +1289,7 @@ def components_demo_page() -> Node:
                                         "content": div(class_="card")[
                                             div(class_="px-4 py-4")[
                                                 h2(class_="font-semibold")["Password"],
-                                                p(
-                                                    class_="text-sm text-muted-foreground"
-                                                )[
+                                                p(class_="text-sm text-muted-foreground")[
                                                     "Change your password here. After saving, you'll be logged out."
                                                 ],
                                             ],
@@ -1406,9 +1316,7 @@ def components_demo_page() -> Node:
                                                 ],
                                             ],
                                             div(class_="px-4 py-3")[
-                                                button_component(variant="primary")[
-                                                    "Save Password"
-                                                ]
+                                                button_component(variant="primary")["Save Password"]
                                             ],
                                         ],
                                     },
@@ -1461,9 +1369,7 @@ def components_demo_page() -> Node:
                                 [
                                     {
                                         "value": "preview",
-                                        "label": div(
-                                            class_="inline-flex items-center gap-2"
-                                        )[
+                                        "label": div(class_="inline-flex items-center gap-2")[
                                             icon_credit_card(class_="size-4"),
                                             span["Preview"],
                                         ],
@@ -1471,9 +1377,7 @@ def components_demo_page() -> Node:
                                     },
                                     {
                                         "value": "code",
-                                        "label": div(
-                                            class_="inline-flex items-center gap-2"
-                                        )[
+                                        "label": div(class_="inline-flex items-center gap-2")[
                                             icon_double_chevron(class_="size-4"),
                                             span["Code"],
                                         ],
@@ -1596,27 +1500,19 @@ def components_demo_page() -> Node:
     ]
 
 
-def _demo_section(
-    title: str, description: str | None = None, content: list[Node] = []
-) -> Node:
+def _demo_section(title: str, description: str | None = None, content: list[Node] = []) -> Node:
     """Helper function to create demo sections."""
     # Render a compact section with a header bar and tighter content area so the
     # demo matches the reference layout more closely.
     return div(class_="rounded-lg shadow-sm border border-border overflow-visible")[
         # header bar
-        div(
-            class_="px-4 py-3 border-b border-border flex items-center justify-between"
-        )[
+        div(class_="px-4 py-3 border-b border-border flex items-center justify-between")[
             h2(class_="font-semibold text-card-foreground")[title],
             span(class_="text-muted-foreground text-sm"),
         ],
         # content area
         div(class_="p-6")[
-            (
-                p(class_="text-sm text-muted-foreground mb-4")[description]
-                if description
-                else None
-            ),
+            (p(class_="text-sm text-muted-foreground mb-4")[description] if description else None),
             div[*content],
         ],
     ]

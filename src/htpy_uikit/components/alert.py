@@ -40,17 +40,13 @@ def alert(
     )
 
     # Tone classes control text color; destructive uses the destructive token.
-    tone_classes = (
-        "text-destructive" if variant == "destructive" else "text-card-foreground"
-    )
+    tone_classes = "text-destructive" if variant == "destructive" else "text-card-foreground"
 
     classes_inline = merge_classes(f"{root_base_classes} {tone_classes}", class_)
 
     root_attrs: dict[str, str] = {"class_": classes_inline, "role": "alert"}
     if target_id:
-        root_attrs.update(
-            {"id": target_id, "hx-swap-oob": "true", "hx-swap": "transition:true"}
-        )
+        root_attrs.update({"id": target_id, "hx-swap-oob": "true", "hx-swap": "transition:true"})
 
     # Choose icon: prefer injected `icon` if provided, otherwise fall back to
     # the default one based on variant when `show_icon` is True.
@@ -70,16 +66,10 @@ def alert(
         children.append(chosen_icon)
 
     # Title and description with inline styles per reference
-    children.append(
-        h2(class_="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight")[title]
-    )
+    children.append(h2(class_="col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight")[title])
     if description:
-        section_base = (
-            "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
-        )
-        section_tone = (
-            "text-destructive" if variant == "destructive" else "text-muted-foreground"
-        )
+        section_base = "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+        section_tone = "text-destructive" if variant == "destructive" else "text-muted-foreground"
         children.append(section(class_=f"{section_base} {section_tone}")[description])
 
     return div(**root_attrs)[*children]

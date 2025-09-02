@@ -58,4 +58,8 @@ def resolve_name_to_path(name_or_filename: str) -> Path | None:
 
 
 def is_internal_module(name: str) -> bool:
-    return name.startswith("_") or (name in INTERNAL_COMPONENT_MODULES) or (name in INTERNAL_ROOT_MODULES)
+    return (
+        name.startswith("_")
+        or (name in INTERNAL_COMPONENT_MODULES)
+        or (name in INTERNAL_ROOT_MODULES)
+    )

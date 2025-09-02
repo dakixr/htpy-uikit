@@ -17,7 +17,16 @@ htpyuikit = "htpy_uikit.cli:main"
 [tool.ruff.lint.isort]
 force-single-line = true
 
+[dependency-groups]
+dev = [
+    "ruff>=0.12.11",
+]
+
 # For internal testing only
 [tool.htpy-uikit]
 components_dir = ".testing/ui"                # default for `add`
 theme_path = ".testing/themes/htpy-uikit.css" # default for `add-theme`
+
+[tool.ruff]
+line-length = 100
+

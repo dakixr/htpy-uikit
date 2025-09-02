@@ -102,9 +102,7 @@ def textarea_component(
     # Add label if provided
     if label_text:
         assert id is not None, "id is required when label_text is provided"
-        elements.append(
-            label_component(class_="label", for_=id, required=required)[label_text]
-        )
+        elements.append(label_component(class_="label", for_=id, required=required)[label_text])
 
     # Add textarea with value if provided
     if value:

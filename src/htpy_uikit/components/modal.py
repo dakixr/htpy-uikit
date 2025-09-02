@@ -51,9 +51,7 @@ def _modal_panel(
         button_kwargs |= close_button_attrs
 
     return div(**panel_kwargs)[
-        div(
-            class_="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-border"
-        )[
+        div(class_="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-border")[
             h3(class_="text-lg font-semibold text-card-foreground")[title],
             button(**button_kwargs)[
                 icon_close(class_="size-5"),
@@ -98,9 +96,7 @@ def modal(
         ),
         **{
             "@modal-open.window": Markup(f"if ($event.detail === '{id}') show = true;"),
-            "@modal-close.window": Markup(
-                f"if ($event.detail === '{id}') show = false;"
-            ),
+            "@modal-close.window": Markup(f"if ($event.detail === '{id}') show = false;"),
             "@click": "show = false",
         },
     )[

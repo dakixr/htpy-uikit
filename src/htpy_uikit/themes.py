@@ -33,4 +33,3 @@ def resolve_theme(name: str | None) -> Path | None:
     if len(files) == 1:
         return files[0]
     return None
-

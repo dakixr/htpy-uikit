@@ -93,14 +93,8 @@ def switch(
 
         # Build left text block
         text_block = div[
-            label(for_=id, class_="leading-normal select-none cursor-pointer")[
-                label_text
-            ],
-            (
-                div(class_="text-sm text-muted-foreground")[description]
-                if description
-                else None
-            ),
+            label(for_=id, class_="leading-normal select-none cursor-pointer")[label_text],
+            (div(class_="text-sm text-muted-foreground")[description] if description else None),
         ]
 
         row = (div(class_="opacity-50 pointer-events-none") if disabled else div())[

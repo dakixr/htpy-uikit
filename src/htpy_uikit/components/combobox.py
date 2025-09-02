@@ -62,9 +62,7 @@ def combobox(
                 break
 
     # JS-safe initial value for inlining into x-data factory call
-    initial_value_js = (
-        initial_value.replace("'", "\\'") if isinstance(initial_value, str) else ""
-    )
+    initial_value_js = initial_value.replace("'", "\\'") if isinstance(initial_value, str) else ""
 
     # Container classes - match reference CSS exactly
     container_classes = "select relative inline-flex"
@@ -91,9 +89,7 @@ def combobox(
             "@keydown": "onKey($event)",
         },
     )[
-        span(id=f"{base_id}-label", class_="truncate", **{"x-ref": "selected"})[
-            initial_label
-        ],
+        span(id=f"{base_id}-label", class_="truncate", **{"x-ref": "selected"})[initial_label],
         icon_chevrons_up_down(class_="opacity-50 shrink-0"),
     ]
 
@@ -109,9 +105,7 @@ def combobox(
             **{
                 "data-value": option["value"],
                 "data-label": option["label"],
-                "aria-selected": "true"
-                if (option["value"] == initial_value)
-                else "false",
+                "aria-selected": "true" if (option["value"] == initial_value) else "false",
                 "@click": "updateLabelFromValue($el.dataset.value); closeMenu();",
                 "@mouseenter": "onHover($el, true)",
                 "@mouseleave": "onHover($el, false)",
@@ -452,8 +446,6 @@ def combobox(
     root_attrs.update(attrs)
 
     # Root - no need for external JS file anymore
-    root = div(id=base_id, class_=container_classes, **root_attrs)[
-        hidden, trigger_btn, popover
-    ]
+    root = div(id=base_id, class_=container_classes, **root_attrs)[hidden, trigger_btn, popover]
 
     return root

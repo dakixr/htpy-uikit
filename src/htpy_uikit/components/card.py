@@ -83,9 +83,7 @@ def card(
         if title:
             header_children.append(h2(class_="leading-none font-semibold")[title])
         if description:
-            header_children.append(
-                p(class_="text-muted-foreground text-sm")[description]
-            )
+            header_children.append(p(class_="text-muted-foreground text-sm")[description])
         # Action on the right
         if action:
             header_children.append(div({"data_slot": "card-action"})[action])

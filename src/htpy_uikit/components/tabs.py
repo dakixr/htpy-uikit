@@ -48,9 +48,7 @@ def tabs(
         normalized.append((v, lbl or "", cnt or div[""]))
 
     # Determine active index after normalization
-    active_index = next(
-        (i for i, (val, _, _) in enumerate(normalized) if val == active_tab), 0
-    )
+    active_index = next((i for i, (val, _, _) in enumerate(normalized) if val == active_tab), 0)
 
     for index, (tab_value, tab_label, tab_content) in enumerate(normalized):
         tab_id = f"{container_id}-tab-{index}"

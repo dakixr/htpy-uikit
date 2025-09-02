@@ -98,9 +98,7 @@ def _copy_file(src: Path, dest_dir: Path, force: bool) -> Path:
     dest_dir.mkdir(parents=True, exist_ok=True)
     dest = dest_dir / src.name
     if dest.exists() and not force:
-        overwrite = questionary.confirm(
-            f"{dest} exists. Overwrite?", default=False
-        ).ask()
+        overwrite = questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask()
         if not overwrite:
             click.echo(f"Skipped {dest}")
             return dest
@@ -195,9 +193,7 @@ def _interactive_pick(comps: list[Component]) -> list[Component]:
     default=None,
     help="Destination directory for components (files copied here).",
 )
-@click.option(
-    "-A", "--all", "select_all", is_flag=True, help="Add all available components."
-)
+@click.option("-A", "--all", "select_all", is_flag=True, help="Add all available components.")
 @click.option(
     "-y",
     "--yes",
@@ -205,12 +201,8 @@ def _interactive_pick(comps: list[Component]) -> list[Component]:
     is_flag=True,
     help="Overwrite existing files without prompting (alias: --force).",
 )
-@click.option(
-    "--force", "force", is_flag=True, help="Overwrite existing files without prompting."
-)
-def add_cmd(
-    components: tuple[str, ...], dest: Path | None, select_all: bool, force: bool
-) -> None:
+@click.option("--force", "force", is_flag=True, help="Overwrite existing files without prompting.")
+def add_cmd(components: tuple[str, ...], dest: Path | None, select_all: bool, force: bool) -> None:
     """Copy one or more components into your app (with deps)."""
     comps = list_components()
     chosen: list[Component] = []
@@ -269,18 +261,14 @@ def add_cmd(
 
 
 @cli.command("add-theme")
-@click.option(
-    "--theme", help="Theme name to copy (omit to choose interactively if multiple)."
-)
+@click.option("--theme", help="Theme name to copy (omit to choose interactively if multiple).")
 @click.option(
     "--dest",
     type=click.Path(dir_okay=False, path_type=Path),
     default=None,
     help="Path to write the theme CSS file. Defaults to pyproject config or ./styles/htpy-uikit.css.",
 )
-@click.option(
-    "--force", is_flag=True, help="Overwrite existing file without prompting."
-)
+@click.option("--force", is_flag=True, help="Overwrite existing file without prompting.")
 def add_theme_cmd(theme: str | None, dest: Path | None, force: bool) -> None:
     """Copy a theme CSS file into your app."""
     # Resolve theme path
@@ -305,9 +293,7 @@ def add_theme_cmd(theme: str | None, dest: Path | None, force: bool) -> None:
         sys.exit(1)
 
     cfg = _load_config()
-    default_dest = Path(
-        cfg.get("theme_path") or Path("./styles/htpy-uikit.css")
-    ).resolve()
+    default_dest = Path(cfg.get("theme_path") or Path("./styles/htpy-uikit.css")).resolve()
     if dest is None:
         dest = default_dest
 

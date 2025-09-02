@@ -51,9 +51,7 @@ def main() -> None:
 
     # Copy theme
     if THEME_SRC.exists():
-        (DIST / "theme.css").write_text(
-            THEME_SRC.read_text(encoding="utf-8"), encoding="utf-8"
-        )
+        (DIST / "theme.css").write_text(THEME_SRC.read_text(encoding="utf-8"), encoding="utf-8")
 
 
 if __name__ == "__main__":

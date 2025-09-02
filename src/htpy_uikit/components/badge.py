@@ -140,9 +140,7 @@ def badge_count(
     """
     display = str(count if count < cap else f"{cap}+")
 
-    counter_classes = (
-        "rounded-full h-6 px-2 min-w-[1.5rem] flex items-center justify-center"
-    )
+    counter_classes = "rounded-full h-6 px-2 min-w-[1.5rem] flex items-center justify-center"
     merged_class = f"{counter_classes} {class_}" if class_ else counter_classes
     return badge(variant=variant, class_=merged_class, **kwargs)[display]
 

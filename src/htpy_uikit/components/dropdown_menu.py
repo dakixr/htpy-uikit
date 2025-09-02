@@ -364,9 +364,7 @@ def dropdown_menu_item(
     content_children.append(children)
     if shortcut:
         content_children.append(
-            span(class_="text-muted-foreground ml-auto text-xs tracking-widest")[
-                shortcut
-            ]
+            span(class_="text-muted-foreground ml-auto text-xs tracking-widest")[shortcut]
         )
 
     return div(
@@ -497,9 +495,7 @@ def dropdown_menu_item_radio(
 
     indicator = div(class_="size-4 flex items-center justify-center")[
         div(
-            class_=(
-                "size-2 rounded-full bg-foreground invisible group-aria-checked:visible"
-            ),
+            class_=("size-2 rounded-full bg-foreground invisible group-aria-checked:visible"),
             aria_hidden="true",
             focusable="false",
         )
@@ -535,18 +531,14 @@ def dropdown_menu_group(
         base_classes = class_
     if base_classes:
         attrs["class_"] = (
-            base_classes
-            if "class_" not in attrs
-            else f"{base_classes} {attrs['class_']}"
+            base_classes if "class_" not in attrs else f"{base_classes} {attrs['class_']}"
         )
     heading = None
     if label is not None:
         lid = label_id or f"dm-group-{str(uuid.uuid4())[:6]}"
         attrs["aria_labelledby"] = lid
         heading = dropdown_menu_label(class_="", id=lid)[label]
-    return div(**{"role": "group", **attrs})[
-        [heading, children] if heading else [children]
-    ]
+    return div(**{"role": "group", **attrs})[[heading, children] if heading else [children]]
 
 
 def dropdown_menu_trigger(

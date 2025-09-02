@@ -81,11 +81,7 @@ def popover(
                         else (
                             "mb-1 bottom-full"
                             if side == "top"
-                            else (
-                                "mr-1 right-full"
-                                if side == "left"
-                                else "ml-1 left-full"
-                            )
+                            else ("mr-1 right-full" if side == "left" else "ml-1 left-full")
                         )
                     ),
                     # Align rules
@@ -93,21 +89,13 @@ def popover(
                         (
                             "left-0"
                             if align == "start"
-                            else (
-                                "right-0"
-                                if align == "end"
-                                else "left-1/2 -translate-x-1/2"
-                            )
+                            else ("right-0" if align == "end" else "left-1/2 -translate-x-1/2")
                         )
                         if side in ("top", "bottom")
                         else (
                             "top-0"
                             if align == "start"
-                            else (
-                                "bottom-0"
-                                if align == "end"
-                                else "top-1/2 -translate-y-1/2"
-                            )
+                            else ("bottom-0" if align == "end" else "top-1/2 -translate-y-1/2")
                         )
                     ),
                 ]
@@ -135,9 +123,7 @@ def popover_simple(content: Node, trigger: Node, **kwargs) -> Renderable:
     return popover(children=content, trigger=trigger, **kwargs)
 
 
-def popover_with_title(
-    title: str, content: Node, trigger: Node, **kwargs
-) -> Renderable:
+def popover_with_title(title: str, content: Node, trigger: Node, **kwargs) -> Renderable:
     """Popover with title and content."""
     from htpy import h4
 

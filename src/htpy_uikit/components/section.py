@@ -72,14 +72,10 @@ def section_header(
     nodes: list[Renderable] = []
     if overline:
         nodes.append(
-            span(class_="text-xs tracking-wider text-muted-foreground uppercase")[
-                overline
-            ]
+            span(class_="text-xs tracking-wider text-muted-foreground uppercase")[overline]
         )
     nodes.append(
-        h2(
-            class_=f"mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight {align_class}"
-        )[title]
+        h2(class_=f"mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight {align_class}")[title]
     )
     if subtitle:
         nodes.append(p(class_=f"mt-2 text-muted-foreground {align_class}")[subtitle])

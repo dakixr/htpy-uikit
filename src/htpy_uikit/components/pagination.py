@@ -78,7 +78,9 @@ def pagination(
 
     def classes_btn(variant: str, *, icon: bool, size_key: str) -> str:
         variant_classes = variant_outline if variant == "outline" else variant_ghost
-        return f"{base_btn} {variant_classes} {(size_icon if icon else size_text)[size_key]}".strip()
+        return (
+            f"{base_btn} {variant_classes} {(size_icon if icon else size_text)[size_key]}".strip()
+        )
 
     # Helper function to build page URL
     def build_url(page: int) -> str:
@@ -134,9 +136,7 @@ def pagination(
         )
         if start_page > 2:
             ellipsis_class = f"{size_icon[size]} flex items-center justify-center"
-            items.append(
-                li()[div(class_=ellipsis_class)[icon_more(class_="size-4 shrink-0")]]
-            )
+            items.append(li()[div(class_=ellipsis_class)[icon_more(class_="size-4 shrink-0")]])
 
     # Page number buttons
     for page in range(start_page, end_page + 1):
@@ -160,9 +160,7 @@ def pagination(
     if show_first_last and end_page < total_pages:
         if end_page < total_pages - 1:
             ellipsis_class = f"{size_icon[size]} flex items-center justify-center"
-            items.append(
-                li()[div(class_=ellipsis_class)[icon_more(class_="size-4 shrink-0")]]
-            )
+            items.append(li()[div(class_=ellipsis_class)[icon_more(class_="size-4 shrink-0")]])
         items.append(
             li()[
                 a(

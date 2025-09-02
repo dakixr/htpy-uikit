@@ -82,9 +82,7 @@ def dialog(
             ],
             # Dialog header
             div(class_="flex flex-col space-y-1.5 text-center sm:text-left")[
-                h2(class_="text-lg font-semibold leading-none tracking-tight")[
-                    title or ""
-                ],
+                h2(class_="text-lg font-semibold leading-none tracking-tight")[title or ""],
                 p(class_="text-sm text-gray-500 dark:text-gray-400")[description or ""],
             ],
         ],
@@ -97,9 +95,7 @@ def dialog_content(children: Node, **kwargs) -> Renderable:
     return dialog(children=children, **kwargs)
 
 
-def dialog_header(
-    children: Node, *, class_: Optional[str] = None, **attrs
-) -> Renderable:
+def dialog_header(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
     """Dialog header section."""
     classes = "flex flex-col space-y-1.5 text-center sm:text-left"
     attrs["class_"] = merge_classes(classes, class_)
@@ -107,9 +103,7 @@ def dialog_header(
     return div(**attrs)[children]
 
 
-def dialog_title(
-    children: Node, *, class_: Optional[str] = None, **attrs
-) -> Renderable:
+def dialog_title(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
     """Dialog title."""
     classes = "text-lg font-semibold leading-none tracking-tight"
     attrs["class_"] = merge_classes(classes, class_)
@@ -117,9 +111,7 @@ def dialog_title(
     return h2(**attrs)[children]
 
 
-def dialog_description(
-    children: Node, *, class_: Optional[str] = None, **attrs
-) -> Renderable:
+def dialog_description(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
     """Dialog description."""
     classes = "text-sm text-gray-500 dark:text-gray-400"
     attrs["class_"] = merge_classes(classes, class_)
@@ -127,9 +119,7 @@ def dialog_description(
     return p(**attrs)[children]
 
 
-def dialog_footer(
-    children: Node, *, class_: Optional[str] = None, **attrs
-) -> Renderable:
+def dialog_footer(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
     """Dialog footer section."""
     classes = "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"
     attrs["class_"] = merge_classes(classes, class_)
@@ -151,9 +141,7 @@ def dialog_close_button(*, class_: Optional[str] = None, **attrs) -> Renderable:
     return button(**attrs)["Close"]
 
 
-def dialog_action_button(
-    children: Node, *, class_: Optional[str] = None, **attrs
-) -> Renderable:
+def dialog_action_button(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
     """Dialog action button."""
     classes = (
         "inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 py-2 "

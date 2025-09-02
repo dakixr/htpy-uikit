@@ -105,9 +105,7 @@ def native_select(
     # Add placeholder option if provided
     if placeholder and not multiple:
         option_elements.append(
-            option(value="", disabled="true", selected="" if value is None else None)[
-                placeholder
-            ]
+            option(value="", disabled="true", selected="" if value is None else None)[placeholder]
         )
 
     # Add actual options
@@ -248,9 +246,7 @@ def select_component(
                 ]
             )
         else:
-            children.append(
-                span(class_="select-content flex-1 truncate")[item.get("label", "")]
-            )
+            children.append(span(class_="select-content flex-1 truncate")[item.get("label", "")])
         # trailing check positioned to the far right inside the option
         children.append(
             span(class_="select-check absolute right-2.5 top-1/2 -translate-y-1/2")[
@@ -354,9 +350,7 @@ def select_component(
 
     # Alpine
 
-    initial_value_js = (
-        initial_value.replace("'", "\\'") if isinstance(initial_value, str) else ""
-    )
+    initial_value_js = initial_value.replace("'", "\\'") if isinstance(initial_value, str) else ""
 
     alpine_data: js = f"""{{
         state: {{
@@ -526,6 +520,4 @@ def select_component(
     if disabled:
         container_classes = f"{container_classes} cursor-not-allowed"
 
-    return div(id=base_id, class_=container_classes, **root_attrs)[
-        hidden_input, trigger, popover
-    ]
+    return div(id=base_id, class_=container_classes, **root_attrs)[hidden_input, trigger, popover]

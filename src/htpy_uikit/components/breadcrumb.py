@@ -57,7 +57,9 @@ def breadcrumb(
     """
 
     # Base classes - following basecoat breadcrumb styling
-    base_classes = "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"
+    base_classes = (
+        "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5"
+    )
 
     # Add class to attrs
     attrs["class_"] = merge_classes(base_classes, class_)
@@ -100,9 +102,7 @@ def breadcrumb(
                 dropdown_menu_separator(),
                 *[
                     dropdown_menu_item(
-                        a(href=item["url"])[item["label"]]
-                        if item["url"]
-                        else item["label"]
+                        a(href=item["url"])[item["label"]] if item["url"] else item["label"]
                     )
                     for item in middle_items
                 ],
@@ -111,9 +111,7 @@ def breadcrumb(
             breadcrumb_items.append(
                 li(class_="inline-flex items-center gap-1.5")[
                     dropdown_menu(
-                        trigger=icon_more(
-                            class_="size-4 cursor-pointer hover:text-foreground"
-                        ),
+                        trigger=icon_more(class_="size-4 cursor-pointer hover:text-foreground"),
                         id=menu_id,
                     )[div(class_="flex flex-col")[*menu_nodes]]
                 ]
@@ -125,9 +123,7 @@ def breadcrumb(
             if url:
                 breadcrumb_items.append(
                     li(class_="inline-flex items-center gap-1.5")[
-                        a(href=url, class_="hover:text-foreground transition-colors")[
-                            label
-                        ]
+                        a(href=url, class_="hover:text-foreground transition-colors")[label]
                     ]
                 )
             else:
