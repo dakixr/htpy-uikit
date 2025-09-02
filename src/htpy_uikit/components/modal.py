@@ -141,7 +141,7 @@ def attrs_btn_open_modal(id: str) -> dict:
     Returns:
         dict: Button attributes for Alpine.js
     """
-    return {"@click": f"$dispatch('modal-open', '{id}')"}
+    return {"@click": Markup(f"$dispatch('modal-open', '{id}')")}
 
 
 @with_children
