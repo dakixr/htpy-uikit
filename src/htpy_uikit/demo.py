@@ -1558,12 +1558,12 @@ def components_demo_page() -> Node:
                                     description="Be careful with this action.",
                                 )[button_component(variant="outline")["Warning"]],
                                 # HTMX backend-driven toast (event-only; swap none)
-                                button_component(
-                                    variant="outline",
-                                    hx_trigger="click",
-                                    hx_get="/en/events/toast/success",
-                                    hx_swap="none",
-                                )["Toast from backend (HTMX)"],
+                                # button_component(
+                                #     variant="outline",
+                                #     hx_trigger="click",
+                                #     hx_get="/en/events/toast/success",
+                                #     hx_swap="none",
+                                # )["Toast from backend (HTMX)"],
                             ],
                         ],
                     ],

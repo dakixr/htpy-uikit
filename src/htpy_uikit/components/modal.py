@@ -102,33 +102,41 @@ def modal(
     return div(
         id=id,
         tabindex="-1",
-        aria_hidden="true",
+        x_cloak="true",
+        x_data="{ show: false }",
+        x_show="show",
         class_=(
-            "hidden fixed top-0 right-0 left-0 z-100 justify-center items-center w-screen "
+            "fixed top-0 right-0 left-0 z-100 flex justify-center items-center w-screen "
             "inset-0 h-full max-h-full bg-black/50"
         ),
+        **{
+            "@modal-open.window": f"if ($event.detail === '{id}') show = true",
+            "@modal-close.window": f"if ($event.detail === '{id}') show = false",
+            "@click": "show = false",
+        },
     )[
         _modal_panel(
             children,
             title=title,
             width=width,
             height=height,
-            close_button_attrs={"data_modal_hide": id},
+            close_button_attrs={"@click": "show = false"},
+            panel_attrs={"@click.stop": ""},
         )
     ]
 
 
 def attrs_btn_open_modal(id: str) -> dict:
     """
-    Get attributes for opening a modal button.
+    Get attributes for opening a modal button using Alpine.js events.
 
     Args:
         id: Modal ID
 
     Returns:
-        dict: Button attributes
+        dict: Button attributes for Alpine.js
     """
-    return {"data_modal_target": id, "data_modal_toggle": id}
+    return {"@click": f"$dispatch('modal-open', '{id}')"}
 
 
 @with_children
