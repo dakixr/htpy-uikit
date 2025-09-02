@@ -11,9 +11,9 @@ COMPONENTS_DIR = PKG_DIR / "components"
 
 
 # Files considered internal/shared; they may be dependencies but are not end-user components.
-# Modules that are support files, not end-user components
-INTERNAL_COMPONENT_MODULES = {"__init__", "icons", "types"}
-INTERNAL_ROOT_MODULES = {"__init__", "utils"}
+# Support files that shouldn’t be listed as user-facing components
+INTERNAL_COMPONENT_MODULES = {"__init__", "_utils", "_types"}
+INTERNAL_ROOT_MODULES = {"__init__"}
 
 
 @dataclass(frozen=True)
@@ -25,8 +25,11 @@ class Component:
 def iter_component_files() -> Iterable[Path]:
     if COMPONENTS_DIR.exists():
         for p in COMPONENTS_DIR.glob("*.py"):
-            if p.stem not in INTERNAL_COMPONENT_MODULES:
-                yield p
+            if p.stem.startswith("_"):
+                continue
+            if p.stem in INTERNAL_COMPONENT_MODULES:
+                continue
+            yield p
 
 
 def list_components() -> list[Component]:
@@ -55,4 +58,4 @@ def resolve_name_to_path(name_or_filename: str) -> Path | None:
 
 
 def is_internal_module(name: str) -> bool:
-    return name in INTERNAL_COMPONENT_MODULES or name in INTERNAL_ROOT_MODULES
+    return name.startswith("_") or (name in INTERNAL_COMPONENT_MODULES) or (name in INTERNAL_ROOT_MODULES)

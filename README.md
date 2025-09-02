@@ -6,28 +6,40 @@ What it is
 - Ships a default theme (CSS variables) you can import and override.
 
 Install
-- `pip install -e .` (inside this repo) or add to your deps.
+- Dev-only: add this library as a development dependency (no runtime import).
+- With uv (recommended):
+  - Published package: `uv add --dev htpy-uikit`
+  - Local checkout: `uv add --dev -e ../path/to/htpy-uikit`
+  - Run CLI via your env: `uv run htpyuikit list`
+- Or with pip: `pip install -e .` (inside this repo)
 
 CLI
 - List: `htpyuikit list`
 - Add (interactive): `htpyuikit add` (uses questionary)
-- Add specific: `htpyuikit add button card --dest ./ui`
+- Add specific: `htpyuikit add button card --dest ./components`
+- Add all: `htpyuikit add --all --dest ./components`
 - Theme: `htpyuikit add-theme --dest ./styles/htpy-uikit.css`
 
-Add copies code with deps and creates a small package layout:
-- `./ui/__init__.py`
-- `./ui/components/*.py` (your selections + shared `icons.py`/`types.py`)
-- `./ui/utils.py`
+Add copies code with deps into a single directory (no rewriting):
+- `./components/*.py` (your selections + shared `_utils.py`, `_types.py`, `icons.py`)
+  - `icons.py` can also be selected explicitly from the list.
 
 Config (pyproject.toml)
 [tool.htpy-uikit]
-components_dir = "./ui"                  # default for `add`
+components_dir = "./components"          # default for `add`
 theme_path     = "./styles/htpy-uikit.css"  # default for `add-theme`
 
-Theme
-- Source: `src/htpy_uikit/tailwind-themes/theme.css`
-- Copy with `htpyuikit add-theme` and import in your Tailwind input CSS:
+Themes
+- Light/Dark built-in: theme CSS defines light variables on `:root` and dark overrides under `.dark { ... }`.
+  - Activate dark mode by toggling a `.dark` class on a root element (e.g., `html` or `body`).
+  - You can scaffold `theme-toggle` via the CLI to manage this in the UI.
+- List available themes: `htpyuikit themes`
+- Copy theme (interactive): `htpyuikit add-theme` (prompts for theme and destination)
+- Choose explicitly: `htpyuikit add-theme --theme <name> --dest ./styles/htpy-uikit.css`
+- Import in your Tailwind input CSS:
   - `@import "./styles/htpy-uikit.css";`
 
 Notes
 - Requires Tailwind and Alpine in your app.
+- Override protection: existing files prompt for confirmation. Use `-y/--yes` or `--force` to overwrite without prompts.
+- No production dependency: your app should not import `htpy_uikit` at runtime. The CLI copies components into your codebase, so this package can be dev-only.

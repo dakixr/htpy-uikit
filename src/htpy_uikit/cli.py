@@ -13,10 +13,11 @@ import questionary
 
 from . import __version__ as VERSION
 from .registry import PKG_DIR
-from .registry import COMPONENTS_DIR
 from .registry import Component
 from .registry import list_components
 from .registry import resolve_name_to_path
+from .themes import list_themes
+from .themes import resolve_theme
 
 
 def _read_text(p: Path) -> str:
@@ -37,24 +38,24 @@ def _iter_internal_imports(py_src: str, file_dir: Path) -> Iterable[Path]:
 
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
-                # Relative imports e.g. from .icons import x
-                if node.level:
-                    # level=1 -> current package; level=2 -> parent, etc.
-                    base = file_dir
-                    steps_up = max(0, node.level - 1)
-                    for _ in range(steps_up):
-                        base = base.parent
-                    mod = (node.module or "").split(".")[0]
-                    if mod:
-                        cand = base / f"{mod}.py"
-                        if cand.exists():
-                            yield cand
-                # Absolute import from our package
-                elif node.module and node.module.startswith("htpy_uikit."):
-                    parts = node.module.split(".")[1:]
-                    cand = PKG_DIR.joinpath(*parts).with_suffix(".py")
+            # Relative imports e.g. from .icons import x
+            if node.level:
+                # level=1 -> current package; level=2 -> parent, etc.
+                base = file_dir
+                steps_up = max(0, node.level - 1)
+                for _ in range(steps_up):
+                    base = base.parent
+                mod = (node.module or "").split(".")[0]
+                if mod:
+                    cand = base / f"{mod}.py"
                     if cand.exists():
                         yield cand
+            # Absolute import from our package
+            elif node.module and node.module.startswith("htpy_uikit."):
+                parts = node.module.split(".")[1:]
+                cand = PKG_DIR.joinpath(*parts).with_suffix(".py")
+                if cand.exists():
+                    yield cand
         elif isinstance(node, ast.Import):
             # import htpy_uikit.icons as icons
             for n in node.names:
@@ -83,7 +84,7 @@ def _resolve_dependencies(entry_files: Sequence[Path]) -> list[Path]:
     internals = []
     components = []
     for p in wanted.values():
-        if p.parent == PKG_DIR or p.stem in {"icons", "types", "__init__"}:
+        if p.stem in {"_utils", "_types", "__init__"}:
             internals.append(p)
         else:
             components.append(p)
@@ -97,7 +98,9 @@ def _copy_file(src: Path, dest_dir: Path, force: bool) -> Path:
     dest_dir.mkdir(parents=True, exist_ok=True)
     dest = dest_dir / src.name
     if dest.exists() and not force:
-        overwrite = questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask()
+        overwrite = questionary.confirm(
+            f"{dest} exists. Overwrite?", default=False
+        ).ask()
         if not overwrite:
             click.echo(f"Skipped {dest}")
             return dest
@@ -164,16 +167,22 @@ def _interactive_pick(comps: list[Component]) -> list[Component]:
     qChoice = getattr(questionary, "Choice", None)
     if qChoice is not None:
         choices = [qChoice(title=f"{c.name} ({c.path.name})", value=c) for c in comps]
-        selected = questionary.checkbox(
-            "Select components (space to toggle, enter to confirm):",
-            choices=choices,
-        ).ask() or []
+        selected = (
+            questionary.checkbox(
+                "Select components (space to toggle, enter to confirm):",
+                choices=choices,
+            ).ask()
+            or []
+        )
         return list(selected)
     # Fallback if Choice is unavailable
-    selected = questionary.checkbox(
-        "Select components (space to toggle, enter to confirm):",
-        choices=[f"{c.name} ({c.path.name})" for c in comps],
-    ).ask() or []
+    selected = (
+        questionary.checkbox(
+            "Select components (space to toggle, enter to confirm):",
+            choices=[f"{c.name} ({c.path.name})" for c in comps],
+        ).ask()
+        or []
+    )
     lookup = {f"{c.name} ({c.path.name})": c for c in comps}
     return [lookup[s] for s in selected if s in lookup]
 
@@ -184,71 +193,85 @@ def _interactive_pick(comps: list[Component]) -> list[Component]:
     "--dest",
     type=click.Path(file_okay=False, path_type=Path),
     default=None,
-    help="Destination root. A small package layout will be created here.",
+    help="Destination directory for components (files copied here).",
 )
 @click.option(
-    "--force", is_flag=True, help="Overwrite existing files without prompting."
+    "-A", "--all", "select_all", is_flag=True, help="Add all available components."
+)
+@click.option(
+    "-y",
+    "--yes",
+    "force",
+    is_flag=True,
+    help="Overwrite existing files without prompting (alias: --force).",
+)
+@click.option(
+    "--force", "force", is_flag=True, help="Overwrite existing files without prompting."
 )
 def add_cmd(
-    components: tuple[str, ...], dest: Path | None, force: bool
+    components: tuple[str, ...], dest: Path | None, select_all: bool, force: bool
 ) -> None:
     """Copy one or more components into your app (with deps)."""
     comps = list_components()
     chosen: list[Component] = []
 
+    selected_paths: list[Path] = []
+    if select_all:
+        selected_paths.extend([c.path for c in comps])
     if components:
         for token in components:
             p = resolve_name_to_path(token)
             if not p:
                 click.echo(f"Unknown component: {token}", err=True)
                 sys.exit(2)
-            # find component object
-            match = next((c for c in comps if c.path == p), None)
-            if match is None:
-                # allow internal modules to be copied if explicitly requested
-                match = Component(name=p.stem, path=p)
-            chosen.append(match)
-    else:
+            selected_paths.append(p)
+    if not selected_paths and not select_all:
         chosen = _interactive_pick(comps)
         if not chosen:
             click.echo("No components selected.")
             return
+        selected_paths = [c.path for c in chosen]
+    # Dedup preserve order
+    seen: set[Path] = set()
+    unique_paths: list[Path] = []
+    for p in selected_paths:
+        if p not in seen:
+            unique_paths.append(p)
+            seen.add(p)
+    # Convert to components
+    chosen = []
+    for p in unique_paths:
+        match = next((c for c in comps if c.path == p), None)
+        chosen.append(match or Component(name=p.stem, path=p))
 
     # Load config and compute defaults
     cfg = _load_config()
-    default_dest = Path(cfg.get("components_dir") or Path("./ui")).resolve()
+    default_dest = Path(cfg.get("components_dir") or Path("./components")).resolve()
     if dest is None:
-        dest = default_dest
+        # Interactive destination prompt similar to component add
+        answer = questionary.text(
+            "Destination path for theme CSS:", default=str(default_dest)
+        ).ask()
+        if not answer:
+            click.echo("No destination provided.")
+            return
+        dest = Path(answer).expanduser().resolve()
 
     entry_files = [c.path for c in chosen]
     files = _resolve_dependencies(entry_files)
 
-    # Create a small package layout under dest
-    pkg_root = dest
-    components_dir = pkg_root / "components"
-    pkg_root.mkdir(parents=True, exist_ok=True)
-    components_dir.mkdir(parents=True, exist_ok=True)
-    for pkg_init in (pkg_root / "__init__.py", components_dir / "__init__.py"):
-        if not pkg_init.exists():
-            pkg_init.write_text("", encoding="utf-8")
-
+    # Copy everything directly into the destination directory
+    dest.mkdir(parents=True, exist_ok=True)
     for src in files:
-        if src.parent == COMPONENTS_DIR:
-            _copy_file(src, components_dir, force=force)
-        else:
-            _copy_file(src, pkg_root, force=force)
-
-    # Adjust imports inside copied components: htpy_uikit.utils -> ..utils
-    for p in components_dir.glob("*.py"):
-        content = _read_text(p)
-        newc = content.replace("from htpy_uikit.utils import", "from ..utils import")
-        if newc != content:
-            _write_text(p, newc)
+        _copy_file(src, dest, force=force)
 
     click.echo("\nDone. Remember to run your Tailwind build.")
 
 
 @cli.command("add-theme")
+@click.option(
+    "--theme", help="Theme name to copy (omit to choose interactively if multiple)."
+)
 @click.option(
     "--dest",
     type=click.Path(dir_okay=False, path_type=Path),
@@ -258,9 +281,29 @@ def add_cmd(
 @click.option(
     "--force", is_flag=True, help="Overwrite existing file without prompting."
 )
-def add_theme_cmd(dest: Path | None, force: bool) -> None:
-    """Copy the default theme CSS into your app."""
-    # Resolve default destination from config
+def add_theme_cmd(theme: str | None, dest: Path | None, force: bool) -> None:
+    """Copy a theme CSS file into your app."""
+    # Resolve theme path
+    src = resolve_theme(theme)
+    if src is None:
+        names = list_themes()
+        if not names:
+            click.echo("No themes available.")
+            sys.exit(1)
+        if len(names) == 1:
+            src = resolve_theme(names[0])
+        else:
+            qChoice = getattr(questionary, "Choice", None)
+            choices = [qChoice(title=n, value=n) for n in names] if qChoice else names
+            chosen = questionary.select("Select a theme:", choices=choices).ask()
+            if not chosen:
+                click.echo("No theme selected.")
+                return
+            src = resolve_theme(chosen)
+    if src is None or not src.exists():
+        click.echo("Theme file not found in package.", err=True)
+        sys.exit(1)
+
     cfg = _load_config()
     default_dest = Path(
         cfg.get("theme_path") or Path("./styles/htpy-uikit.css")
@@ -268,17 +311,25 @@ def add_theme_cmd(dest: Path | None, force: bool) -> None:
     if dest is None:
         dest = default_dest
 
-    src = PKG_DIR / "tailwind-themes" / "theme.css"
-    if not src.exists():
-        click.echo("Theme file not found in package.", err=True)
-        sys.exit(1)
     if dest.exists() and not force:
         if not questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask():
             click.echo("Skipped theme.")
             return
     content = _read_text(src)
     _write_text(dest, content)
-    click.echo(f"Copied theme.css -> {dest}")
+    click.echo(f"Copied {src.name} -> {dest}")
+
+
+@cli.command("themes")
+def themes_cmd() -> None:
+    """List available themes."""
+    names = list_themes()
+    if not names:
+        click.echo("No themes available.")
+        return
+    click.echo("Available themes:\n")
+    for i, n in enumerate(sorted(names), start=1):
+        click.echo(f"{i:>2}. {n}")
 
 
 def main() -> None:  # console_script entrypoint

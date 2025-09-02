@@ -1,7 +1,7 @@
 [project]
 name = "htpy-uikit"
 version = "0.1.0"
-description = "Add your description here"
+description = "UI components library leveraging htpy"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -14,11 +14,10 @@ dependencies = [
 [project.scripts]
 htpyuikit = "htpy_uikit.cli:main"
 
-
 [tool.ruff.lint.isort]
 force-single-line = true
 
-
+# For internal testing only
 [tool.htpy-uikit]
-components_dir = ".testing/ui"                  # default for `add`
-theme_path     = ".testing/styles/htpy-uikit.css"  # default for `add-theme`
+components_dir = ".testing/ui"                # default for `add`
+theme_path = ".testing/themes/htpy-uikit.css" # default for `add-theme`
