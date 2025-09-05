@@ -15,10 +15,9 @@
 - **Dev-only**: add this library as a development dependency (no runtime import)
 
 - **With uv (recommended)**:
-  - Direct from git: `uv add --dev git+https://github.com/dakixr/htpy-uikit.git`
-  - Local checkout: `uv add --dev ../path/to/htpy-uikit`
-  - Run CLI via your env: `uv run htpyuikit list`
-- **Or with pip**: `pip install .` (inside this repo)
+  - `uv tool install git+https://github.com/dakixr/htpy-uikit.git`
+- **Or with pip**: 
+  - `pip install git+https://github.com/dakixr/htpy-uikit.git`
 
 ## CLI
 

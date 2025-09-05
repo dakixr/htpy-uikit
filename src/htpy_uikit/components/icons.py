@@ -200,6 +200,42 @@ def icon_check(class_: str = "size-4", **attrs) -> Renderable:
     )[path(d="M20 6L9 17l-5-5"),]
 
 
+def icon_pencil(class_: str = "size-4", **attrs) -> Renderable:
+    """Pencil/edit icon."""
+    return svg(
+        class_=class_,
+        xmlns="http://www.w3.org/2000/svg",
+        viewBox="0 0 24 24",
+        fill="none",
+        stroke="currentColor",
+        stroke_width="2",
+        stroke_linecap="round",
+        stroke_linejoin="round",
+        **attrs,
+    )[
+        path(
+            d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z",
+        )
+    ]
+
+
+def icon_headset(class_: str = "size-4", **attrs) -> Renderable:
+    """Headset/support icon."""
+    return svg(
+        class_=class_,
+        xmlns="http://www.w3.org/2000/svg",
+        viewBox="0 0 24 24",
+        fill="currentColor",
+        **attrs,
+    )[
+        path(
+            fill_rule="evenodd",
+            d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1V9a5 5 0 1 1 10 0v7.083A2.919 2.919 0 0 1 14.083 19H14a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a2 2 0 0 0 1.732-1h.351a4.917 4.917 0 0 0 4.83-4H19a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.45 3.275a4 4 0 0 0-4.352.976 1 1 0 0 0 1.452 1.376 2.001 2.001 0 0 1 2.836-.067 1 1 0 1 0 1.386-1.442 4 4 0 0 0-1.321-.843Z",
+            clip_rule="evenodd",
+        )
+    ]
+
+
 def icon_close(class_: str = "size-4", **attrs) -> Renderable:
     """Close/X icon."""
     return svg(
@@ -596,5 +632,120 @@ def icon_eye_off(class_: str = "w-5 h-5", **attrs) -> Renderable:
             stroke_linejoin="round",
             stroke_width="2",
             d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z",
+        )
+    ]
+
+
+def icon_tag(class_: str = "size-4", **attrs) -> Renderable:
+    """
+    Tag/flag icon for active data sources.
+
+    Args:
+        class_: CSS classes for the SVG element.
+        **attrs: Additional SVG attributes.
+
+    Returns:
+        Renderable: SVG tag icon.
+    """
+    return svg(
+        class_=class_,
+        aria_hidden="true",
+        xmlns="http://www.w3.org/2000/svg",
+        width="24",
+        height="24",
+        fill="currentColor",
+        viewBox="0 0 24 24",
+        **attrs,
+    )[
+        path(
+            fill_rule="evenodd",
+            d="M3 4a1 1 0 0 0-.822 1.57L6.632 12l-4.454 6.43A1 1 0 0 0 3 20h13.153a1 1 0 0 0 .822-.43l4.847-7a1 1 0 0 0 0-1.14l-4.847-7a1 1 0 0 0-.822-.43H3Z",
+            clip_rule="evenodd",
+        )
+    ]
+
+
+def icon_plus(class_: str = "size-4", **attrs) -> Renderable:
+    """
+    Plus/add icon.
+
+    Args:
+        class_: CSS classes for the SVG element.
+        **attrs: Additional SVG attributes.
+
+    Returns:
+        Renderable: SVG plus icon.
+    """
+    return svg(
+        class_=class_,
+        xmlns="http://www.w3.org/2000/svg",
+        fill="none",
+        viewBox="0 0 24 24",
+        stroke_width="1.5",
+        stroke="currentColor",
+        **attrs,
+    )[
+        path(
+            stroke_linecap="round",
+            stroke_linejoin="round",
+            d="M12 4.5v15m7.5-7.5h-15",
+        )
+    ]
+
+
+def icon_sort_asc(class_: str = "w-3 h-3", **attrs) -> Renderable:
+    """
+    Sort ascending arrow icon.
+
+    Args:
+        class_: CSS classes for the SVG element.
+        **attrs: Additional SVG attributes.
+
+    Returns:
+        Renderable: SVG sort ascending arrow icon.
+    """
+    return svg(
+        class_=class_,
+        aria_hidden="true",
+        xmlns="http://www.w3.org/2000/svg",
+        fill="none",
+        viewBox="0 0 10 14",
+        **attrs,
+    )[
+        path(
+            stroke="currentColor",
+            stroke_linecap="round",
+            stroke_linejoin="round",
+            stroke_width="2",
+            d="M5 13V1m0 0L1 5m4-4 4 4",
+        )
+    ]
+
+
+def icon_sort_desc(class_: str = "w-3 h-3", **attrs) -> Renderable:
+    """
+    Sort descending arrow icon.
+
+    Args:
+        class_: CSS classes for the SVG element.
+        **attrs: Additional SVG attributes.
+
+    Returns:
+        Renderable: SVG sort descending arrow icon.
+    """
+    return svg(
+        class_=class_,
+        aria_hidden="true",
+        xmlns="http://www.w3.org/2000/svg",
+        fill="none",
+        viewBox="0 0 10 14",
+        **attrs,
+    )[
+        path(
+            stroke="currentColor",
+            stroke_linecap="round",
+            stroke_linejoin="round",
+            stroke_width="2",
+            d="M5 1v12m0 0 4-4m-4 4L1 9",
         )
     ]

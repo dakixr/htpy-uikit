@@ -6,12 +6,38 @@ from htpy import div
 from htpy import li
 from htpy import nav
 from htpy import span
+from htpy import template
 from htpy import ul
 
 from ._utils import merge_classes
 from .icons import icon_chevron_left
 from .icons import icon_chevron_right
 from .icons import icon_more
+
+# Shared Basecoat class presets (used by both backend and Alpine variants)
+base_classes_btn = (
+    "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium "
+    "disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 shrink-0 "
+    "outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] "
+    "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
+    "cursor-pointer rounded-md"
+)
+variant_ghost = "hover:bg-accent hover:text-accent-foreground"
+variant_outline = (
+    "border bg-background shadow-xs dark:bg-input/30 dark:border-input hover:bg-accent "
+    "hover:text-accent-foreground dark:hover:bg-accent/50"
+)
+size_text = {
+    "sm": "gap-1.5 h-8 px-3 has-[>svg]:px-2.5 text-xs",
+    "md": "gap-2 h-9 px-4 py-2 has-[>svg]:px-3 text-sm",
+    "lg": "gap-2 h-10 px-6 has-[>svg]:px-4 text-base",
+}
+size_icon = {"sm": "size-8", "md": "size-9", "lg": "size-10"}
+
+
+def classes_btn(variant: str, *, icon: bool, size_key: str) -> str:
+    variant_classes = variant_outline if variant == "outline" else variant_ghost
+    return f"{base_classes_btn} {variant_classes} {(size_icon if icon else size_text)[size_key]}".strip()
 
 
 def pagination(
@@ -55,32 +81,6 @@ def pagination(
 
     # Add custom classes
     attrs["class_"] = merge_classes(base_classes, class_)
-
-    # Tailwind button class presets (mirrors our button_component styles)
-    base_btn = (
-        "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all "
-        "disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 shrink-0 "
-        "outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] "
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
-        "cursor-pointer rounded-md"
-    )
-    variant_ghost = "hover:bg-accent hover:text-accent-foreground"
-    variant_outline = (
-        "border bg-background shadow-xs dark:bg-input/30 dark:border-input hover:bg-accent "
-        "hover:text-accent-foreground dark:hover:bg-accent/50"
-    )
-    size_text = {
-        "sm": "gap-1.5 h-8 px-3 has-[>svg]:px-2.5 text-xs",
-        "md": "gap-2 h-9 px-4 py-2 has-[>svg]:px-3 text-sm",
-        "lg": "gap-2 h-10 px-6 has-[>svg]:px-4 text-base",
-    }
-    size_icon = {"sm": "size-8", "md": "size-9", "lg": "size-10"}
-
-    def classes_btn(variant: str, *, icon: bool, size_key: str) -> str:
-        variant_classes = variant_outline if variant == "outline" else variant_ghost
-        return (
-            f"{base_btn} {variant_classes} {(size_icon if icon else size_text)[size_key]}".strip()
-        )
 
     # Helper function to build page URL
     def build_url(page: int) -> str:
@@ -211,3 +211,100 @@ def compact_pagination(**kwargs) -> Renderable:
 def large_pagination(**kwargs) -> Renderable:
     """Large pagination buttons."""
     return pagination(size="lg", **kwargs)
+
+
+def alpine_pagination(
+    *,
+    class_: str | None = None,
+    x_show: str | None = "hasMultiplePages()",
+    size: Literal["sm", "md", "lg"] = "md",
+    **attrs,
+) -> Renderable:
+    """
+    Alpine.js-friendly pagination component.
+
+    Expects these properties/methods to exist in the surrounding Alpine data:
+    - currentPage, totalPages
+    - getPageNumbers() -> array of pages and '...'
+    - goToPage(page), prevPage(), nextPage()
+    - prevDisabled(), nextDisabled()
+    - prevButtonClass(), nextButtonClass(), pageButtonClass(page)
+
+    Args:
+        class_: Optional additional classes for the wrapper div.
+        x_show: Alpine expression to control visibility (defaults to hasMultiplePages()).
+        **attrs: Additional HTML attributes for the wrapper div.
+
+    Returns:
+        htpy.div: Wrapper containing the pagination nav/ul.
+    """
+
+    # Wrapper classes: keep inline layout so it fits right-aligned container
+    base_wrapper = "inline-flex"
+    attrs["class_"] = merge_classes(base_wrapper, class_)
+    if x_show:
+        attrs["x-show"] = x_show
+
+    # Build class presets to exactly mirror backend pagination visuals
+    prev_next_base = classes_btn("ghost", icon=False, size_key=size)
+    prev_next_disabled = f"{prev_next_base} opacity-50 cursor-not-allowed pointer-events-none"
+    page_current = classes_btn("outline", icon=True, size_key=size)
+    page_other = classes_btn("ghost", icon=True, size_key=size)
+    ellipsis_class = f"{ {'sm': 'size-8', 'md': 'size-9', 'lg': 'size-10'}[size] } flex items-center justify-center"
+
+    return div(**attrs)[
+        nav(aria_label="Page navigation")[
+            ul(class_="flex flex-row items-center gap-1")[
+                # Previous
+                li[
+                    a(
+                        href="#",
+                        **{"@click.prevent": "!prevDisabled() && (prevPage(), $el.blur())"},
+                        **{
+                            ":class": f"prevDisabled() ? '{prev_next_disabled}' : '{prev_next_base}'"
+                        },
+                        **{":aria-disabled": "prevDisabled()"},
+                        **{":tabindex": "prevDisabled() ? -1 : 0"},
+                        **{"aria-label": "Previous page"},
+                    )[
+                        icon_chevron_left(class_="size-4 shrink-0"),
+                        span()[" Previous"],
+                    ]
+                ],
+                # Page numbers and ellipsis
+                template(x_for="(page, index) in getPageNumbers()", key="index")[
+                    li[
+                        template(x_if="page === '...'")[
+                            div(class_=ellipsis_class)[icon_more(class_="size-4 shrink-0")]
+                        ],
+                        template(x_if="page !== '...'")[
+                            a(
+                                href="#",
+                                **{"@click.prevent": "goToPage(page); $el.blur()"},
+                                **{
+                                    ":class": f"currentPage === page ? '{page_current}' : '{page_other}'"
+                                },
+                                **{":aria-current": "currentPage === page ? 'page' : null"},
+                            )[span(x_text="page")]
+                        ],
+                    ]
+                ],
+                # Next
+                li[
+                    a(
+                        href="#",
+                        **{"@click.prevent": "!nextDisabled() && (nextPage(), $el.blur())"},
+                        **{
+                            ":class": f"nextDisabled() ? '{prev_next_disabled}' : '{prev_next_base}'"
+                        },
+                        **{":aria-disabled": "nextDisabled()"},
+                        **{":tabindex": "nextDisabled() ? -1 : 0"},
+                        **{"aria-label": "Next page"},
+                    )[
+                        span()["Next "],
+                        icon_chevron_right(class_="size-4 shrink-0"),
+                    ]
+                ],
+            ]
+        ]
+    ]
