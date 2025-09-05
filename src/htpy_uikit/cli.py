@@ -248,6 +248,10 @@ def add_cmd(components: tuple[str, ...], dest: Path | None, select_all: bool, fo
 
     # Copy everything directly into the destination directory
     dest.mkdir(parents=True, exist_ok=True)
+    # Ensure destination is a Python package by adding an empty __init__.py if missing
+    init_py = dest / "__init__.py"
+    if not init_py.exists():
+        _write_text(init_py, "")
     for src in files:
         _copy_file(src, dest, force=force)
 

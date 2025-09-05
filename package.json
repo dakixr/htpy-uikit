@@ -1,0 +1,23 @@
+{
+  "name": "htpy-uikit",
+  "version": "1.0.0",
+  "description": "tbd",
+  "homepage": "https://github.com/dakixr/htpy-uikit#readme",
+  "bugs": {
+    "url": "https://github.com/dakixr/htpy-uikit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dakixr/htpy-uikit.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "tailwindcss": "^4.1.13"
+  }
+}

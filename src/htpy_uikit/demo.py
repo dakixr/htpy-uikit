@@ -2,19 +2,27 @@ from typing import cast
 
 from htpy import Node
 from htpy import a
+from htpy import body
 from htpy import div
 from htpy import form as form_
 from htpy import h1
 from htpy import h2
 from htpy import h4
 from htpy import h5
+from htpy import head
 from htpy import header
+from htpy import html
 from htpy import img
 from htpy import li
+from htpy import link
+from htpy import meta
 from htpy import nav
 from htpy import ol
 from htpy import p
+from htpy import script
 from htpy import span
+from htpy import title
+from markupsafe import Markup
 
 from htpy_uikit.components._types import TAlign
 from htpy_uikit.components._types import TSide
@@ -64,6 +72,9 @@ from htpy_uikit.components.icons import icon_upload
 from htpy_uikit.components.icons import icon_user
 from htpy_uikit.components.input import input_component
 from htpy_uikit.components.label import label_component
+from htpy_uikit.components.lucide import lucide_auto_init_script
+from htpy_uikit.components.lucide import lucide_cdn_script
+from htpy_uikit.components.lucide import lucide_icon
 from htpy_uikit.components.modal import attrs_btn_open_modal
 from htpy_uikit.components.modal import modal
 from htpy_uikit.components.navbar import navbar_simple
@@ -93,6 +104,35 @@ from htpy_uikit.components.toast import toaster
 from htpy_uikit.components.tooltip import tooltip
 
 
+def demo_page() -> str:
+    doc = html(lang="en")[
+        head()[
+            meta(charset="utf-8"),
+            meta(name="viewport", content="width=device-width, initial-scale=1"),
+            title()["htpy-uikit demo"],
+            link(rel="stylesheet", href="output.css"),
+            script(defer=True, src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"),
+            script(defer=True, src="https://unpkg.com/lucide@latest"),
+            # Initialize theme inline to avoid FOUC
+            script[
+                Markup(
+                    """
+                    localStorage.getItem('color-theme') !== 'light' ?
+                    document.documentElement.classList.add('dark') :
+                    document.documentElement.classList.remove('dark');
+                    """
+                )
+            ],
+        ],
+        body(class_="bg-background text-foreground", x_data="")[
+            components_demo_page(),
+            lucide_cdn_script(),
+            lucide_auto_init_script(),
+        ],
+    ]
+    return str(doc)
+
+
 def components_demo_page() -> Node:
     """
     Comprehensive demo page showcasing all Basecoat UI components.
@@ -108,8 +148,11 @@ def components_demo_page() -> Node:
             # Header
             div(class_="relative overflow-hidden bg-background mt-6 w-full")[
                 div(class_="relative max-w-7xl py-4")[
-                    h1(class_="text-3xl font-bold tracking-tight text-foreground mb-2")[
-                        "Kitchen Sink"
+                    h1(
+                        class_="text-3xl font-bold tracking-tight text-foreground mb-2 inline-flex gap-3"
+                    )[
+                        "Kitchen Sink",
+                        lucide_icon("rocket"),
                     ],
                     p(class_="text-base text-muted-foreground max-w-2xl")[
                         "A collection of all the components available."
