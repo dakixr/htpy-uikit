@@ -334,7 +334,7 @@ def dropdown_menu_item(
 
     # Base classes - using Tailwind equivalent of Basecoat menu item
     base_classes = (
-        "aria-hidden:hidden [&_svg]:text-muted-foreground relative flex cursor-default items-center gap-2 "
+        "cursor-pointer aria-hidden:hidden [&_svg]:text-muted-foreground relative flex items-center gap-2 "
         "rounded-sm px-2 py-1.5 text-sm outline-hidden select-none [&_svg]:shrink-0 [&_svg]:size-4 w-full truncate"
     )
 
