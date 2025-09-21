@@ -1,6 +1,7 @@
 from htpy import Renderable
 from htpy import i as i_el
 from htpy import script
+from markupsafe import Markup
 from sourcetypes import js
 
 from ._types_lucide import LucideName
@@ -46,3 +47,18 @@ def lucide_auto_init_script() -> Renderable:
         lucide.createIcons();
     """
     return script()[code]
+
+
+def lucide_htmx_init_script() -> Renderable:
+    """Return a <script> tag that initializes Lucide icons after HTMX content swaps.
+
+    This listens for HTMX's 'htmx:afterSwap' event and re-initializes Lucide icons
+    for any new content that was swapped in. Place this once, near the end of <body>
+    or in your layout/template head.
+    """
+    code: js = """
+        document.addEventListener('htmx:afterSwap', function(evt) {
+            lucide.createIcons();
+        });
+    """
+    return script()[Markup(code)]

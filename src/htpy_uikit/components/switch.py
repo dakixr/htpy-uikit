@@ -47,7 +47,7 @@ def switch(
     # Inline full tailwind classes from reference for switches.
     # Color-specific classes are appended based on `color`.
     base_switch_classes = (
-        "input appearance-none focus-visible:border-ring focus-visible:ring-ring/50 "
+        "input cursor-pointer appearance-none focus-visible:border-ring focus-visible:ring-ring/50 "
         "inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border "
         "border-border shadow-xs transition-all outline-none focus-visible:ring-[3px] "
         "disabled:cursor-not-allowed disabled:opacity-50 bg-input dark:bg-input/80 "
