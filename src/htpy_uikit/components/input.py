@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from htpy import Renderable
+from htpy import div
 from htpy import input as input_
 from htpy import span
 
@@ -22,6 +23,7 @@ def input_component(
     disabled: bool = False,
     required: bool = False,
     readonly: bool = False,
+    autocomplete: str | None = None,
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
@@ -41,6 +43,7 @@ def input_component(
         disabled: Disable input
         required: Mark as required
         readonly: Make readonly
+        autocomplete: Autocomplete attribute
         class_: Additional CSS classes
         **attrs: Additional HTML attributes
 
@@ -92,7 +95,8 @@ def input_component(
         input_attrs["required"] = "true"
     if readonly:
         input_attrs["readonly"] = "true"
-
+    if autocomplete:
+        input_attrs["autocomplete"] = autocomplete
     # Add any additional attributes
     input_attrs.update(attrs)
 
@@ -124,6 +128,4 @@ def input_component(
     if len(elements) == 1:
         return elements[0]
     else:
-        from htpy import div
-
         return div(class_="grid gap-3")[*elements]

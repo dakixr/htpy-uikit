@@ -19,6 +19,7 @@ def switch(
     label_text: str | None = None,
     description: str | None = None,
     class_: str | None = None,
+    value: str = "true",
     color: TColor = "primary",
     **attrs,
 ) -> Renderable:
@@ -80,6 +81,7 @@ def switch(
         switch_attrs["checked"] = "true"
     if disabled:
         switch_attrs["disabled"] = "true"
+    switch_attrs["value"] = value
 
     # Add any additional attributes
     switch_attrs.update(attrs)

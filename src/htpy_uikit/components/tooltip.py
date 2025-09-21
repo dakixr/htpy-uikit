@@ -33,7 +33,7 @@ def tooltip(
         side: One of "top", "bottom", "left", "right" (default: "top")
         align: One of "start", "center", "end" (default: "center")
         class_: Extra classes for the trigger wrapper
-        **attrs: Extra attributes forwarded to the wrapper
+        **attrs: Extra attributes forwarded to the tooltip bubble
     """
 
     # Use viewport-based positioning calculated with Alpine to avoid overflow clipping
@@ -123,6 +123,6 @@ def tooltip(
     }
 
     # Create elements
-    bubble = span(**bubble_attrs)[content]
+    bubble = span(**bubble_attrs, **attrs)[content]
 
-    return span(**wrapper_attrs, **attrs)[children, bubble]
+    return span(**wrapper_attrs)[children, bubble]

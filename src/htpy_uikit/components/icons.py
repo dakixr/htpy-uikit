@@ -185,6 +185,28 @@ def icon_more(class_: str = "size-4", **attrs) -> Renderable:
     ]
 
 
+def icon_menu(class_: str = "size-5", **attrs) -> Renderable:
+    """Hamburger/menu icon used in mobile nav triggers.
+
+    Matches the previous inline SVG paths: three horizontal lines.
+    """
+    return svg(
+        class_=class_,
+        xmlns="http://www.w3.org/2000/svg",
+        viewBox="0 0 17 14",
+        fill="none",
+        **attrs,
+    )[
+        path(
+            stroke="currentColor",
+            stroke_linecap="round",
+            stroke_linejoin="round",
+            stroke_width="2",
+            d="M1 1h15M1 7h15M1 13h15",
+        )
+    ]
+
+
 def icon_check(class_: str = "size-4", **attrs) -> Renderable:
     """Checkmark icon."""
     return svg(
@@ -747,5 +769,30 @@ def icon_sort_desc(class_: str = "w-3 h-3", **attrs) -> Renderable:
             stroke_linejoin="round",
             stroke_width="2",
             d="M5 1v12m0 0 4-4m-4 4L1 9",
+        )
+    ]
+
+
+def icon_pdf_file(class_: str = "size-4", **attrs) -> Renderable:
+    """Small PDF/file icon used in dropzones and file lists."""
+    return svg(
+        class_=class_,
+        aria_hidden="true",
+        xmlns="http://www.w3.org/2000/svg",
+        width="24",
+        height="24",
+        fill="none",
+        viewBox="0 0 24 24",
+        **attrs,
+    )[
+        path(
+            stroke="currentColor",
+            stroke_linecap="round",
+            stroke_linejoin="round",
+            stroke_width="1.2",
+            d=(
+                "M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707"
+                "l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z"
+            ),
         )
     ]

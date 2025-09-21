@@ -100,7 +100,7 @@ def card(
     if footer_content is not None:
         footer_classes = "flex items-center"
         if bordered_footer:
-            footer_classes += " border-t pt-6"
+            footer_classes += " border-t border-border pt-6"
         if footer_class:
             footer_classes += f" {footer_class}"
         nodes.append(footer_(class_=footer_classes)[footer_content])
