@@ -57,6 +57,9 @@ TCategory = Literal["success", "info", "warning", "error"]
 TColor = Literal["primary", "blue", "green", "red"]
 """Switch color variants."""
 
+BreadcrumbSeparator = Literal["chevron", "slash", "arrow"]
+"""Breadcrumb separator variants."""
+
 # =============================================================================
 # INPUT AND FORM TYPES
 # =============================================================================
@@ -128,6 +131,21 @@ class AvatarImage(TypedDict):
 
     src: str
     alt: str
+
+
+class AccordionItem(TypedDict):
+    """Option structure for accordion items."""
+
+    title: str
+    content: Node | str
+    expanded: NotRequired[bool]
+
+
+class BreadcrumbItem(TypedDict):
+    """Option structure for breadcrumb items."""
+
+    label: str
+    url: str | None
 
 
 class TabContentItem(TypedDict):

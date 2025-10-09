@@ -45,7 +45,7 @@ def theme_toggle():
         button(
             id="theme-toggle",
             type="button",
-            class_="block w-full px-4 py-2 text-sm text-left text-muted-foreground hover:bg-accent dark:text-muted-foreground dark:hover:text-white",
+            class_="cursor-pointer block w-full px-4 py-2 text-sm text-left text-muted-foreground hover:bg-accent dark:text-muted-foreground dark:hover:text-white",
             role="menuitem",
             **{"@click": "toggle()"},
         )[

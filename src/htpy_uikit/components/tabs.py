@@ -15,6 +15,7 @@ def tabs(
     id: str | None = None,
     class_: str | None = None,
     disabled_values: set[str] | None = None,
+    background: bool = True,
     **kwargs,
 ) -> Renderable:
     """
@@ -26,6 +27,7 @@ def tabs(
         id: Optional ID for the tabs container
         class_: Optional CSS classes for the tabs container
         disabled_values: Set of tab values that should be disabled
+        background: Whether to include a background for the tabs container
         **kwargs: Additional arguments for tabs component
     """
     # Validate and normalize input (must be list of TabContentItem dicts)
@@ -104,6 +106,8 @@ def tabs(
                 class_=(
                     "mt-3 outline-none bg-card text-card-foreground rounded-xl "
                     "border border-border shadow-sm"
+                    if background
+                    else "mt-3"
                 ),
             )[tab_content]
         )

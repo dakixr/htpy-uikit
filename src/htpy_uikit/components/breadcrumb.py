@@ -1,6 +1,4 @@
 from typing import List
-from typing import Literal
-from typing import TypedDict
 
 from htpy import Renderable
 from htpy import a
@@ -9,6 +7,8 @@ from htpy import li
 from htpy import ol
 from htpy import span
 
+from ._types import BreadcrumbItem
+from ._types import BreadcrumbSeparator
 from ._utils import merge_classes
 from ._utils import random_string
 from .dropdown_menu import dropdown_menu
@@ -18,16 +18,6 @@ from .dropdown_menu import dropdown_menu_separator
 from .icons import icon_arrow_right
 from .icons import icon_chevron_right
 from .icons import icon_more
-
-# Type definitions for breadcrumb component
-BreadcrumbSeparator = Literal["chevron", "slash", "arrow"]
-
-
-class BreadcrumbItem(TypedDict):
-    """Option structure for breadcrumb items."""
-
-    label: str
-    url: str | None
 
 
 def breadcrumb(

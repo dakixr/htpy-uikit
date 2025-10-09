@@ -1,6 +1,4 @@
-from typing import NotRequired
 from typing import Sequence
-from typing import TypedDict
 
 from htpy import Node
 from htpy import Renderable
@@ -10,15 +8,8 @@ from htpy import p
 from htpy import section
 from htpy import summary
 
+from ._types import AccordionItem
 from .icons import icon_chevron_down
-
-
-class AccordionItem(TypedDict):
-    """Option structure for accordion items."""
-
-    title: str
-    content: Node | str
-    expanded: NotRequired[bool]
 
 
 def accordion(
