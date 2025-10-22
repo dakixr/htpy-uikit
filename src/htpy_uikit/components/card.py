@@ -91,7 +91,7 @@ def card(
         nodes.append(header(class_=header_classes)[*header_children])
 
     # Section
-    sec_classes = ""
+    sec_classes = "flex flex-col gap-6"
     if section_class:
         sec_classes = f"{sec_classes} {section_class}"
     nodes.append(section(class_=sec_classes)[children])

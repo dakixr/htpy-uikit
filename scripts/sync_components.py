@@ -43,8 +43,8 @@ class ComponentSyncer:
 
         # Component directories
         self.uikit_components = self.uikit_path / "src" / "htpy_uikit" / "components"
-        self.ionisium_components = self.ionisium_path / "templates" / "components"
-        self.costcompiler_components = self.costcompiler_path / "templates" / "components"
+        self.ionisium_components = self.ionisium_path / "components"
+        self.costcompiler_components = self.costcompiler_path / "components"
 
         # Projects mapping
         self.projects = {

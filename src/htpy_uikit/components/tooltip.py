@@ -1,6 +1,7 @@
 from htpy import Node
 from htpy import Renderable
 from htpy import span
+from htpy import template
 from htpy import with_children
 from markupsafe import Markup
 from sourcetypes import js
@@ -50,6 +51,19 @@ def tooltip(
             style: '',
             side: '{side}',
             align: '{align}',
+            _raf: null,
+            schedule() {{
+                cancelAnimationFrame(this._raf || 0);
+                this._raf = requestAnimationFrame(() => {{
+                    this.update();
+                    // Run a second time next frame to account for late layout/teleport
+                    this._raf = requestAnimationFrame(() => this.update());
+                }});
+            }},
+            cancel() {{
+                cancelAnimationFrame(this._raf || 0);
+                this._raf = null;
+            }},
             update() {{
                 const trigger = this.$refs.trigger;
                 const bubble = this.$refs.bubble;
@@ -96,12 +110,12 @@ def tooltip(
         "class_": merge_classes("relative inline-block w-fit", class_),
         "x-ref": "trigger",
         "x-data": Markup(x_data),
-        "@mouseenter": "open = true; $nextTick(() => update())",
-        "@mouseleave": "open = false",
-        "@focus": "open = true; $nextTick(() => update())",
-        "@blur": "open = false",
-        "@resize.window": "open && update()",
-        "@scroll.window": "open && update()",
+        "@mouseenter": "open = true; $nextTick(() => schedule())",
+        "@mouseleave": "open = false; cancel()",
+        "@focus": "open = true; $nextTick(() => schedule())",
+        "@blur": "open = false; cancel()",
+        "@resize.window": "open && schedule()",
+        "@scroll.window": "open && schedule()",
         "tabindex": "0",
         "aria-describedby": "",
     }
@@ -124,5 +138,6 @@ def tooltip(
 
     # Create elements
     bubble = span(**bubble_attrs, **attrs)[content]
+    teleported = template(x_teleport="body")[bubble]
 
-    return span(**wrapper_attrs)[children, bubble]
+    return span(**wrapper_attrs)[children, teleported]
