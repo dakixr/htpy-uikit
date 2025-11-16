@@ -27,23 +27,18 @@ def dropdown_menu(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style dropdown menu component with Alpine.js.
-
-    Based on Basecoat UI dropdown-menu implementation.
-    Uses Alpine.js for show/hide functionality and keyboard navigation.
+    """Render an Alpine-powered dropdown menu.
 
     Args:
-        children: Dropdown menu content
-        trigger: Element that triggers the dropdown
-        side: Dropdown side (top, bottom, left, right)
-        align: Dropdown alignment (start, center, end)
-        The popover has a sensible default minimum width of 16rem.
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Menu content nodes rendered inside the popover.
+        trigger: Element used to toggle the popover.
+        side: Popover placement relative to the trigger.
+        align: Popover alignment relative to the trigger.
+        class_: Extra CSS classes appended to the container.
+        **attrs: Additional HTML attributes forwarded to the container.
 
     Returns:
-        htpy.div: Dropdown menu component
+        Renderable: Dropdown trigger and popover structure.
     """
 
     # Generate unique IDs for the dropdown
@@ -320,17 +315,19 @@ def dropdown_menu_item(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Dropdown menu item component.
+    """Render a standard dropdown menu item.
 
     Args:
-        children: Menu item content
-        disabled: Whether the item is disabled
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Menu item content.
+        disabled: Whether the item should be disabled.
+        shortcut: Optional keyboard shortcut hint rendered to the right.
+        inset: Whether to indent the item (used for nested groups).
+        left_icon: Optional icon rendered before the label.
+        class_: Additional CSS classes appended to the item.
+        **attrs: Additional HTML attributes forwarded to the ``div``.
 
     Returns:
-        htpy.div: Menu item element
+        Renderable: Menu item ``<div>`` node.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat menu item
@@ -382,15 +379,14 @@ def dropdown_menu_separator(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Dropdown menu separator component.
+    """Render a separator line inside a dropdown menu.
 
     Args:
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        class_: Extra classes appended to the separator element.
+        **attrs: Additional attributes forwarded to the ``div``.
 
     Returns:
-        htpy.div: Menu separator element
+        Renderable: Separator ``<div>`` node with ``role=\"separator\"``.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat separator
@@ -409,16 +405,15 @@ def dropdown_menu_label(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Dropdown menu label component.
+    """Render a label/heading for menu sections.
 
     Args:
-        children: Label content
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Label content.
+        class_: Extra classes appended to the label.
+        **attrs: Additional HTML attributes forwarded to the span.
 
     Returns:
-        htpy.div: Menu label element
+        Renderable: ``<span role=\"heading\">`` element.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat label
@@ -443,6 +438,18 @@ def dropdown_menu_item_checkbox(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
+    """Render a dropdown menu checkbox item.
+
+    Args:
+        label: Content rendered to the right of the checkbox indicator.
+        checked: Whether the item should appear checked.
+        disabled: Whether the item is disabled.
+        class_: Optional Tailwind classes appended to the base styles.
+        **attrs: Additional HTML attributes forwarded to the outer ``div``.
+
+    Returns:
+        Renderable: Checkbox-style menuitem DOM tree.
+    """
     base_classes = (
         "group aria-hidden:hidden [&_svg]:text-muted-foreground relative flex cursor-default items-center gap-2 "
         "rounded-sm px-2 py-1.5 text-sm outline-hidden select-none [&_svg]:shrink-0 [&_svg]:size-4 w-full truncate"
@@ -478,6 +485,19 @@ def dropdown_menu_item_radio(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
+    """Render a dropdown menu radio item.
+
+    Args:
+        label: Content to render next to the radio indicator.
+        group: Group identifier stored in ``data-group``.
+        checked: Whether the item is selected.
+        disabled: Whether the option should be disabled.
+        class_: Optional Tailwind classes appended to the element.
+        **attrs: Additional HTML attributes forwarded to the wrapper ``div``.
+
+    Returns:
+        Renderable: Radio-style menuitem DOM tree.
+    """
     base_classes = (
         "group aria-hidden:hidden relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 "
         "text-sm outline-hidden select-none w-full truncate"
@@ -521,9 +541,17 @@ def dropdown_menu_group(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Logical grouping for dropdown menu options. If label is provided a heading
-    with an id will be rendered and linked via aria-labelledby.
+    """Render a logical group inside the dropdown menu.
+
+    Args:
+        children: Menu nodes contained within the group.
+        label: Optional accessible label for the group.
+        label_id: Optional id used for ``aria-labelledby``; generated when absent.
+        class_: Extra classes appended to the group wrapper.
+        **attrs: Additional HTML attributes forwarded to the group ``div``.
+
+    Returns:
+        Renderable: ``<div role=\"group\">`` containing the group contents.
     """
     import uuid
 
@@ -548,16 +576,15 @@ def dropdown_menu_trigger(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Dropdown menu trigger button component.
+    """Render a button suitable for toggling a dropdown menu.
 
     Args:
-        text: Button text
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        text: Button label.
+        class_: Extra classes appended to the button.
+        **attrs: Additional attributes forwarded to the ``button`` element.
 
     Returns:
-        htpy.button: Trigger button element
+        Renderable: Trigger button node.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat button

@@ -18,20 +18,16 @@ def table_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style table component.
-
-    Based on Basecoat UI table implementation.
-    Uses standard HTML table elements with table class.
+    """Render a Basecoat-style table with sticky borders and responsive overflow.
 
     Args:
-        headers: List of header texts
-        rows: List of rows, each containing list of cell contents
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        headers: Header labels for each column.
+        rows: Table rows; each row is a list containing cell renderables/strings.
+        class_: Extra classes appended to the ``<table>`` element.
+        **attrs: Additional HTML attributes forwarded to the ``table``.
 
     Returns:
-        htpy.table: Table component
+        Renderable: Scrollable wrapper containing the table markup.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat table
@@ -76,13 +72,15 @@ def table_component(
 
 # Convenience functions for common table patterns - following basecoat implementation
 def simple_table(data: list[dict], columns: list[str], **kwargs) -> Renderable:
-    """
-    Simple table from dictionary data.
+    """Render a table from a list of dictionaries.
 
     Args:
-        data: List of dictionaries containing row data
-        columns: List of column keys to display
-        **kwargs: Additional arguments for table_component
+        data: List of dictionaries representing each row.
+        columns: Ordered keys to pull from every row.
+        **kwargs: Additional options forwarded to ``table_component``.
+
+    Returns:
+        Renderable: Table built from the provided data.
     """
 
     # Extract headers from columns
@@ -112,7 +110,17 @@ def table_with_actions(
     actions: list[Node] | None = None,
     **kwargs,
 ) -> Renderable:
-    """Table with actions column."""
+    """Render a table and append an optional actions column.
+
+    Args:
+        headers: Header labels (without the actions column).
+        rows: Table rows.
+        actions: List of nodes for the actions column (matched by index).
+        **kwargs: Additional options forwarded to ``table_component``.
+
+    Returns:
+        Renderable: Table with an appended actions column when provided.
+    """
     if actions:
         headers = headers + ["Actions"]
         rows = [row + [actions[i] if i < len(actions) else []] for i, row in enumerate(rows)]

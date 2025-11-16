@@ -7,12 +7,7 @@ from .icons import icon_sun
 
 
 def theme_toggle():
-    """
-    Create a theme toggle button component.
-
-    Returns:
-        htpy.div: Theme toggle button with Alpine.js functionality
-    """
+    """Render an Alpine-powered button that toggles dark/light theme."""
 
     x_data: js = """
     {

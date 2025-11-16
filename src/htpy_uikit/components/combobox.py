@@ -26,21 +26,23 @@ def combobox(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style Combobox with inline Tailwind + Alpine.js.
+    """Render a search-enabled popover combobox.
 
     Args:
-        name: Hidden input name
-        options: List of SelectOption dictionaries with value and label
-        value: Initially selected value
-        placeholder: Trigger placeholder
-        side: Popover side (top|bottom|left|right)
-        align: Popover alignment (start|center|end)
-        width_class: Width classes for the trigger
-        popover_width_class: Optional width for popover container
-        empty_text: Message when no options match
-        class_: Additional classes for container
-        **attrs: Additional HTML attributes
+        name: Hidden input name used for the selected value.
+        options: Sequence of selectable option dictionaries.
+        value: Initially selected value.
+        placeholder: Trigger placeholder text.
+        side: Popover placement relative to the trigger.
+        align: Popover alignment relative to the trigger.
+        width_class: Tailwind width classes applied to the trigger.
+        popover_width_class: Optional width override for the popover.
+        empty_text: Message rendered when client-side filtering leaves no options.
+        class_: Extra CSS classes appended to the container.
+        **attrs: Additional HTML attributes forwarded to the container.
+
+    Returns:
+        Renderable: Combobox trigger, popover, and hidden input nodes.
     """
 
     import uuid

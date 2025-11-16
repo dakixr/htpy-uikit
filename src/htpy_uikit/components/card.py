@@ -25,32 +25,24 @@ def card(
     bordered_footer: bool = False,
     **attrs,
 ) -> Renderable:
-    """Card component matching Basecoat reference styles.
-
-    Structure rendered:
-    <div class="card">
-      <header> (optional)
-        <h2> (optional)
-        <p>  (optional)
-        <slot data-slot="card-action"> (optional)
-      </header>
-      <section>children</section>
-      <footer> (optional)</footer>
-    </div>
+    """Render a Basecoat-inspired card layout with optional header and footer.
 
     Args:
-        children: Inner content for the card's <section>.
+        children: Content rendered inside the card body ``<section>``.
         title: Optional header title.
-        description: Optional header description.
-        action: Optional node rendered on the right side of header.
-        footer: Optional node for the footer area.
-        class_: Extra classes for the card container.
-        header_class: Extra classes for the header.
-        section_class: Extra classes for the content section.
-        footer_class: Extra classes for the footer.
-        bordered_header: If True, add a bottom border to header (with extra padding).
-        bordered_footer: If True, add a top border to footer (with extra padding).
-        **attrs: Additional HTML attributes for the container.
+        description: Optional header description text.
+        action: Optional renderable placed in the header action slot.
+        footer_content: Optional node rendered inside the footer.
+        class_: Extra classes appended to the outer card container.
+        header_class: Extra classes appended to the header.
+        section_class: Extra classes appended to the body section.
+        footer_class: Extra classes appended to the footer.
+        bordered_header: Whether to add a bottom border/padding to the header.
+        bordered_footer: Whether to add a top border/padding to the footer.
+        **attrs: Additional HTML attributes forwarded to the card container.
+
+    Returns:
+        Renderable: Card ``<div>`` containing optional header, content, and footer.
     """
 
     # Container classes
@@ -117,18 +109,17 @@ def card_with_header(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Card with header section.
+    """Render a card with a populated header.
 
     Args:
-        children: Card content
-        title: Card title
-        description: Card description
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Card body content.
+        title: Header title.
+        description: Header description.
+        class_: Extra classes for the card container.
+        **attrs: Additional attributes forwarded to ``card``.
 
     Returns:
-        htpy.div: Card with header
+        Renderable: Card ``<div>`` with header and body content.
     """
 
     # Use the unified card() with proper header handling
@@ -145,19 +136,18 @@ def card_with_footer(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Card with header and footer sections.
+    """Render a card with header, body, and footer sections.
 
     Args:
-        children: Card content
-        footer_content: Footer content
-        title: Card title
-        description: Card description
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Body content.
+        footer_content: Node rendered inside the footer.
+        title: Header title.
+        description: Header description.
+        class_: Extra classes appended to the card container.
+        **attrs: Additional attributes forwarded to ``card``.
 
     Returns:
-        htpy.div: Card with header and footer
+        Renderable: Card ``<div>`` with header and footer.
     """
 
     # Use the unified card() with footer
@@ -172,14 +162,31 @@ def card_with_footer(
 
 # Convenience functions for common card patterns - following basecoat implementation
 def card_simple(children: Node, **kwargs) -> Renderable:
-    """Simple card without header."""
+    """Render a simple card containing only body content.
+
+    Args:
+        children: Body content nodes.
+        **kwargs: Additional keyword arguments forwarded to ``card``.
+
+    Returns:
+        Renderable: Card without header/footer sections.
+    """
     return card(**kwargs)[children]
 
 
 def card_header_only(
     title: str | None = None, description: str | None = None, **kwargs
 ) -> Renderable:
-    """Card with only header content."""
+    """Render a card that only displays the header content.
+
+    Args:
+        title: Header title.
+        description: Header description.
+        **kwargs: Additional keyword arguments forwarded to ``card_with_header``.
+
+    Returns:
+        Renderable: Card whose body is empty.
+    """
     return card_with_header(
         title=title,
         description=description,
@@ -188,13 +195,29 @@ def card_header_only(
 
 
 def card_content_only(children: Node, **kwargs) -> Renderable:
-    """Card with only content (no header/footer)."""
+    """Render a card without header or footer regions.
+
+    Args:
+        children: Body content nodes.
+        **kwargs: Additional keyword arguments forwarded to ``card``.
+
+    Returns:
+        Renderable: Card containing only the provided content.
+    """
     return card(**kwargs)[children]
 
 
 # Card sections for complex layouts - simplified for basecoat
 def card_section_header(children: Node, **attrs) -> Renderable:
-    """Card header section."""
+    """Render a ``<header>`` element suitable for card sub-sections.
+
+    Args:
+        children: Header content nodes.
+        **attrs: Additional HTML attributes forwarded to the ``<header>`` element.
+
+    Returns:
+        Renderable: Header node.
+    """
     return header(**attrs)[children]
 
 

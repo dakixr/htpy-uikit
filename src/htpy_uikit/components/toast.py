@@ -27,13 +27,22 @@ from .icons import toast_icon_success
 def toaster(
     *, align: TAlign = "end", id: str = "toaster", class_: str | None = None, **attrs
 ) -> Renderable:
-    """Render a fixed toaster container with Alpine-managed toast list.
+    """Render a fixed toaster container managed via Alpine.
 
-    Dispatch `new CustomEvent('ui:toast', { detail: { config: {...} } })` on
-    `document` to add a toast. Also accepts `{ detail: {...} }` directly.
+    Args:
+        align: Horizontal alignment of the toaster stack.
+        id: Element id for the toaster container.
+        class_: Extra classes appended to the wrapper.
+        **attrs: Additional HTML attributes forwarded to the wrapper ``div``.
 
-    Config fields: category, title, description, action{label, href|onclick},
-    cancel{label, onclick}, duration (-1 keeps open).
+    Returns:
+        Renderable: Toaster container that listens for ``ui:toast`` events.
+
+    Notes:
+        Dispatch ``new CustomEvent('ui:toast', { detail: { config } })`` on
+        ``window``/``document`` to enqueue toasts. ``config`` can specify
+        ``category``, ``title``, ``description``, ``action``/``cancel`` objects,
+        and ``duration`` (``-1`` keeps the toast open).
     """
 
     align_dict: dict[TAlign, str] = {
@@ -339,10 +348,18 @@ def toast_trigger(
     duration_ms: int | None = None,
     class_: str | None = None,
 ) -> Renderable:
-    """Wrap any child and fire a ui:toast event on click.
+    """Wrap arbitrary content and dispatch a ``ui:toast`` event on click.
 
-    This component is styling-agnostic. It renders a span so callers can
-    provide any child (e.g., a button, icon, link, etc.).
+    Args:
+        children: Node rendered inside the trigger wrapper.
+        category: Toast category token (success, error, info).
+        title: Toast title.
+        description: Optional supporting text.
+        duration_ms: Optional custom duration in milliseconds (``-1`` keeps it open).
+        class_: Extra classes appended to the trigger wrapper.
+
+    Returns:
+        Renderable: ``<span>`` wrapper with the necessary Alpine hook.
     """
 
     # Canonical shape: event.detail IS the toast config built by helper
@@ -370,7 +387,17 @@ def code_trigger_toast(
     description: str | None = None,
     duration_ms: int | None = None,
 ) -> str:
-    """Code for triggering a  client-side toast event."""
+    """Return JavaScript that dispatches the ``ui:toast`` event.
+
+    Args:
+        category: Toast category token.
+        title: Toast title.
+        description: Optional supporting text.
+        duration_ms: Custom duration in milliseconds.
+
+    Returns:
+        str: Inline JavaScript that dispatches the event when executed.
+    """
 
     const_json: str = build_toast_event(
         category=category,
@@ -394,9 +421,16 @@ def build_toast_event(
     description: str | None = None,
     duration_ms: int | None = None,
 ) -> str:
-    """Build canonical toast payload as JSON string.
+    """Build the canonical ``ui:toast`` event payload.
 
-    Returns HX-Trigger wrapper {"ui:toast": config}
+    Args:
+        category: Toast category token.
+        title: Toast title.
+        description: Optional supporting text.
+        duration_ms: Custom duration in milliseconds.
+
+    Returns:
+        str: JSON string shaped like ``{\"ui:toast\": {...}}``.
     """
     config: dict[str, object] = {"category": category, "title": title}
     if description is not None:

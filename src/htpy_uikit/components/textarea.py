@@ -24,28 +24,25 @@ def textarea_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style textarea component with label and error states.
-
-    Based on Basecoat UI textarea component implementation.
+    """Render a Basecoat-style textarea with optional label and error text.
 
     Args:
-        id: Textarea element ID
-        name: Textarea name attribute
-        placeholder: Placeholder text
-        value: Default value
-        label_text: Label text
-        error: Error message to display
-        disabled: Disable textarea
-        required: Mark as required
-        readonly: Make readonly
-        rows: Number of visible text lines
-        cols: Number of visible text columns
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Textarea id attribute (auto-generated when omitted).
+        name: Name attribute for form submissions.
+        placeholder: Placeholder text.
+        value: Initial textarea value.
+        label_text: Optional label rendered above the textarea.
+        error: Error message rendered below the field.
+        disabled: Whether the textarea is disabled.
+        required: Whether to set ``required``.
+        readonly: Whether the textarea is read-only.
+        rows: Visible row count.
+        cols: Visible column count.
+        class_: Extra classes appended to the ``textarea`` element.
+        **attrs: Additional HTML attributes forwarded to the textarea.
 
     Returns:
-        htpy element: Textarea with optional label and error
+        Renderable: Textarea node optionally wrapped with label/error nodes.
     """
 
     # Base classes - using Tailwind equivalent of Basecoat textarea

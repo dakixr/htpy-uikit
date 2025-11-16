@@ -26,27 +26,23 @@ def radio_group(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style radio group component.
-
-    Based on Basecoat UI radio group implementation.
-    Uses standard HTML radio inputs with input and label classes.
+    """Render a Basecoat-style group of radio buttons.
 
     Args:
-        name: Radio group name
-        options: List of RadioOption dictionaries with value and label
-        value: Selected value
-        label_text: Group label text
-        description: Group description text
-        disabled: Disable all radio buttons
-        required: Mark group as required
-        error: Error message to display
-        direction: Layout direction (vertical, horizontal)
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        name: Shared ``name`` attribute for all radio inputs.
+        options: Sequence of radio option dictionaries with ``value`` and ``label``.
+        value: Initially selected value.
+        label_text: Optional group label rendered above the radios.
+        description: Supporting text displayed under the label.
+        disabled: Whether to disable all radios.
+        required: Whether selection is required.
+        error: Message rendered below the control when validation fails.
+        direction: Layout direction: ``\"vertical\"`` or ``\"horizontal\"``.
+        class_: Extra classes appended to the root ``div``/``fieldset``.
+        **attrs: Additional HTML attributes forwarded to the wrapper.
 
     Returns:
-        htpy.div: Radio group component
+        Renderable: ``<fieldset>`` (when ``label_text`` present) or ``<div>`` containing the radios.
     """
 
     # Base classes (container) – spacing comes from direction
@@ -140,18 +136,21 @@ def radio_group_cards(
     card_color: RadioCardColor = "green",
     **attrs,
 ) -> Renderable:
-    """
-    Card-style radio group. Each option is a bordered card that highlights on selection.
+    """Render a card-style radio group with highlightable options.
 
     Args:
-        name: Radio group name shared by all inputs
-        options: List of RadioCardOption dictionaries with value, title, and description
-        value: Selected value
-        disabled: Disable all radios
-        required: Mark as required
-        error: Error text
-        class_: Additional classes for the fieldset container
-        card_color: Color theme for checked state (border/background)
+        name: Shared ``name`` attribute for all radios.
+        options: List of option dictionaries with ``value``, ``title``, and ``description``.
+        value: Initially selected option value.
+        disabled: Whether to disable interactions.
+        required: Whether selection is required.
+        error: Validation message rendered below the cards.
+        class_: Extra classes appended to the fieldset.
+        card_color: Theme controlling the checked background/border.
+        **attrs: Additional HTML attributes forwarded to the fieldset.
+
+    Returns:
+        Renderable: Fieldset containing the selectable cards.
     """
 
     # Wrapper label classes and checked-state variants per color

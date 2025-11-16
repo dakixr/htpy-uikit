@@ -25,24 +25,21 @@ def button_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style button component with multiple variants and states.
-
-    Based on Basecoat UI button component implementation.
+    """Render a Basecoat-style button supporting variants, sizes, and loading state.
 
     Args:
-        children: Button content
-        variant: Button style variant
-        size: Button size
-        loading: Show loading spinner
-        disabled: Disable button
-        icon_only: Whether this is an icon-only button
-        type: Button type attribute
-        class_: Additional classes to apply to the button or override the default classes
-        **attrs: Additional HTML attributes
+        children: Button content nodes.
+        variant: Visual variant (e.g., ``\"primary\"``, ``\"outline\"``).
+        size: Button size token controlling height/padding.
+        loading: Whether to show the loading spinner and disable the button.
+        disabled: Whether the button should be disabled.
+        icon_only: Whether to size the button as a square icon button.
+        type: ``type`` attribute for the ``<button>`` tag.
+        class_: Extra CSS classes appended to the button.
+        **attrs: Additional HTML attributes forwarded to the ``button``.
 
     Returns:
-        htpy.button: Styled button element
+        Renderable: Styled ``<button>`` element.
     """
 
     # Base classes - Tailwind utilities mirroring Basecoat `.btn` defaults

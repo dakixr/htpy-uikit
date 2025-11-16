@@ -21,21 +21,19 @@ def popover(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style popover component.
-
-    Based on Basecoat UI popover implementation.
-    Uses standard HTML elements with popover class and data attributes.
+    """Render an Alpine-controlled popover shell.
 
     Args:
-        children: Popover content
-        trigger: Element that triggers the popover
-        side: Popover side (top, bottom, left, right)
-        align: Popover alignment (start, center, end)
-        **attrs: Additional HTML attributes (including class_, id, style, etc.)
+        children: Popover body content.
+        id: Root element id used to derive the popover content id.
+        trigger: Node that toggles the popover.
+        side: Popover placement relative to the trigger.
+        align: Popover alignment relative to the trigger.
+        class_: Extra classes appended to the root container.
+        **attrs: Additional HTML attributes forwarded to the wrapper ``div``.
 
     Returns:
-        htpy.div: Popover component
+        Renderable: Popover trigger and content nodes.
     """
 
     # Generate unique IDs for the popover
@@ -120,12 +118,31 @@ def popover(
 
 # Convenience functions for common popover patterns - following basecoat implementation
 def popover_simple(content: Node, trigger: Node, **kwargs) -> Renderable:
-    """Simple popover with basic content."""
+    """Render a popover with the provided content/trigger nodes.
+
+    Args:
+        content: Popover body nodes.
+        trigger: Trigger element.
+        **kwargs: Additional keyword arguments forwarded to ``popover``.
+
+    Returns:
+        Renderable: Popover structure.
+    """
     return popover(children=content, trigger=trigger, **kwargs)
 
 
 def popover_with_title(title: str, content: Node, trigger: Node, **kwargs) -> Renderable:
-    """Popover with title and content."""
+    """Render a popover that includes a heading element above the content.
+
+    Args:
+        title: Heading text inside the popover.
+        content: Popover body nodes.
+        trigger: Trigger element.
+        **kwargs: Additional keyword arguments forwarded to ``popover``.
+
+    Returns:
+        Renderable: Popover structure with title.
+    """
     from htpy import h4
 
     content_with_title = div[h4(class_="font-semibold mb-2")[title], content]
@@ -141,7 +158,18 @@ def popover_trigger_button(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """Button styled for popover triggers - following basecoat implementation."""
+    """Render a button that targets a popover by id.
+
+    Args:
+        children: Button content.
+        popover_id: Id of the popover being controlled.
+        variant: Button variant passed to ``button_component``.
+        class_: Extra classes appended to the button.
+        **attrs: Additional attributes forwarded to ``button_component``.
+
+    Returns:
+        Renderable: Button configured with proper aria attributes.
+    """
     return button_component(
         variant=variant,
         class_=class_,

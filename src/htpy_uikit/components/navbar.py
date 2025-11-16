@@ -19,16 +19,21 @@ def navbar(
     container: bool = True,
     **attrs,
 ) -> Node:
-    """Reusable navbar container with left/center/right slots.
+    """Render a reusable navbar shell with left/center/right slots.
 
-    - left: typically logo/brand
-    - center: typically primary nav links
-    - right: typically actions (theme toggle, profile, etc.)
-    - tag: "div" (default) or "nav"
-    - sticky: when True applies the sticky top styles used across the app
-    - outer_class/inner_class: allow fine grained class overrides/extension
-    - container: when True wraps inner content in a max-width container
-    - **attrs: forwarded to the outer element (e.g. x-data)
+    Args:
+        left: Nodes rendered on the left (e.g., logo).
+        center: Nodes rendered in the center (e.g., nav links).
+        right: Nodes rendered to the right (e.g., actions).
+        tag: HTML tag used for the outer wrapper (``\"div\"`` or ``\"nav\"``).
+        sticky: Whether to apply sticky top styles.
+        outer_class: Extra classes appended to the outer wrapper.
+        inner_class: Extra classes appended to the inner flex container.
+        container: Whether to constrain contents to a max-width container.
+        **attrs: Additional attributes forwarded to the outer element.
+
+    Returns:
+        Node: Renderable navbar wrapper.
     """
 
     base_outer = (
@@ -83,9 +88,13 @@ def navbar(
 
 
 def navbar_simple(*, right: Node | Iterable[Node]) -> Node:
-    """A convenience variant matching the demo's minimal navbar.
+    """Render a simplified navbar that only exposes the right slot.
 
-    Renders only a right-aligned area inside the standard sticky shell.
+    Args:
+        right: Nodes rendered in the right-aligned area.
+
+    Returns:
+        Node: Renderable navbar container with only a right slot.
     """
     return navbar(
         right=right,

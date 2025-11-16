@@ -17,23 +17,20 @@ def skeleton(
     animate: bool = True,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style skeleton loading component.
-
-    Based on Basecoat UI skeleton implementation.
-    Note: Basecoat doesn't have a dedicated skeleton component,
-    this uses standard HTML elements with bg-accent and animate-pulse classes.
+    """Render a customizable skeleton placeholder.
 
     Args:
-        width: Width of skeleton (e.g., "w-32", "w-full")
-        height: Height of skeleton (e.g., "h-4", "h-10")
-        class_: Additional CSS classes
-        rounded: Border radius (none, sm, md, lg, full)
-        animate: Whether to animate the skeleton
-        **attrs: Additional HTML attributes
+        width: Tailwind width class applied when ``size`` is not set.
+        height: Tailwind height class applied when ``size`` is not set.
+        size: Single Tailwind ``size-*`` class for square skeletons.
+        shrink: Whether to apply ``shrink-0``.
+        class_: Additional CSS classes appended to the skeleton.
+        rounded: Border radius token (``\"md\"`` by default).
+        animate: Whether to apply the pulsing animation.
+        **attrs: Additional HTML attributes forwarded to the ``div``.
 
     Returns:
-        htpy.div: Skeleton component
+        Renderable: Skeleton ``<div>`` block.
     """
 
     # Base classes - following basecoat implementation
@@ -95,30 +92,27 @@ def skeleton(
 
 # Convenience functions for common skeleton patterns
 def skeleton_text(**kwargs) -> Renderable:
-    """Text skeleton with default height."""
+    """Render a text-line skeleton block."""
     return skeleton(height="h-4", rounded="sm", **kwargs)
 
 
 def skeleton_title(**kwargs) -> Renderable:
-    """Title skeleton with larger height."""
+    """Render a heading-sized skeleton row."""
     return skeleton(height="h-6", width="w-3/4", rounded="sm", **kwargs)
 
 
 def skeleton_button(**kwargs) -> Renderable:
-    """Button skeleton."""
+    """Render a button-sized skeleton placeholder."""
     return skeleton(height="h-10", width="w-24", rounded="md", **kwargs)
 
 
 def skeleton_avatar(**kwargs) -> Renderable:
-    """Avatar skeleton (circular)."""
+    """Render a circular avatar skeleton."""
     return skeleton(width="w-10", height="h-10", rounded="full", **kwargs)
 
 
 def skeleton_media_row(**kwargs) -> Renderable:
-    """Avatar + two text lines, matching reference media row.
-
-    Slightly increased gaps for a more balanced, professional layout.
-    """
+    """Render a skeleton row with avatar + two text lines."""
     return div(class_="flex items-center gap-6", **kwargs)[
         skeleton(size="size-10", shrink=True, rounded="full"),
         div(class_="grid gap-3")[
@@ -129,10 +123,7 @@ def skeleton_media_row(**kwargs) -> Renderable:
 
 
 def skeleton_card(**kwargs) -> Renderable:
-    """Single card with header/section placeholders as per reference.
-
-    Add modest padding and spacing to match demo layout improvements.
-    """
+    """Render a card skeleton containing header and section placeholders."""
     return div(class_="card w-full @md:w-auto @md:min-w-sm p-4", **kwargs)[
         header(class_="space-y-2")[
             skeleton(height="h-4", width="w-2/3", rounded="md"),
@@ -143,10 +134,7 @@ def skeleton_card(**kwargs) -> Renderable:
 
 
 def skeleton_table(rows: int = 5, columns: int = 4, **kwargs) -> Renderable:
-    """Table skeleton with specified rows and columns.
-
-    Use slightly larger gaps and vertical spacing for readability.
-    """
+    """Render a table skeleton with configurable dimensions."""
     table_rows = []
 
     # Header row

@@ -22,18 +22,17 @@ def dialog(
     class_: Optional[str] = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style dialog component container.
+    """Render a Basecoat-style dialog overlay.
 
     Args:
-        open: Whether dialog is open
-        title: Dialog title
-        description: Dialog description
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        open: Whether the dialog is visible.
+        title: Title text rendered inside the dialog.
+        description: Optional descriptive text.
+        class_: Extra classes appended to the outer wrapper.
+        **attrs: Additional HTML attributes forwarded to the wrapper ``div``.
 
     Returns:
-        htpy.div: Dialog container
+        Renderable: Dialog backdrop and content nodes.
     """
 
     # Base classes
@@ -91,12 +90,29 @@ def dialog(
 
 @with_children
 def dialog_content(children: Node, **kwargs) -> Renderable:
-    """Dialog content wrapper."""
+    """Render the standard dialog with ``children`` as body content.
+
+    Args:
+        children: Content rendered inside the dialog body.
+        **kwargs: Additional keyword arguments forwarded to ``dialog``.
+
+    Returns:
+        Renderable: Dialog tree.
+    """
     return dialog(children=children, **kwargs)
 
 
 def dialog_header(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog header section."""
+    """Render a header section for dialog content.
+
+    Args:
+        children: Header content nodes.
+        class_: Extra classes appended to the header wrapper.
+        **attrs: Additional HTML attributes forwarded to the header ``div``.
+
+    Returns:
+        Renderable: Header ``<div>`` node.
+    """
     classes = "flex flex-col space-y-1.5 text-center sm:text-left"
     attrs["class_"] = merge_classes(classes, class_)
 
@@ -104,7 +120,16 @@ def dialog_header(children: Node, *, class_: Optional[str] = None, **attrs) -> R
 
 
 def dialog_title(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog title."""
+    """Render a styled dialog title element.
+
+    Args:
+        children: Title content.
+        class_: Extra classes appended to the ``<h2>``.
+        **attrs: Additional HTML attributes forwarded to the title element.
+
+    Returns:
+        Renderable: ``<h2>`` element representing the dialog title.
+    """
     classes = "text-lg font-semibold leading-none tracking-tight"
     attrs["class_"] = merge_classes(classes, class_)
 
@@ -112,7 +137,16 @@ def dialog_title(children: Node, *, class_: Optional[str] = None, **attrs) -> Re
 
 
 def dialog_description(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog description."""
+    """Render supporting description text for a dialog.
+
+    Args:
+        children: Description content.
+        class_: Extra classes appended to the paragraph.
+        **attrs: Additional attributes forwarded to the ``<p>``.
+
+    Returns:
+        Renderable: ``<p>`` node with muted styling.
+    """
     classes = "text-sm text-gray-500 dark:text-gray-400"
     attrs["class_"] = merge_classes(classes, class_)
 
@@ -120,7 +154,16 @@ def dialog_description(children: Node, *, class_: Optional[str] = None, **attrs)
 
 
 def dialog_footer(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog footer section."""
+    """Render the dialog footer layout.
+
+    Args:
+        children: Footer content nodes (e.g., buttons).
+        class_: Extra classes appended to the footer.
+        **attrs: Additional HTML attributes forwarded to the ``div``.
+
+    Returns:
+        Renderable: Footer ``<div>`` node.
+    """
     classes = "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"
     attrs["class_"] = merge_classes(classes, class_)
 
@@ -128,7 +171,15 @@ def dialog_footer(children: Node, *, class_: Optional[str] = None, **attrs) -> R
 
 
 def dialog_close_button(*, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog close button."""
+    """Render a close button styled to match the dialog footer controls.
+
+    Args:
+        class_: Extra classes appended to the button.
+        **attrs: Additional HTML attributes forwarded to the ``button``.
+
+    Returns:
+        Renderable: Close button renderable.
+    """
     classes = (
         "mt-2 inline-flex h-10 items-center justify-center rounded-md border border-gray-300 "
         "bg-white px-4 py-2 text-sm font-medium ring-offset-white transition-colors hover:bg-gray-50 "
@@ -142,7 +193,16 @@ def dialog_close_button(*, class_: Optional[str] = None, **attrs) -> Renderable:
 
 
 def dialog_action_button(children: Node, *, class_: Optional[str] = None, **attrs) -> Renderable:
-    """Dialog action button."""
+    """Render the primary dialog action button.
+
+    Args:
+        children: Button label/content.
+        class_: Extra classes appended to the button.
+        **attrs: Additional HTML attributes forwarded to the ``button``.
+
+    Returns:
+        Renderable: Styled action button.
+    """
     classes = (
         "inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 py-2 "
         "text-sm font-medium text-white transition-colors hover:bg-blue-700 focus-visible:outline-none "

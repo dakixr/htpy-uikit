@@ -19,21 +19,17 @@ def form_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style form wrapper component.
-
-    Based on Basecoat UI form implementation.
-    Uses standard HTML form elements with form and grid classes.
+    """Render a Basecoat-style form wrapper.
 
     Args:
-        children: Form content
-        action: Form action URL
-        method: Form method (get, post)
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Form body nodes.
+        action: Form submission URL.
+        method: HTTP method for submission.
+        class_: Extra classes appended to the ``<form>``.
+        **attrs: Additional HTML attributes forwarded to the ``form`` element.
 
     Returns:
-        htpy.form: Form element
+        Renderable: ``<form>`` element containing ``children``.
     """
 
     # Base classes - inline Tailwind equivalents (replacing Basecoat `.form` class)
@@ -70,20 +66,17 @@ def form_section(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Form section with optional title and description.
-
-    Based on Basecoat UI form section implementation.
+    """Render a form section with optional heading text.
 
     Args:
-        children: Section content
-        title: Section title
-        description: Section description
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Section content nodes.
+        title: Section heading.
+        description: Supporting description text.
+        class_: Extra classes appended to the wrapping ``div``.
+        **attrs: Additional HTML attributes forwarded to the wrapper.
 
     Returns:
-        htpy.div: Form section
+        Renderable: Section ``div`` containing the provided content.
     """
 
     # Base classes - following basecoat implementation
@@ -116,18 +109,15 @@ def form_field(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Form field wrapper for consistent spacing.
-
-    Based on Basecoat UI form field implementation.
+    """Render a field wrapper with consistent spacing.
 
     Args:
-        children: Field content
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Field nodes.
+        class_: Extra classes appended to the wrapper.
+        **attrs: Additional HTML attributes forwarded to the wrapper.
 
     Returns:
-        htpy.div: Form field wrapper
+        Renderable: Wrapper ``div`` around the field content.
     """
 
     # Base classes - following basecoat implementation
@@ -151,19 +141,16 @@ def form_actions(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Form actions wrapper.
-
-    Based on Basecoat UI form actions implementation.
+    """Render an action-row wrapper for form buttons.
 
     Args:
-        children: Action buttons
-        align: Alignment (left, center, right)
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Button nodes or other controls.
+        align: Horizontal alignment of the action row.
+        class_: Extra classes appended to the wrapper ``div``.
+        **attrs: Additional HTML attributes forwarded to the wrapper.
 
     Returns:
-        htpy.div: Form actions wrapper
+        Renderable: Flexbox container for form actions.
     """
 
     # Alignment classes

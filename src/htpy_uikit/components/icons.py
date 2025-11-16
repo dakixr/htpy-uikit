@@ -374,14 +374,17 @@ def icon_circle_check(class_: str = "size-4", **attrs) -> Renderable:
 
 
 def toast_icon_success(class_: str = "size-4", **attrs) -> Renderable:
+    """Success variant icon for toast notifications."""
     return icon_circle_check(class_=class_, **attrs)
 
 
 def toast_icon_error(class_: str = "size-4", **attrs) -> Renderable:
+    """Error variant icon for toast notifications."""
     return icon_circle_alert(class_=class_, **attrs)
 
 
 def toast_icon_info(class_: str = "size-4", **attrs) -> Renderable:
+    """Info variant icon for toast notifications."""
     return icon_info(class_=class_, **attrs)
 
 

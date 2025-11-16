@@ -56,19 +56,18 @@ def badge(
     right_icon: Renderable | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style badge component.
-
-    Based on Basecoat UI badge component implementation.
+    """Render a Basecoat-style badge.
 
     Args:
-        children: Badge content
-        variant: Badge style variant
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        children: Badge label/content.
+        variant: Visual variant applied to the badge.
+        class_: Extra CSS classes appended to the badge element.
+        left_icon: Optional icon rendered before the children.
+        right_icon: Optional icon rendered after the children.
+        **attrs: Additional HTML attributes forwarded to the ``span``.
 
     Returns:
-        htpy.span: Badge element
+        Renderable: Styled ``<span>`` representing the badge.
     """
 
     # Build classes via helper so other utilities can reuse same visual
@@ -82,22 +81,54 @@ def badge(
 
 
 def badge_primary(children: Node, **kwargs) -> Renderable:
-    """Primary badge variant."""
+    """Render a primary variant badge.
+
+    Args:
+        children: Badge content.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Badge node.
+    """
     return badge(variant="primary", **kwargs)[children]
 
 
 def badge_secondary(children: Node, **kwargs) -> Renderable:
-    """Secondary badge variant."""
+    """Render a secondary variant badge.
+
+    Args:
+        children: Badge content.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Badge node.
+    """
     return badge(variant="secondary", **kwargs)[children]
 
 
 def badge_destructive(children: Node, **kwargs) -> Renderable:
-    """Destructive badge variant."""
+    """Render a destructive variant badge.
+
+    Args:
+        children: Badge content.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Badge node.
+    """
     return badge(variant="destructive", **kwargs)[children]
 
 
 def badge_outline(children: Node, **kwargs) -> Renderable:
-    """Outline badge variant."""
+    """Render an outline variant badge.
+
+    Args:
+        children: Badge content.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Badge node.
+    """
     return badge(variant="outline", **kwargs)[children]
 
 
@@ -106,7 +137,15 @@ def badge_status(
     status: BadgeStatus,
     **kwargs,
 ) -> Renderable:
-    """Status badge with automatic variant selection."""
+    """Render a badge with an automatically chosen variant based on ``status``.
+
+    Args:
+        status: Status token mapped to badge variants.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Styled badge representing the status.
+    """
     status_variants: dict[BadgeStatus, BadgeVariant] = {
         "active": "primary",
         "inactive": "secondary",
@@ -130,13 +169,17 @@ def badge_count(
     class_: str | None = None,
     **kwargs,
 ) -> Renderable:
-    """Circular/pill style counter badge similar to reference screenshot.
+    """Render a pill-style counter badge.
 
     Args:
-        count: Numeric value to display
-        cap: Maximum value before showing "+" (e.g., 20+)
-        variant: Badge style variant for the counter background
-        class_: Extra classes to merge
+        count: Numeric value to display.
+        cap: Maximum value before showing ``+`` (e.g., ``20+``).
+        variant: Badge variant used for the counter background.
+        class_: Extra classes appended to the badge.
+        **kwargs: Additional keyword arguments forwarded to ``badge``.
+
+    Returns:
+        Renderable: Badge node displaying the count.
     """
     display = str(count if count < cap else f"{cap}+")
 
@@ -154,14 +197,18 @@ def badge_link(
     new_tab: bool = True,
     **attrs,
 ) -> Renderable:
-    """Render a link-styled badge (anchor) with optional right icon.
+    """Render a badge-styled anchor element.
 
     Args:
-        children: Link text/content
-        href: href target for the anchor
-        right_icon: Optional icon to show on the right
-        class_: Extra classes to merge
-        **attrs: Additional attributes for the anchor
+        children: Link text/content.
+        href: Anchor destination URL.
+        right_icon: Optional icon displayed after the text.
+        class_: Additional CSS classes appended to the anchor.
+        new_tab: Whether to set ``target=\"_blank\"``.
+        **attrs: Additional HTML attributes forwarded to the ``<a>``.
+
+    Returns:
+        Renderable: Anchor element styled like a badge.
     """
     # Reuse the badge outline visual but as an anchor
     base = (

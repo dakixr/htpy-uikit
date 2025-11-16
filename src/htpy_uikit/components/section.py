@@ -11,14 +11,17 @@ from htpy import with_children
 
 
 def _container_classes() -> str:
+    """Return the default responsive width classes for sections."""
     return "max-w-(--breakpoint-xl) px-4 mx-auto"
 
 
 def _pad_classes() -> str:
+    """Return the default vertical padding classes for sections."""
     return "py-12 sm:py-16 lg:py-20"
 
 
 def _tone_classes(tone: Literal["default", "muted", "bordered"]) -> str:
+    """Map tone tokens to Tailwind utility classes."""
     tones: dict[str, str] = {
         "default": "bg-background",
         "muted": "bg-muted/40 border-y border-border",
@@ -37,9 +40,18 @@ def section_block(
     container_class: str | None = None,
     padding_classes: str = _pad_classes(),
 ) -> Renderable:
-    """Standard landing page section wrapper.
+    """Render a section wrapper with consistent tone, padding, and container width.
 
-    Provides consistent background, borders and container width/padding.
+    Args:
+        children: Section content nodes.
+        id: Optional id attribute applied to the outer ``<section>``.
+        tone: Tone token controlling the background/border styling.
+        class_: Extra classes appended to the outer ``section``.
+        container_class: Override for the inner max-width container classes.
+        padding_classes: Padding utilities applied to the inner container.
+
+    Returns:
+        Renderable: Section element containing the provided children.
     """
     section_classes = _tone_classes(tone)
     if class_:
@@ -61,7 +73,17 @@ def section_header(
     overline: str | None = None,
     align: Literal["left", "center", "right"] = "center",
 ) -> Renderable:
-    """Consistent section header block with optional overline and subtitle."""
+    """Render a header block with optional overline and subtitle.
+
+    Args:
+        title: Main heading text.
+        subtitle: Supporting text displayed under the title.
+        overline: Uppercase overline text displayed above the title.
+        align: Text alignment for all header text.
+
+    Returns:
+        Renderable: Header ``div`` containing the text nodes.
+    """
     align_map = {
         "left": "text-left",
         "center": "text-center",

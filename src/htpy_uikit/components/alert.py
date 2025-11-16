@@ -20,14 +20,19 @@ def alert(
     target_id: str | None = None,
     class_: str | None = None,
 ) -> Renderable:
-    """Basecoat-style alert with intent-based variants.
+    """Render a Basecoat-style alert with optional icon and description.
 
-    Structure matches the reference:
-      <div class="alert[ -destructive]">
-        <svg/> (optional)
-        <h2/>
-        <section/> (optional)
-      </div>
+    Args:
+        title: Primary alert text.
+        description: Optional supporting description.
+        variant: Visual variant; controls tone and icon (e.g., ``\"destructive\"``).
+        show_icon: Whether to render a contextual icon.
+        icon: Override icon renderable (takes precedence over ``variant`` default).
+        target_id: Optional id and HTMX swap target when replacing alerts dynamically.
+        class_: Additional CSS classes appended to the alert container.
+
+    Returns:
+        Renderable: ``<div role=\"alert\">`` tree that matches Basecoat styling.
     """
 
     # Inline Basecoat alert classes so the component is self-contained.

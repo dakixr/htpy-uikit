@@ -23,24 +23,22 @@ def switch(
     color: TColor = "primary",
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style switch component.
-
-    Based on Basecoat UI switch implementation.
-    Uses standard HTML checkbox input with role="switch" and input class.
+    """Render a Basecoat-style switch (checkbox) with optional text.
 
     Args:
-        id: Switch element ID
-        name: Switch name attribute
-        checked: Whether switch is checked
-        disabled: Disable switch
-        label_text: Label text
-        description: Description text below label
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Switch id attribute (generated when omitted).
+        name: Name attribute for form submissions.
+        checked: Whether the switch starts in the on position.
+        disabled: Whether the switch is disabled.
+        label_text: Optional label rendered next to the switch.
+        description: Supporting text displayed under the label.
+        class_: Extra classes appended to the switch input.
+        value: Submitted value when the switch is checked.
+        color: Token controlling the checked background color.
+        **attrs: Additional HTML attributes forwarded to the ``input`` element.
 
     Returns:
-        htpy.div: Switch component with optional label
+        Renderable: Switch input alone or wrapped with label/description content.
     """
 
     # Merge user classes with the input base so overrides are preserved.
@@ -121,9 +119,21 @@ def switch_card(
     color: TColor = "primary",
     **attrs,
 ) -> Renderable:
-    """Render a form-style row with label/description on the left and the switch aligned to the right.
+    """Render a card-style switch row with the control aligned to the right.
 
-    Matches the reference markup used in form examples.
+    Args:
+        id: Switch id (generated when omitted).
+        name: Name attribute used for form submissions.
+        checked: Whether the switch is initially on.
+        disabled: Whether interaction is disabled.
+        label_text: Heading text on the left.
+        description: Supporting description.
+        class_: Extra classes appended to the switch input.
+        color: Color token controlling the peer-checked border.
+        **attrs: Additional attributes forwarded to ``switch``.
+
+    Returns:
+        Renderable: Label-wrapped card row containing the switch.
     """
     # container classes per reference and reserve space on the right for the switch
     # base container classes; we'll append a peer-checked border class matching the color

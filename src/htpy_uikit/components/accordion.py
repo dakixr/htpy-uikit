@@ -19,21 +19,16 @@ def accordion(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style accordion component.
-
-    Based on Basecoat UI accordion implementation.
-    Note: Basecoat doesn't have a dedicated accordion component,
-    this uses standard HTML details/summary elements with accordion styling.
+    """Render a Basecoat-style accordion using native ``<details>`` elements.
 
     Args:
-        items: List of AccordionItem dictionaries with title, content, and expanded flag
-        default_value: Title of item to expand by default
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        items: Sequence of accordion item definitions containing ``title`` and ``content``.
+        default_value: Title whose panel should be expanded initially.
+        class_: Additional CSS classes appended to the wrapping section.
+        **attrs: Extra HTML attributes forwarded to the section element.
 
     Returns:
-        htpy.section: Accordion component
+        Renderable: Section element containing the accordion items.
     """
 
     # Add class to attrs
@@ -105,14 +100,32 @@ def accordion(
 def accordion_single(
     title: str, content: Node | str, expanded: bool = False, **kwargs
 ) -> Renderable:
-    """Single item accordion."""
+    """Render a one-item accordion helper.
+
+    Args:
+        title: Accordion heading.
+        content: Body content node or string.
+        expanded: Whether the single item starts open.
+        **kwargs: Additional keyword arguments forwarded to ``accordion``.
+
+    Returns:
+        Renderable: Section element wrapping the single accordion entry.
+    """
     items: list[AccordionItem] = [{"title": title, "content": content, "expanded": expanded}]
     return accordion(items, default_value=title if expanded else None, **kwargs)
 
 
 # Convenience function for FAQ accordion
 def accordion_faq(questions_answers: list[tuple[str, str]], **kwargs) -> Renderable:
-    """FAQ accordion with questions and answers."""
+    """Render an FAQ-style accordion.
+
+    Args:
+        questions_answers: Sequence of (question, answer) tuples.
+        **kwargs: Additional keyword arguments forwarded to ``accordion``.
+
+    Returns:
+        Renderable: Section element containing an accordion with FAQ entries.
+    """
     items: list[AccordionItem] = [
         {"title": question, "content": p[answer], "expanded": False}
         for question, answer in questions_answers

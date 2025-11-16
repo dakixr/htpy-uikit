@@ -20,18 +20,17 @@ def _modal_panel(
     height: str,
     close_button_attrs: dict[str, str] | None = None,
 ) -> Renderable:
-    """
-    Shared modal panel content using consistent styles.
+    """Render the inner modal panel with consistent styling.
 
     Args:
-        title: Modal title
-        width: Modal width classes
-        height: Modal height classes
-        close_button_attrs: Attributes for the close button
-        panel_attrs: Additional attributes for the panel container
+        children: Body content rendered inside the panel.
+        title: Heading text displayed in the sticky header.
+        width: Tailwind width classes applied to the panel container.
+        height: Tailwind height classes applied to the panel container.
+        close_button_attrs: Attributes merged into the close button.
 
     Returns:
-        htpy.div: Panel element
+        Renderable: Panel ``div`` containing header and scrollable body.
     """
 
     panel_kwargs: dict[str, str] = {
@@ -70,17 +69,17 @@ def modal(
     width: str = "w-full max-w-lg",
     height: str = "h-auto",
 ) -> Renderable:
-    """
-    Basic modal component using the same styles as the HTMX modal.
+    """Render a modal shell controlled via Alpine custom events.
 
     Args:
-        id: Modal ID
-        title: Modal title
-        width: Modal width classes
-        height: Modal height classes
+        children: Modal body content.
+        id: Identifier used for the open/close events.
+        title: Modal title displayed in the header.
+        width: Tailwind width classes for the panel.
+        height: Tailwind height classes for the panel.
 
     Returns:
-        htpy.div: Modal element
+        Renderable: Overlay and panel nodes.
     """
 
     at_modal_open: js = f"""
@@ -124,14 +123,13 @@ def modal(
 
 
 def attrs_btn_open_modal(id: str) -> dict:
-    """
-    Get attributes for opening a modal button using Alpine.js events.
+    """Return attributes that dispatch the ``modal-open`` event.
 
     Args:
-        id: Modal ID
+        id: Modal identifier to include in the event detail.
 
     Returns:
-        dict: Button attributes for Alpine.js
+        dict: Attribute dictionary suitable for ``button_component``.
     """
     return {
         "x-data": "",
@@ -142,11 +140,7 @@ def attrs_btn_open_modal(id: str) -> dict:
 
 
 def attrs_btn_close_modal(id: str) -> dict:
-    """
-    Get attributes for closing a modal button using Alpine.js events.
-
-    Note: this can only be used inside a modal component (or any other component that uses x-data).
-    """
+    """Return attributes that dispatch the ``modal-close`` event."""
     close_modal: js = f"""
         window.dispatchEvent(new CustomEvent('modal-close', {{ detail: '{id}' }}));
     """
@@ -166,17 +160,17 @@ def hx_modal(
     width: str = "w-full max-w-lg",
     height: str = "h-auto",
 ) -> Renderable:
-    """
-    Alpine.js modal component (designed to be used with HTMX).
+    """Render a standalone Alpine modal suitable for HTMX swaps.
 
     Args:
-        id: Modal ID (if not provided, a random ID will be generated)
-        title: Modal title
-        width: Modal width classes
-        height: Modal height classes
+        children: Modal content.
+        id: Optional id; generated when omitted.
+        title: Modal title.
+        width: Tailwind width classes for the panel.
+        height: Tailwind height classes for the panel.
 
     Returns:
-        htpy.div: Alpine.js modal element
+        Renderable: Modal overlay and panel nodes.
     """
     random_id = id or random_string(8)
 

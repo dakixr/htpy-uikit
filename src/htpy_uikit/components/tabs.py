@@ -18,17 +18,19 @@ def tabs(
     background: bool = True,
     **kwargs,
 ) -> Renderable:
-    """
-    Simple tabs with content for each tab.
+    """Render Basecoat-style tabs with Alpine state management.
 
     Args:
-        tabs_content: List of TabContentItem mappings
-        active_tab: Value of active tab
-        id: Optional ID for the tabs container
-        class_: Optional CSS classes for the tabs container
-        disabled_values: Set of tab values that should be disabled
-        background: Whether to include a background for the tabs container
-        **kwargs: Additional arguments for tabs component
+        tabs_content: Sequence of tab dictionaries with ``value``, ``label``, and ``content``.
+        active_tab: Value of the currently selected tab.
+        id: Optional id for the tabs container; generated from content when omitted.
+        class_: Extra classes appended to the tabs container.
+        disabled_values: Tab values that should be disabled.
+        background: Whether to wrap tab panels in card-like backgrounds.
+        **kwargs: Additional HTML attributes forwarded to the tabs container.
+
+    Returns:
+        Renderable: Tabs wrapper containing the tablist and panels.
     """
     # Validate and normalize input (must be list of TabContentItem dicts)
     tab_elements = []

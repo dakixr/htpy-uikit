@@ -23,26 +23,23 @@ def checkbox_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style checkbox component with label and description.
-
-    Based on Basecoat UI checkbox component implementation.
+    """Render a Basecoat-style checkbox with optional label and description.
 
     Args:
-        id: Checkbox element ID
-        name: Checkbox name attribute
-        value: Checkbox value attribute
-        label_text: Label text
-        description: Description text below label
-        checked: Whether checkbox is checked
-        disabled: Disable checkbox
-        required: Mark as required
-        error: Error message to display
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Element id applied to the checkbox.
+        name: Name attribute for form submissions.
+        value: Value submitted when checked.
+        label_text: Optional label text.
+        description: Optional supporting text displayed under the label.
+        checked: Whether the checkbox is initially checked.
+        disabled: Whether the checkbox is disabled.
+        required: Whether to set the ``required`` attribute.
+        error: Optional error message appended below the field.
+        class_: Extra CSS classes appended to the checkbox input.
+        **attrs: Additional HTML attributes forwarded to the checkbox input.
 
     Returns:
-        htpy element: Checkbox component with optional label and error
+        Renderable: Checkbox, label/description, and error nodes.
     """
 
     # Base classes – Tailwind utilities matching Basecoat checkbox styles
@@ -139,9 +136,24 @@ def checkbox_card_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """Card-style checkbox; whole card toggles state.
+    """Render a card-style checkbox where the entire card toggles state.
 
-    Implementation mirrors the reference: a visible checkbox input followed by a text block.
+    Args:
+        id: Element id for the checkbox input.
+        name: Name attribute used for form submissions.
+        value: Value submitted when checked.
+        label_text: Primary text displayed inside the card.
+        description: Supporting text displayed under the label.
+        checked: Whether the checkbox is initially checked.
+        disabled: Whether interaction is disabled.
+        required: Whether the checkbox is required.
+        error: Optional error string for ``aria-invalid``.
+        card_color: Tone that controls checked/hover colors.
+        class_: Additional classes appended to the card inner container.
+        **attrs: Additional attributes forwarded to the wrapping label.
+
+    Returns:
+        Renderable: Checkbox card node.
     """
     # Base input classes (same as reference "input" class)
     # Position the checkbox absolutely so it appears inside the card area

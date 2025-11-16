@@ -23,22 +23,17 @@ def avatar(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style avatar component.
-
-    Based on Basecoat UI avatar implementation.
-    Note: Basecoat doesn't have a dedicated avatar component,
-    this uses standard img elements with avatar styling.
+    """Render an image avatar with Basecoat sizing tokens.
 
     Args:
-        src: Image source URL
-        alt: Image alt text
-        size: Avatar size
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        src: Image source URL.
+        alt: Alt text describing the avatar.
+        size: Size token mapping to Tailwind ``size-*`` classes.
+        class_: Extra CSS classes appended to the ``img`` element.
+        **attrs: Additional HTML attributes forwarded to the ``img`` tag.
 
     Returns:
-        htpy.img: Avatar image element
+        Renderable: Configured ``<img>`` node.
     """
 
     # Base classes - following basecoat avatar styling
@@ -63,13 +58,16 @@ def avatar(
 def avatar_text(
     initials: str, *, size: AvatarSize = "md", class_: str | None = None, **attrs
 ) -> Renderable:
-    """Render an initials avatar (fallback) as a centered rounded span.
+    """Render an initials avatar fallback as a rounded ``<span>``.
 
     Args:
-        initials: Text to show inside the avatar (e.g. "CN")
-        size: Avatar size key (xs, sm, md, lg, xl)
-        class_: Extra classes to append
-        **attrs: Additional attributes for the span
+        initials: Text or initials displayed inside the avatar.
+        size: Size token controlling the diameter.
+        class_: Extra CSS classes appended to the span.
+        **attrs: Additional HTML attributes forwarded to the span.
+
+    Returns:
+        Renderable: Styled ``<span>`` element with initials.
     """
 
     base = f"{_size_classes[size]} shrink-0 bg-muted flex items-center justify-center rounded-full text-sm font-medium"
@@ -90,9 +88,18 @@ def avatar_group(
     hover_expand: bool = False,
     class_: str | None = None,
 ) -> Renderable:
-    """Render a stacked avatar group.
+    """Render overlapping avatar images with optional rings and hover expansion.
 
-    images may be list of src strings or AvatarImage dictionaries with src and alt.
+    Args:
+        images: List of avatar URLs or ``AvatarImage`` dicts with ``src``/``alt``.
+        size: Size token applied to each child avatar.
+        ring: Whether to render rings (via ``ring-2``) around each avatar.
+        grayscale: Whether to desaturate avatars.
+        hover_expand: Whether to animate spacing on hover.
+        class_: Extra CSS classes appended to the container ``div``.
+
+    Returns:
+        Renderable: Stacked avatar ``<div>`` containing ``<img>`` children.
     """
     selectors = []
     # ring styles applied to child imgs

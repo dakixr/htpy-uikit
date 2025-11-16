@@ -21,7 +21,7 @@ def tooltip(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """Tooltip component using Tailwind and Alpine for show/hide/position.
+    """Render an Alpine-powered tooltip with viewport-aware positioning.
 
     The component renders a wrapper around `children` and a tooltip bubble
     that is fixed-positioned to the viewport to avoid clipping within
@@ -35,6 +35,9 @@ def tooltip(
         align: One of "start", "center", "end" (default: "center")
         class_: Extra classes for the trigger wrapper
         **attrs: Extra attributes forwarded to the tooltip bubble
+
+    Returns:
+        Renderable: Trigger span plus teleported tooltip template.
     """
 
     # Use viewport-based positioning calculated with Alpine to avoid overflow clipping

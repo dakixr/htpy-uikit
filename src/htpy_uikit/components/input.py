@@ -27,28 +27,27 @@ def input_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style input component with label, helper text and error states.
-
-    Based on Basecoat UI input component implementation.
+    """Render a Basecoat-style text input with optional label and helper text.
 
     Args:
-        id: Input element ID
-        name: Input name attribute
-        type: Input type
-        placeholder: Placeholder text
-        value: Default value
-        label_text: Label text
-        error: Error message to display
-        disabled: Disable input
-        required: Mark as required
-        readonly: Make readonly
-        autocomplete: Autocomplete attribute
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Input id attribute (auto-generated when omitted).
+        name: Name attribute for form submissions.
+        type: Input type (e.g., ``\"text\"``, ``\"email\"``).
+        placeholder: Placeholder string.
+        value: Initial value to populate.
+        label_text: Optional label displayed above/beside the input.
+        error: Error message displayed below the control.
+        description: Helper text displayed when ``error`` is absent.
+        invalid: Whether to set ``aria-invalid`` regardless of ``error``.
+        disabled: Whether the input is disabled.
+        required: Whether to mark the input as required.
+        readonly: Whether to make the input read-only.
+        autocomplete: ``autocomplete`` attribute value.
+        class_: Extra CSS classes appended to the ``input`` element.
+        **attrs: Additional HTML attributes forwarded to the ``input`` tag.
 
     Returns:
-        htpy element: Input with optional label and error
+        Renderable: Input node optionally wrapped with label/error elements.
     """
 
     base_classes = (

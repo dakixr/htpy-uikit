@@ -29,21 +29,18 @@ def breadcrumb(
     max_visible: int = 4,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style breadcrumb navigation component.
-
-    Based on Basecoat UI breadcrumb implementation.
-    Note: Basecoat doesn't have a dedicated breadcrumb component,
-    this uses standard HTML elements with breadcrumb styling.
+    """Render a responsive breadcrumb trail with optional collapsing.
 
     Args:
-        items: List of BreadcrumbItem dictionaries with label and url
-        separator: Separator style
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        items: Sequence of breadcrumb dictionaries containing ``label`` and ``url`` keys.
+        separator: Visual separator between breadcrumb items.
+        class_: Additional CSS classes appended to the ``<ol>``.
+        collapse: Whether to collapse middle items into an overflow menu when exceeding ``max_visible``.
+        max_visible: Maximum number of breadcrumb entries to keep visible before collapsing.
+        **attrs: Additional HTML attributes forwarded to the ``<ol>`` element.
 
     Returns:
-        htpy.ol: Breadcrumb component
+        Renderable: Ordered list representing the breadcrumb navigation.
     """
 
     # Base classes - following basecoat breadcrumb styling

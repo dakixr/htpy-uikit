@@ -27,27 +27,24 @@ def slider(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style slider component.
-
-    Based on Basecoat UI slider implementation.
-    Uses standard HTML range input with input class.
+    """Render a Basecoat-style slider with Alpine-powered cosmetics.
 
     Args:
-        id: Slider element ID
-        name: Slider name attribute
-        value: Current value
-        min: Minimum value
-        max: Maximum value
-        step: Step increment
-        disabled: Disable slider
-        label_text: Label text
-        show_value: Show current value
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Slider id attribute.
+        name: Name attribute used for form submissions.
+        value: Initial slider value.
+        min: Minimum permitted value.
+        max: Maximum permitted value.
+        step: Step increment between values.
+        disabled: Whether the slider is disabled.
+        label_text: Optional label displayed next to the slider.
+        label_alias: Backwards-compatible alias for ``label_text``.
+        show_value: Whether to render the live value text.
+        class_: Extra classes appended to the visual track wrapper.
+        **attrs: Additional HTML attributes forwarded to the ``input`` element.
 
     Returns:
-        htpy.div: Slider component
+        Renderable: Slider control comprised of label, track, and overlay range input.
     """
 
     # Overlay input (accessible) drives the value; visual parts are Tailwind divs

@@ -24,6 +24,9 @@ def lucide_icon(
         variant: Lucide icon name (e.g. "activity", "alert-circle").
         class_: CSS classes to apply (transferred onto the generated <svg>).
         **attrs: Additional attributes forwarded to the element (e.g., stroke_width="1.5").
+
+    Returns:
+        Renderable: ``<i data-lucide=\"...\">`` element awaiting Lucide hydration.
     """
     attrs["data-lucide"] = variant
 
@@ -37,12 +40,23 @@ def lucide_cdn_script(version: str = "latest") -> Renderable:
     """Return the <script> tag that loads the Lucide UMD bundle from a CDN.
 
     Place this once, near the end of <body> or in your layout/template head.
+
+    Args:
+        version: Lucide version to pull from the CDN.
+
+    Returns:
+        Renderable: ``<script src=\"...\">`` tag.
     """
     src = f"https://unpkg.com/lucide@{version}"
     return script(src=src)
 
 
 def lucide_auto_init_script() -> Renderable:
+    """Return a ``<script>`` that runs ``lucide.createIcons()`` once on load.
+
+    Returns:
+        Renderable: Inline script tag that initializes Lucide icons.
+    """
     code: js = """
         lucide.createIcons();
     """
@@ -55,6 +69,9 @@ def lucide_htmx_init_script() -> Renderable:
     This listens for HTMX's 'htmx:afterSwap' event and re-initializes Lucide icons
     for any new content that was swapped in. Place this once, near the end of <body>
     or in your layout/template head.
+
+    Returns:
+        Renderable: Inline script tag that reinitializes Lucide icons.
     """
     code: js = """
         document.addEventListener('htmx:afterSwap', function(evt) {

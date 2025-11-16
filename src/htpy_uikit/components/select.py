@@ -32,30 +32,25 @@ def native_select(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Native HTML <select> styled like Basecoat. Useful for forms where
-    the browser menu is acceptable. The popover-based Select is exposed
-    separately as select_component.
-
-    Based on Basecoat UI select component implementation.
+    """Render a Basecoat-style native ``<select>`` element.
 
     Args:
-        id: Select element ID
-        name: Select name attribute
-        options: List of SelectOption dictionaries with value and label
-        value: Selected value
-        placeholder: Placeholder option text
-        label_text: Label text
-        error: Error message to display
-        disabled: Disable select
-        required: Mark as required
-        multiple: Allow multiple selections
-        size: Number of visible options
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        id: Element id applied to the select as well as the optional label.
+        name: Name attribute used during form submissions.
+        options: Sequence of ``SelectOption`` dictionaries containing ``value`` and ``label`` keys.
+        value: Currently selected option value.
+        placeholder: Placeholder text rendered as a disabled option when ``multiple`` is False.
+        label_text: Optional label text shown above the control.
+        error: Validation text rendered below the control.
+        disabled: Whether the select should be disabled.
+        required: Whether the select should be marked as required.
+        multiple: Whether multiple selections are allowed.
+        size: Number of visible rows for multi-selects.
+        class_: Additional CSS classes appended to the select element.
+        **attrs: Additional HTML attributes forwarded to the ``<select>`` tag.
 
     Returns:
-        htpy element: Select with optional label and error
+        Renderable: htpy nodes for the label (if any), the select element, and error text.
     """
 
     # Base classes - Tailwind utility equivalents for Basecoat `.select` class
@@ -149,6 +144,15 @@ def native_select(
 
 
 def _coerce_id(id_hint: str | None) -> str:
+    """Return ``id_hint`` or generate a deterministic fallback.
+
+    Args:
+        id_hint: Caller-provided id.
+
+    Returns:
+        str: Stable id suitable for component roots.
+    """
+
     import uuid
 
     return id_hint or f"select-{str(uuid.uuid4())[:6]}"
@@ -170,12 +174,25 @@ def select_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style Select with popover listbox. Tailwind + Alpine.js, no external JS.
+    """Render the popover-based single-select component.
 
     Args:
-        empty_text: Message displayed inside the dropdown when there are no
-            selectable options.
+        id: Component root id; generated when omitted.
+        name: Hidden input name used when submitting the selected value.
+        options: List of ``SelectItem`` entries or grouped sections describing the listbox content.
+        value: Option value selected on load.
+        placeholder: Text displayed in the trigger when no value is selected.
+        disabled: Whether user interaction should be disabled.
+        side: Popover placement relative to the trigger element.
+        align: Popover alignment relative to the trigger.
+        width_class: Tailwind width utilities shared by the trigger and popover.
+        scrollable: Whether the listbox scrolls when overflowing its max height.
+        empty_text: Message displayed when ``options`` does not contain selectable entries.
+        class_: Additional CSS classes appended to the root container.
+        **attrs: Additional HTML attributes forwarded to the component root.
+
+    Returns:
+        Renderable: htpy structure containing the hidden input, trigger button, and popover listbox.
     """
 
     options = options or []
@@ -557,85 +574,42 @@ def multiselect_component(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """Multiselect component with popover dropdown and checkbox-like behavior.
-
-    Creates a multiselect component that allows users to select multiple options from
-    a dropdown list. Features include keyboard navigation, grouped options, and
-    responsive design with text truncation.
+    """Render the popover-based multiselect component.
 
     Args:
-        id (str, optional): HTML element ID for the component root. If None, a unique
-            ID will be generated. Used for accessibility and Alpine.js state management.
-        name (str, optional): Form field name for server submission. Each selected
-            value creates a hidden input with this name. Use None for non-form components.
-        options (list[SelectItem | SelectGroup], optional): List of selectable items
-            and/or groups. Items can be SelectItem (individual option with value,
-            label, and optional icon) or SelectGroup (grouped options with heading label).
-        values (list[str], optional): List of pre-selected option values. These values
-            should match option.value fields and will be marked as selected on load.
-        placeholder (str, optional): Text displayed when no options are selected.
-            Defaults to "Select options...".
-        disabled (bool, optional): Whether the component is disabled. When True,
-            prevents user interaction and applies disabled styling. Defaults to False.
-        side (str, optional): Popover positioning relative to trigger. Options:
-            "top", "bottom", "left", "right". Defaults to "bottom".
-        align (str, optional): Popover alignment relative to trigger. Options:
-            "start", "center", "end". Defaults to "start".
-        width_class (str, optional): Tailwind CSS width class for the trigger button.
-            Affects both trigger and popover width. Defaults to "w-[220px]".
-        scrollable (bool, optional): Whether the options list should be scrollable
-            when content exceeds max height. Defaults to True.
-        empty_text (str, optional): Message displayed when there are no options to
-            choose from. Defaults to "No options available".
-        class_ (str, optional): Additional CSS classes applied to the component root
-            element for custom styling or layout modifications.
-        **attrs: Additional HTML attributes passed to the component root element.
+        id: Component root id; generated automatically when omitted.
+        name: Form field name applied to each generated hidden input.
+        options: List of ``SelectItem`` entries and/or grouped sections displayed inside the popover.
+        values: Iterable of option values that should be pre-selected on load.
+        placeholder: Text shown in the trigger when nothing is selected.
+        disabled: Whether the trigger is interactive.
+        side: Popover placement relative to the trigger.
+        align: Popover alignment relative to the trigger.
+        width_class: Tailwind width utility shared by the trigger and popover.
+        scrollable: Whether the options container gains scrolling when overflowing.
+        empty_text: Message displayed when no options exist.
+        class_: Additional CSS classes appended to the root container.
+        **attrs: Additional HTML attributes forwarded to the root container.
 
     Returns:
-        Renderable: HTMX Renderable component with multiselect functionality.
+        Renderable: htpy structure containing the trigger, checkbox-style listbox, and generated hidden inputs.
 
-    Note:
-        - Click items to toggle selection; menu stays open for multi-selection
-        - Keyboard navigation mirrors single select with Enter to toggle
-        - Emits 'change' event with detail { values: string[] } on selection changes
-        - Renders repeated hidden inputs for traditional form submission
-        - Supports grouped options with section headers
-        - Responsive trigger text truncation with tooltip for full labels
+    Notes:
+        - Items remain selected while the popover stays open for easier multi-selection.
+        - Key bindings mirror the single-select component and include Enter for toggling.
+        - A ``change`` CustomEvent fires with the latest ``values`` when selections change.
 
     Examples:
-        Traditional Django Form Submission:
-            The component renders hidden inputs for each selected value:
-            ```html
-            <input type="hidden" name="{name}" value="value1" />
-            <input type="hidden" name="{name}" value="value2" />
-            ```
+        Traditional Django form submission:
 
-            In Django views/forms, access selected values:
-            ```python
-            # Get all selected values as a list
-            selected_values = request.POST.getlist('field_name')
+        ```html
+        <input type="hidden" name="{name}" value="value1" />
+        <input type="hidden" name="{name}" value="value2" />
+        ```
 
-            # Example usage in a view
-            def my_view(request):
-                if request.method == 'POST':
-                    selected_options = request.POST.getlist('my_multiselect')
-                    for option in selected_options:
-                        print(f"Selected: {option}")
-
-            # Example usage in a ModelForm
-            class MyForm(forms.Form):
-                my_multiselect = forms.MultipleChoiceField(
-                    choices=[('opt1', 'Option 1'), ('opt2', 'Option 2')],
-                    required=False
-                )
-            ```
-
-            ```
-
-            Or handle with JavaScript:
-            ```javascript
-            ... TODO ...
-            ```
+        ```python
+        selected_values = request.POST.getlist("field_name")
+        ```
     """
 
     options = options or []

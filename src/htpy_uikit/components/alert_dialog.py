@@ -22,6 +22,7 @@ AlertDialogActionVariant = Literal["default", "destructive"]
 
 
 class AlertDialogTriggerAttrs(TypedDict):
+    """Attributes applied to buttons that toggle the native dialog."""
     type: Literal["button"]
     onclick: str
 
@@ -182,11 +183,20 @@ def alert_dialog_destructive(
     trigger_btn_variant: ButtonVariant = "outline",
     **kwargs,
 ) -> Node:
-    """Render a destructive alert dialog; optionally include an external trigger.
+    """Render a destructive alert dialog and optional trigger button.
 
-    If `with_trigger` is True this will also render a trigger button next to
-    the dialog. An `id` will be generated if not provided in kwargs so the
-    trigger can reference the dialog.
+    Args:
+        children: Dialog body content.
+        title: Dialog title.
+        description: Optional description text.
+        with_trigger: Whether to render an accompanying trigger button.
+        trigger_label: Label for the trigger button.
+        trigger_attrs: Extra attributes applied to the trigger button.
+        trigger_btn_variant: Variant passed to ``button_component`` for the trigger.
+        **kwargs: Additional keyword arguments forwarded to ``alert_dialog``.
+
+    Returns:
+        Node: Dialog renderable, optionally paired with a trigger button.
     """
     # ensure an id is present so trigger can open the dialog
     dialog_id = kwargs.get("id") or f"alert-dialog-{random_string(6)}"
@@ -223,7 +233,22 @@ def confirm_dialog(
     trigger_btn_variant: ButtonVariant = "outline",
     **kwargs,
 ) -> Node:
-    """Simple confirmation dialog; optionally render an external trigger."""
+    """Render a confirmation dialog with optional trigger button.
+
+    Args:
+        message: Dialog body text.
+        title: Dialog title.
+        confirm_text: Label for the confirm action button.
+        cancel_text: Label for the cancel button.
+        with_trigger: Whether to render an accompanying trigger button.
+        trigger_label: Label for the trigger button.
+        trigger_attrs: Extra attributes applied to the trigger button.
+        trigger_btn_variant: Button variant for the trigger.
+        **kwargs: Additional keyword arguments forwarded to ``alert_dialog``.
+
+    Returns:
+        Node: Dialog renderable (and trigger button when requested).
+    """
     dialog_id = kwargs.get("id") or f"alert-dialog-{random_string(6)}"
     kwargs["id"] = dialog_id
 

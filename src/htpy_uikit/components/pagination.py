@@ -36,6 +36,16 @@ size_icon = {"sm": "size-8", "md": "size-9", "lg": "size-10"}
 
 
 def classes_btn(variant: str, *, icon: bool, size_key: str) -> str:
+    """Return Tailwind utility classes for pagination controls.
+
+    Args:
+        variant: Either ``\"outline\"`` or ``\"ghost\"``.
+        icon: Whether the control is icon-sized (square) vs text width.
+        size_key: Size token (``\"sm\"``, ``\"md\"``, or ``\"lg\"``).
+
+    Returns:
+        str: Space-separated CSS class string.
+    """
     variant_classes = variant_outline if variant == "outline" else variant_ghost
     return f"{base_classes_btn} {variant_classes} {(size_icon if icon else size_text)[size_key]}".strip()
 
@@ -53,27 +63,22 @@ def pagination(
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
-    """
-    Basecoat-style pagination component.
-
-    Based on Basecoat UI pagination implementation.
-    Note: Basecoat doesn't have a dedicated pagination component,
-    this uses standard HTML elements with Basecoat button classes.
+    """Render a Basecoat-style pagination bar with optional prev/next controls.
 
     Args:
-        current_page: Current page number
-        total_pages: Total number of pages
-        show_pages: Number of page links to show
-        base_url: Base URL for pagination links
-        url_param: URL parameter name for page
-        show_first_last: Show first/last page buttons
-        show_prev_next: Show previous/next buttons
-        size: Button size (sm, md, lg)
-        class_: Additional CSS classes
-        **attrs: Additional HTML attributes
+        current_page: Currently active page number.
+        total_pages: Total number of pages available.
+        show_pages: Number of numbered page buttons to display.
+        base_url: Base URL used when building page links.
+        url_param: Query parameter used for the page number.
+        show_first_last: Whether to show first/last buttons.
+        show_prev_next: Whether to show previous/next buttons.
+        size: Button size token (``\"sm\"``, ``\"md\"``, ``\"lg\"``).
+        class_: Extra classes appended to the outer nav.
+        **attrs: Additional HTML attributes forwarded to the nav.
 
     Returns:
-        htpy.nav: Pagination component
+        Renderable: Pagination ``<nav>`` element.
     """
 
     # Base classes - following basecoat pagination styling
