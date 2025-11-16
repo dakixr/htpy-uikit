@@ -50,12 +50,15 @@ def textarea_component(
 
     # Base classes - using Tailwind equivalent of Basecoat textarea
     base_classes = (
-        "border-input placeholder:text-muted-foreground focus-visible:border-ring "
-        "focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 "
-        "dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
-        "dark:bg-input/30 flex min-h-16 w-full rounded-md field-sizing-content"
-        "border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] "
-        "outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        "appearance-none placeholder:text-muted-foreground selection:bg-primary "
+        "selection:text-primary-foreground dark:bg-input/30 border-input flex "
+        "w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base "
+        "shadow-xs transition-[color,box-shadow] outline-none "
+        "disabled:cursor-not-allowed "
+        "disabled:opacity-50 md:text-sm focus-visible:border-ring "
+        "focus-visible:ring-ring/50 focus-visible:ring-[3px] "
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 "
+        "aria-invalid:border-destructive"
     )
 
     # Build class list
@@ -70,7 +73,7 @@ def textarea_component(
         attrs["aria-invalid"] = "true"
 
     # Prepare textarea attributes
-    textarea_attrs = {
+    textarea_attrs: dict[str, str | bool] = {
         "class_": " ".join(classes),
         "rows": str(rows),
     }
@@ -102,7 +105,13 @@ def textarea_component(
     # Add label if provided
     if label_text:
         assert id is not None, "id is required when label_text is provided"
-        elements.append(label_component(class_="label", for_=id, required=required)[label_text])
+        elements.append(
+            label_component(
+                for_=id,
+                required=required,
+                class_="opacity-50 pointer-events-none" if disabled else None,
+            )[label_text]
+        )
 
     # Add textarea with value if provided
     if value:
@@ -118,4 +127,4 @@ def textarea_component(
     if len(elements) == 1:
         return elements[0]
     else:
-        return div(class_="space-y-1")[*elements]
+        return div(class_="grid gap-3")[*elements]
