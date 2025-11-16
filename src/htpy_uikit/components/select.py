@@ -241,7 +241,7 @@ def select_component(
         loading=False,
         disabled=disabled,
         icon_only=False,
-        class_=f"{width_class} !justify-between font-normal",
+        class_=f"{width_class} justify-between! font-normal",
         **{
             "aria_haspopup": "listbox",
             "aria_controls": listbox_id,
@@ -372,7 +372,7 @@ def select_component(
         },
         class_=(
             "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-[12rem] w-max border-border p-1"
+            "rounded-md border shadow-md min-w-48 w-max border-border p-1"
         ),
     )[*pop_children]
 

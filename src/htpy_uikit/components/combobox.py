@@ -81,7 +81,7 @@ def combobox(
         loading=False,
         disabled=False,
         icon_only=False,
-        class_=f"{width_class} !justify-between",
+        class_=f"{width_class} justify-between!",
         **{
             "x-ref": "trigger",
             "aria_haspopup": "listbox",
@@ -149,7 +149,7 @@ def combobox(
         },
         class_=(
             "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-[12rem] w-max border-border"
+            "rounded-md border shadow-md min-w-48 w-max border-border"
         ),
     )[
         # Header with search icon and input - match reference exactly
