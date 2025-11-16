@@ -13,6 +13,7 @@ from ._types import SelectOption
 from .button import button_component
 from .icons import icon_check
 from .icons import icon_chevron_down
+from .icons import icon_circle_alert
 
 
 def native_select(
@@ -165,11 +166,16 @@ def select_component(
     align: str = "start",
     width_class: str = "w-[180px]",
     scrollable: bool = False,
+    empty_text: str = "No options available",
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
     """
     Basecoat-style Select with popover listbox. Tailwind + Alpine.js, no external JS.
+
+    Args:
+        empty_text: Message displayed inside the dropdown when there are no
+            selectable options.
     """
 
     options = options or []
@@ -234,8 +240,11 @@ def select_component(
 
     # Options and groups
     option_nodes: list[Renderable] = []
+    has_selectable_item = False
 
     def build_item_node(item: SelectItem) -> Renderable:
+        nonlocal has_selectable_item
+        has_selectable_item = True
         children: list[Renderable] = []
         icon_node = item.get("icon")
         if icon_node is not None:
@@ -290,6 +299,14 @@ def select_component(
             )
         else:
             option_nodes.append(build_item_node(entry))  # type: ignore[arg-type]
+
+    if not has_selectable_item:
+        option_nodes.append(
+            div(
+                class_="flex items-center justify-center p-2 text-muted-foreground opacity-50 pointer-events-none select-none gap-2",
+                aria_hidden="true",
+            )[icon_circle_alert(), span(class_="text-sm")[empty_text]]
+        )
 
     # Popover body
     pop_children: list[Renderable] = []
@@ -536,6 +553,7 @@ def multiselect_component(
     align: str = "start",
     width_class: str = "w-[220px]",
     scrollable: bool = True,
+    empty_text: str = "No options available",
     class_: str | None = None,
     **attrs,
 ) -> Renderable:
@@ -567,6 +585,8 @@ def multiselect_component(
             Affects both trigger and popover width. Defaults to "w-[220px]".
         scrollable (bool, optional): Whether the options list should be scrollable
             when content exceeds max height. Defaults to True.
+        empty_text (str, optional): Message displayed when there are no options to
+            choose from. Defaults to "No options available".
         class_ (str, optional): Additional CSS classes applied to the component root
             element for custom styling or layout modifications.
         **attrs: Additional HTML attributes passed to the component root element.
@@ -638,7 +658,7 @@ def multiselect_component(
         loading=False,
         disabled=disabled,
         icon_only=False,
-        class_=f"{width_class} !justify-between font-normal",
+        class_=f"{width_class} justify-between! font-normal",
         **{
             "aria_haspopup": "listbox",
             "aria_controls": listbox_id,
@@ -654,8 +674,11 @@ def multiselect_component(
 
     # Option nodes (items and groups)
     option_nodes: list[Renderable] = []
+    has_selectable_item = False
 
     def build_item_node(item: SelectItem) -> Renderable:
+        nonlocal has_selectable_item
+        has_selectable_item = True
         children: list[Renderable] = []
         icon_node = item.get("icon")
         if icon_node is not None:
@@ -709,6 +732,14 @@ def multiselect_component(
         else:
             option_nodes.append(build_item_node(entry))  # type: ignore[arg-type]
 
+    if not has_selectable_item:
+        option_nodes.append(
+            div(
+                class_="flex items-center justify-center p-2 text-muted-foreground opacity-50 pointer-events-none select-none gap-2",
+                aria_hidden="true",
+            )[icon_circle_alert(), span(class_="text-sm")[empty_text]]
+        )
+
     # Popover body
     listbox_classes = "p-1"
     if scrollable:
@@ -734,7 +765,7 @@ def multiselect_component(
         },
         class_=(
             "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-[12rem] w-max border-border p-1"
+            "rounded-md border shadow-md min-w-48 w-max border-border p-1"
         ),
     )[
         div(
