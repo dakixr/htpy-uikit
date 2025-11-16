@@ -276,6 +276,7 @@ def dropdown_menu(
             **{
                 "x-ref": "popover",
                 "x-show": "open",
+                "x-cloak": "",
                 # translate-y avoids scale jitter
                 "x-transition:enter": "transition ease-out duration-150",
                 "x-transition:enter-start": "opacity-0 translate-y-1",

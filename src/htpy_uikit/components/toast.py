@@ -277,10 +277,10 @@ def toaster(
                         """)
                         },
                     )[
-                        div(x_show="t.category === 'success'")[toast_icon_success()],
-                        div(x_show="t.category === 'error'")[toast_icon_error()],
-                        div(x_show="t.category === 'info'")[toast_icon_info()],
-                        div(x_show="t.category === 'warning'")[toast_icon_error()],
+                        div(x_show="t.category === 'success'", x_cloak="")[toast_icon_success()],
+                        div(x_show="t.category === 'error'", x_cloak="")[toast_icon_error()],
+                        div(x_show="t.category === 'info'", x_cloak="")[toast_icon_info()],
+                        div(x_show="t.category === 'warning'", x_cloak="")[toast_icon_error()],
                     ],
                     section()[
                         h2()[span(x_text="t.title")],
@@ -288,6 +288,7 @@ def toaster(
                             x_show="t.description",
                             x_text="t.description",
                             class_="text-muted-foreground break-all",
+                            x_cloak="",
                         ),
                     ],
                     footer(class_="ml-auto flex flex-col gap-2")[
@@ -297,6 +298,7 @@ def toaster(
                             x_bind_href="t.action && t.action.href",
                             **{"data-toast-action": ""},
                             **{"@click.prevent": "close(t.id)"},
+                            x_cloak="",
                         )[span(x_text="t.action && t.action.label")],
                         # Action button (custom onclick)
                         button_component(
@@ -305,6 +307,7 @@ def toaster(
                             type="button",
                             **{  # pyright: ignore[reportArgumentType]
                                 "x_show": "t.action && t.action.onclick",
+                                "x_cloak": "",
                                 "data-toast-action": "",
                                 "@click": "runAction(t.action && t.action.onclick, t.id)",
                             },

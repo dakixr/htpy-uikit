@@ -244,6 +244,7 @@ def alpine_pagination(
     attrs["class_"] = merge_classes(base_wrapper, class_)
     if x_show:
         attrs["x-show"] = x_show
+        attrs["x-cloak"] = ""
 
     # Build class presets to exactly mirror backend pagination visuals
     prev_next_base = classes_btn("ghost", icon=False, size_key=size)

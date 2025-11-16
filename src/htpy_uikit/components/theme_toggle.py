@@ -50,8 +50,8 @@ def theme_toggle():
             **{"@click": "toggle()"},
         )[
             # Moon icon (dark mode off)
-            icon_moon(class_="w-5 h-5", x_show="!darkMode"),
+            icon_moon(class_="w-5 h-5", x_show="!darkMode", x_cloak=""),
             # Sun icon (dark mode on)
-            icon_sun(class_="w-5 h-5", x_show="darkMode"),
+            icon_sun(class_="w-5 h-5", x_show="darkMode", x_cloak=""),
         ]
     ]
