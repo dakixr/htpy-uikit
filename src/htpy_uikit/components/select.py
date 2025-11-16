@@ -64,7 +64,7 @@ def native_select(
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
         "dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent "
         "pl-3 pr-9 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] "
-        "disabled:cursor-not-allowed disabled:opacity-50 h-9 bg-[image:var(--chevron-down-icon-50)] bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
+        "disabled:cursor-not-allowed disabled:opacity-50 h-9 bg-(image:--chevron-down-icon-50) bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
     )
 
     # Build class list
