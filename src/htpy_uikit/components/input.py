@@ -51,7 +51,7 @@ def input_component(
     """
 
     base_classes = (
-        "appearance-none file:text-foreground placeholder:text-muted-foreground "
+        "bg-input/30 appearance-none file:text-foreground placeholder:text-muted-foreground "
         "selection:bg-primary selection:text-primary-foreground border-input "
         "flex h-9 w-full min-w-0 rounded-md border bg-card "
         "px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none "

@@ -58,7 +58,7 @@ def native_select(
     base_classes = (
         "appearance-none border-input focus-visible:border-ring focus-visible:ring-ring/50 "
         "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
-        "flex w-fit items-center justify-between gap-2 rounded-md border bg-card hover:bg-accent/10 hover:text-foreground "
+        "flex w-fit items-center justify-between gap-2 rounded-md border bg-input/30 hover:bg-input/50 hover:text-foreground "
         "pl-3 pr-9 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] "
         "disabled:cursor-not-allowed disabled:opacity-50 h-9 bg-(image:--chevron-down-icon-50) bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
     )

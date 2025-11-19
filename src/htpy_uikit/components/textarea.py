@@ -49,7 +49,7 @@ def textarea_component(
     base_classes = (
         "appearance-none placeholder:text-muted-foreground selection:bg-primary "
         "selection:text-primary-foreground border-input flex "
-        "w-full min-w-0 rounded-md border bg-card px-3 py-2 text-base "
+        "w-full min-w-0 rounded-md border bg-input/30 px-3 py-2 text-base "
         "shadow-xs transition-[color,box-shadow] outline-none "
         "disabled:cursor-not-allowed "
         "disabled:opacity-50 md:text-sm focus-visible:border-ring "
