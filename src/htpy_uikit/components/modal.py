@@ -42,7 +42,7 @@ def _modal_panel(
         "type": "button",
         "class_": (
             "cursor-pointer text-muted-foreground bg-transparent hover:text-foreground rounded-lg "
-            "text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-accent dark:hover:text-white"
+            "text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-accent hover:text-white"
         ),
     }
     if close_button_attrs:

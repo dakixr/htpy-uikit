@@ -186,7 +186,7 @@ def toaster(
     content_classes = (
         "toast-content text-popover-foreground text-[13px] bg-popover/95 backdrop-blur-sm border border-border "
         "shadow-xl shadow-black/10 rounded-lg overflow-hidden flex gap-2.5 p-3 items-center "
-        "ring-1 ring-black/5 dark:ring-white/10 transition-all duration-200 ease-out"
+        "ring-1 ring-ring/50 transition-all duration-200 ease-out"
     )
 
     btn_base = "h-6 px-2.5 text-xs"

@@ -48,17 +48,17 @@ def switch(
         "input cursor-pointer appearance-none focus-visible:border-ring focus-visible:ring-ring/50 "
         "inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border "
         "border-border shadow-xs transition-all outline-none focus-visible:ring-[3px] "
-        "disabled:cursor-not-allowed disabled:opacity-50 bg-input dark:bg-input/80 "
+        "disabled:cursor-not-allowed disabled:opacity-50 bg-input "
         "before:content-[''] before:pointer-events-none before:block before:size-4 before:rounded-full "
-        "before:ring-0 before:transition-all before:bg-background dark:before:bg-foreground "
+        "before:ring-0 before:transition-all before:bg-background "
         "checked:before:ms-3.5"
     )
 
     color_classes_map: dict[TColor, str] = {
-        "primary": "checked:bg-primary dark:checked:bg-primary dark:checked:before:bg-primary-foreground",
-        "blue": "checked:bg-blue-600 dark:checked:bg-blue-600 dark:checked:before:bg-white",
-        "green": "checked:bg-green-600 dark:checked:bg-green-600 dark:checked:before:bg-white",
-        "red": "checked:bg-red-600 dark:checked:bg-red-600 dark:checked:before:bg-white",
+        "primary": "checked:bg-primary checked:before:bg-primary-foreground",
+        "blue": "checked:bg-blue-600 checked:before:bg-white",
+        "green": "checked:bg-green-600 checked:before:bg-white",
+        "red": "checked:bg-red-600 checked:before:bg-white",
     }
     color_classes = color_classes_map[color]
 

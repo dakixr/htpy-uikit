@@ -4,6 +4,8 @@ import ast
 import shutil
 import sys
 import tomllib
+from collections import Counter
+from enum import Enum
 from pathlib import Path
 from typing import Iterable
 from typing import Sequence
@@ -94,17 +96,34 @@ def _resolve_dependencies(entry_files: Sequence[Path]) -> list[Path]:
     return internals + components
 
 
-def _copy_file(src: Path, dest_dir: Path, force: bool) -> Path:
+class CopyStatus(Enum):
+    COPIED = "copied"
+    SKIPPED_UNCHANGED = "skipped_unchanged"
+    SKIPPED_USER = "skipped_user"
+
+
+def _copy_file(
+    src: Path,
+    dest_dir: Path,
+    force: bool,
+    dest_name: str | None = None,
+) -> tuple[Path, CopyStatus]:
     dest_dir.mkdir(parents=True, exist_ok=True)
-    dest = dest_dir / src.name
-    if dest.exists() and not force:
-        overwrite = questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask()
-        if not overwrite:
-            click.echo(f"Skipped {dest}")
-            return dest
+    name = dest_name or src.name
+    dest = dest_dir / name
+    if dest.exists():
+        src_bytes = src.read_bytes()
+        dest_bytes = dest.read_bytes()
+        if dest_bytes == src_bytes:
+            return dest, CopyStatus.SKIPPED_UNCHANGED
+        if not force:
+            overwrite = questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask()
+            if not overwrite:
+                click.echo(f"Skipped {dest}")
+                return dest, CopyStatus.SKIPPED_USER
     shutil.copy2(src, dest)
     click.echo(f"Copied {src.name} -> {dest}")
-    return dest
+    return dest, CopyStatus.COPIED
 
 
 def _find_pyproject(start: Path | None = None) -> Path | None:
@@ -252,8 +271,27 @@ def add_cmd(components: tuple[str, ...], dest: Path | None, select_all: bool, fo
     init_py = dest / "__init__.py"
     if not init_py.exists():
         _write_text(init_py, "")
+    status_counts: Counter[CopyStatus] = Counter()
     for src in files:
-        _copy_file(src, dest, force=force)
+        _, status = _copy_file(src, dest, force=force)
+        status_counts[status] += 1
+
+    copied = status_counts[CopyStatus.COPIED]
+    if copied:
+        suffix = "s" if copied != 1 else ""
+        click.echo(f"\nCopied {copied} file{suffix}.")
+
+    summaries: list[str] = []
+    unchanged = status_counts[CopyStatus.SKIPPED_UNCHANGED]
+    if unchanged:
+        suffix = "s" if unchanged != 1 else ""
+        summaries.append(f"{unchanged} file{suffix} already up-to-date")
+    skipped = status_counts[CopyStatus.SKIPPED_USER]
+    if skipped:
+        suffix = "s" if skipped != 1 else ""
+        summaries.append(f"{skipped} file{suffix} overwrite declined")
+    if summaries:
+        click.echo(f"Skipped {'; '.join(summaries)}")
 
     click.echo("\nDone. Remember to run your Tailwind build.")
 
@@ -295,13 +333,14 @@ def add_theme_cmd(theme: str | None, dest: Path | None, force: bool) -> None:
     if dest is None:
         dest = default_dest
 
-    if dest.exists() and not force:
-        if not questionary.confirm(f"{dest} exists. Overwrite?", default=False).ask():
-            click.echo("Skipped theme.")
-            return
-    content = _read_text(src)
-    _write_text(dest, content)
-    click.echo(f"Copied {src.name} -> {dest}")
+    _, status = _copy_file(
+        src,
+        dest.parent,
+        force=force,
+        dest_name=dest.name,
+    )
+    if status != CopyStatus.COPIED:
+        return
 
 
 @cli.command("themes")

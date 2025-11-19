@@ -57,8 +57,8 @@ def native_select(
     # Mirrors rules from `staticfiles/css/basecoat.0.3.2.css` for native selects
     base_classes = (
         "appearance-none border-input focus-visible:border-ring focus-visible:ring-ring/50 "
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
-        "dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent "
+        "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
+        "flex w-fit items-center justify-between gap-2 rounded-md border bg-card hover:bg-accent/10 hover:text-foreground "
         "pl-3 pr-9 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] "
         "disabled:cursor-not-allowed disabled:opacity-50 h-9 bg-(image:--chevron-down-icon-50) bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
     )
@@ -427,7 +427,7 @@ def select_component(
                 if (enter) {{
                     // apply hover bg only when not selected
                     if (el.getAttribute('aria-selected') !== 'true') {{
-                        el.style.background = 'rgba(255,255,255,0.03)';
+                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
                     }}
                 }} else {{
                     // remove hover bg; restore selected bg if needed
@@ -809,7 +809,7 @@ def multiselect_component(
             try {{
                 if (enter) {{
                     if (el.getAttribute('aria-selected') !== 'true') {{
-                        el.style.background = 'rgba(255,255,255,0.03)';
+                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
                     }}
                 }} else {{
                     el.style.background = '';

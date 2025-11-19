@@ -19,13 +19,12 @@ base_classes_btn = (
     "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium "
     "disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 shrink-0 "
     "outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] "
-    "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
+    "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
     "cursor-pointer rounded-md"
 )
 variant_ghost = "hover:bg-accent hover:text-accent-foreground"
 variant_outline = (
-    "border bg-background shadow-xs dark:bg-input/30 dark:border-input hover:bg-accent "
-    "hover:text-accent-foreground dark:hover:bg-accent/50"
+    "border bg-background shadow-xs border-input hover:bg-accent hover:text-accent-foreground"
 )
 size_text = {
     "sm": "gap-1.5 h-8 px-3 has-[>svg]:px-2.5 text-xs",
@@ -121,7 +120,7 @@ def pagination(
                 a(
                     class_=prev_classes,
                     href=prev_url if not is_disabled else None,
-                    **{"aria-label": "Previous page"},
+                    **{"aria-label": "Previous page", "hx-boost": "true"},
                 )[
                     icon_chevron_left(class_="size-4 shrink-0"),
                     span()[" Previous"],
@@ -136,6 +135,7 @@ def pagination(
                 a(
                     class_=classes_btn("ghost", icon=True, size_key=size),
                     href=build_url(1),
+                    **{"hx-boost": "true"},
                 )["1"]
             ]
         )
@@ -156,7 +156,7 @@ def pagination(
                 a(
                     class_=page_classes,
                     href="#" if is_current else build_url(page),
-                    **{"aria-current": "page" if is_current else None},
+                    **{"aria-current": "page" if is_current else None, "hx-boost": "true"},
                 )[str(page)]
             ]
         )
@@ -171,6 +171,7 @@ def pagination(
                 a(
                     class_=classes_btn("ghost", icon=True, size_key=size),
                     href=build_url(total_pages),
+                    **{"hx-boost": "true"},
                 )[str(total_pages)]
             ]
         )
@@ -189,7 +190,7 @@ def pagination(
                 a(
                     class_=next_classes,
                     href=next_url if not is_disabled else None,
-                    **{"aria-label": "Next page"},
+                    **{"aria-label": "Next page", "hx-boost": "true"},
                 )[
                     span()["Next "],
                     icon_chevron_right(class_="size-4 shrink-0"),

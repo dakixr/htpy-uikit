@@ -58,8 +58,8 @@ def radio_group(
         radio_attrs: dict[str, str | bool] = {
             "class_": (
                 "appearance-none border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 "
-                "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
-                "dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs "
+                "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
+                "aspect-square size-4 shrink-0 rounded-full border shadow-xs bg-card "
                 "transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 "
                 "relative checked:before:content-[''] checked:before:absolute checked:before:top-1/2 checked:before:left-1/2 "
                 "checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:rounded-full checked:before:size-2 checked:before:bg-primary"
@@ -156,30 +156,24 @@ def radio_group_cards(
     # Wrapper label classes and checked-state variants per color
     if card_color == "green":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-green-600 has-[input[type='radio']:checked]:bg-green-50 "
-            "dark:has-[input[type='radio']:checked]:border-green-900 dark:has-[input[type='radio']:checked]:bg-green-950"
+            "has-[input[type='radio']:checked]:border-green-600 has-[input[type='radio']:checked]:bg-green-50"
         )
         input_classes_checked = (
-            "checked:bg-green-600 checked:border-green-600 dark:checked:bg-input/30 "
-            "checked:before:bg-background dark:checked:before:bg-primary"
+            "checked:bg-green-600 checked:border-green-600 checked:before:bg-background"
         )
     elif card_color == "blue":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-blue-600 has-[input[type='radio']:checked]:bg-blue-50 "
-            "dark:has-[input[type='radio']:checked]:border-blue-900 dark:has-[input[type='radio']:checked]:bg-blue-950"
+            "has-[input[type='radio']:checked]:border-blue-600 has-[input[type='radio']:checked]:bg-blue-50"
         )
         input_classes_checked = (
-            "checked:bg-blue-600 checked:border-blue-600 dark:checked:bg-input/30 "
-            "checked:before:bg-background dark:checked:before:bg-primary"
+            "checked:bg-blue-600 checked:border-blue-600 checked:before:bg-background"
         )
     elif card_color == "red":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-red-600 has-[input[type='radio']:checked]:bg-red-50 "
-            "dark:has-[input[type='radio']:checked]:border-red-900 dark:has-[input[type='radio']:checked]:bg-red-950"
+            "has-[input[type='radio']:checked]:border-red-600 has-[input[type='radio']:checked]:bg-red-50"
         )
         input_classes_checked = (
-            "checked:bg-red-600 checked:border-red-600 dark:checked:bg-input/30 "
-            "checked:before:bg-background dark:checked:before:bg-primary"
+            "checked:bg-red-600 checked:border-red-600 checked:before:bg-background"
         )
     else:
         assert_never(card_color)
@@ -192,8 +186,8 @@ def radio_group_cards(
     for option in options:
         input_classes = (
             "appearance-none border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 "
-            "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive "
-            "dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] "
+            "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
+            "aspect-square size-4 shrink-0 rounded-full border shadow-xs bg-card transition-[color,box-shadow] "
             "outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 relative "
             "checked:before:content-[''] checked:before:absolute checked:before:top-1/2 checked:before:left-1/2 "
             "checked:before:-translate-x-1/2 checked:before:-translate-y-1/2 checked:before:rounded-full checked:before:size-2 "

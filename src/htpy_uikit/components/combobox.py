@@ -292,7 +292,7 @@ def combobox(
                 if (enter) {{
                     // apply hover bg only when not selected
                     if (!el.classList.contains('bg-accent')) {{
-                        el.style.background = 'rgba(255,255,255,0.03)';
+                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
                     }}
                 }} else {{
                     // remove hover bg; restore selected bg if needed

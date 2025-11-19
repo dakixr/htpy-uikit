@@ -66,7 +66,7 @@ def tabs(
             "focus-visible:outline-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed "
             "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
         )
-        selected_classes = "bg-background text-foreground dark:text-foreground dark:border-input dark:bg-input/30 shadow-sm"
+        selected_classes = "bg-background text-foreground border border-input shadow-sm"
 
         is_disabled = tab_value in disabled_values
 

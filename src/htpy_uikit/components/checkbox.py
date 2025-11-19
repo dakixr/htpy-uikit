@@ -45,10 +45,10 @@ def checkbox_component(
     # Base classes – Tailwind utilities matching Basecoat checkbox styles
     # Checked indicator using :after pseudo-element with mask icon
     base_classes = (
-        "appearance-none cursor-pointer border-input dark:bg-input/30 checked:bg-primary dark:checked:bg-primary "
-        "checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 "
-        "dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border "
-        "shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 "
+        "appearance-none cursor-pointer border-input bg-card checked:bg-primary checked:border-primary "
+        "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
+        "size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] "
+        "disabled:cursor-not-allowed disabled:opacity-50 "
         "checked:after:content-[''] checked:after:block checked:after:size-3.5 checked:after:bg-primary-foreground "
         "checked:after:mask-[image:var(--check-icon)] checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
     )
@@ -158,10 +158,10 @@ def checkbox_card_component(
     # Base input classes (same as reference "input" class)
     # Position the checkbox absolutely so it appears inside the card area
     input_classes = (
-        "peer absolute left-4 top-4 z-20 appearance-none border-input dark:bg-input/30 checked:bg-primary dark:checked:bg-primary "
-        "checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 "
-        "dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border "
-        "shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 "
+        "peer absolute left-4 top-4 z-20 appearance-none border-input bg-card checked:bg-primary checked:border-primary "
+        "focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
+        "size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] "
+        "disabled:cursor-not-allowed disabled:opacity-50 "
         "checked:after:content-[''] checked:after:block checked:after:size-3.5 checked:after:bg-primary-foreground "
         "checked:after:mask-[image:var(--check-icon)] checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
     )
@@ -196,13 +196,13 @@ def checkbox_card_component(
     # Determine card-inner classes to color full card area on checked state and hover effects
     if card_color == "blue":
         classes_card_checked = "peer-checked:bg-blue-700/30 peer-checked:border-blue-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-blue-50 peer-not-checked:hover:border-blue-200 dark:peer-not-checked:hover:bg-blue-950/20 dark:peer-not-checked:hover:border-blue-800/40"
+        classes_card_hover = "peer-not-checked:hover:bg-blue-50 peer-not-checked:hover:border-blue-200"
     elif card_color == "green":
         classes_card_checked = "peer-checked:bg-green-700/30 peer-checked:border-green-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-green-50 peer-not-checked:hover:border-green-200 dark:peer-not-checked:hover:bg-green-950/20 dark:peer-not-checked:hover:border-green-800/40"
+        classes_card_hover = "peer-not-checked:hover:bg-green-50 peer-not-checked:hover:border-green-200"
     elif card_color == "red":
         classes_card_checked = "peer-checked:bg-red-700/30 peer-checked:border-red-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-red-50 peer-not-checked:hover:border-red-200 dark:peer-not-checked:hover:bg-red-950/20 dark:peer-not-checked:hover:border-red-800/40"
+        classes_card_hover = "peer-not-checked:hover:bg-red-50 peer-not-checked:hover:border-red-200"
     else:
         assert_never(card_color)
 

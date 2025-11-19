@@ -29,12 +29,12 @@ def _compute_badge_classes(variant: BadgeVariant, extra: str | None = None) -> s
         var = "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
     elif variant == "destructive":
         var = (
-            "border-transparent bg-destructive text-destructive-foreground [a&]:hover:bg-destructive/90 "
-            "focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
+            "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 "
+            "focus-visible:ring-destructive/20"
         )
     elif variant == "outline":
         var = (
-            "bg-background dark:bg-input/30 border border-border text-foreground "
+            "bg-background border border-border text-foreground "
             "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
         )
     else:
@@ -215,7 +215,7 @@ def badge_link(
         "inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium h-6 "
         "whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden"
     )
-    outline = "bg-background dark:bg-input/30 border border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
+    outline = "bg-background border border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
     classes = f"{base} {outline}"
     if class_:
         classes = f"{classes} {class_}"
