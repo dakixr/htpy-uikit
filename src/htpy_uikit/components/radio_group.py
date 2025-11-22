@@ -108,7 +108,7 @@ def radio_group(
 
     # Add error message if provided
     if error:
-        elements.append(div(class_="text-sm text-red-600", **{"role": "alert"})[error])
+        elements.append(div(class_="text-sm text-destructive", **{"role": "alert"})[error])
 
     # Use fieldset if we have a group label, otherwise use div - following basecoat pattern
     if label_text:
@@ -156,21 +156,30 @@ def radio_group_cards(
     # Wrapper label classes and checked-state variants per color
     if card_color == "green":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-green-600 has-[input[type='radio']:checked]:bg-green-50"
+            "has-[input[type='radio']:checked]:border-green-600 "
+            "has-[input[type='radio']:checked]:bg-green-50 "
+            "dark:has-[input[type='radio']:checked]:bg-accent/20 "
+            "dark:has-[input[type='radio']:checked]:border-border"
         )
         input_classes_checked = (
             "checked:bg-green-600 checked:border-green-600 checked:before:bg-background"
         )
     elif card_color == "blue":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-blue-600 has-[input[type='radio']:checked]:bg-blue-50"
+            "has-[input[type='radio']:checked]:border-blue-600 "
+            "has-[input[type='radio']:checked]:bg-blue-50 "
+            "dark:has-[input[type='radio']:checked]:bg-accent/20 "
+            "dark:has-[input[type='radio']:checked]:border-border"
         )
         input_classes_checked = (
             "checked:bg-blue-600 checked:border-blue-600 checked:before:bg-background"
         )
     elif card_color == "red":
         wrapper_classes_checked = (
-            "has-[input[type='radio']:checked]:border-red-600 has-[input[type='radio']:checked]:bg-red-50"
+            "has-[input[type='radio']:checked]:border-red-600 "
+            "has-[input[type='radio']:checked]:bg-red-50 "
+            "dark:has-[input[type='radio']:checked]:bg-accent/20 "
+            "dark:has-[input[type='radio']:checked]:border-border"
         )
         input_classes_checked = (
             "checked:bg-red-600 checked:border-red-600 checked:before:bg-background"
@@ -210,7 +219,7 @@ def radio_group_cards(
             radio_attrs["aria-invalid"] = "true"
 
         wrapper_classes_base = (
-            "label flex gap-3 items-start hover:bg-accent/50 "
+            "label flex gap-3 items-start hover:bg-accent/40 dark:hover:bg-accent/20 "
             f"rounded-lg border border-border p-4 {wrapper_classes_checked} "
         )
 

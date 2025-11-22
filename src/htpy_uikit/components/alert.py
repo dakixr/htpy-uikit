@@ -3,6 +3,8 @@ from htpy import div
 from htpy import h2
 from htpy import section
 
+from ._styles import ALERT_BASE_CLASSES
+from ._styles import ALERT_DESTRUCTIVE_CLASSES
 from ._types import AlertVariant
 from ._utils import merge_classes
 from .icons import icon_circle_alert
@@ -35,17 +37,11 @@ def alert(
         Renderable: ``<div role=\"alert\">`` tree that matches Basecoat styling.
     """
 
-    # Inline Basecoat alert classes so the component is self-contained.
-    # Use a subtle border (border-border/30) and small shadow to match reference.
-    root_base_classes = (
-        "relative w-full rounded-lg border border-border px-4 py-3 text-sm grid "
-        "grid-cols-[0_1fr] has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] "
-        "has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 "
-        "[&>svg]:text-current bg-card shadow-sm"
-    )
+    # Use shared alert base classes
+    root_base_classes = ALERT_BASE_CLASSES
 
     # Tone classes control text color; destructive uses the destructive token.
-    tone_classes = "text-destructive" if variant == "destructive" else "text-card-foreground"
+    tone_classes = ALERT_DESTRUCTIVE_CLASSES if variant == "destructive" else "text-card-foreground"
 
     classes_inline = merge_classes(f"{root_base_classes} {tone_classes}", class_)
 

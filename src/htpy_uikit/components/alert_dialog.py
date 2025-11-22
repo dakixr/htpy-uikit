@@ -23,6 +23,7 @@ AlertDialogActionVariant = Literal["default", "destructive"]
 
 class AlertDialogTriggerAttrs(TypedDict):
     """Attributes applied to buttons that toggle the native dialog."""
+
     type: Literal["button"]
     onclick: str
 
@@ -88,7 +89,7 @@ def alert_dialog(
     article_classes = (
         "bg-card text-card-foreground fixed top-[50%] left-[50%] z-50 flex flex-col w-full "
         "max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border border-border p-6 shadow-lg "
-        "max-h-[calc(100%_-_2rem)] transition-all scale-95"
+        "max-h-[calc(100%-2rem)] transition-all scale-95"
     )
 
     dialog_header = header(class_="flex flex-col gap-2 text-center sm:text-left")[

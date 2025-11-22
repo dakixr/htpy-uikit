@@ -5,6 +5,7 @@ from htpy import div
 from htpy import span
 from htpy import textarea
 
+from ._styles import INPUT_BASE_CLASSES
 from .label import label_component
 
 
@@ -45,17 +46,9 @@ def textarea_component(
         Renderable: Textarea node optionally wrapped with label/error nodes.
     """
 
-    # Base classes - using Tailwind equivalent of Basecoat textarea
-    base_classes = (
-        "appearance-none placeholder:text-muted-foreground selection:bg-primary "
-        "selection:text-primary-foreground border-input flex "
-        "w-full min-w-0 rounded-md border bg-input/30 px-3 py-2 text-base "
-        "shadow-xs transition-[color,box-shadow] outline-none "
-        "disabled:cursor-not-allowed "
-        "disabled:opacity-50 md:text-sm focus-visible:border-ring "
-        "focus-visible:ring-ring/50 focus-visible:ring-[3px] "
-        "aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
-    )
+    # Use shared input base classes (textarea shares same styling as input)
+    # Adjust height and padding for multi-line input
+    base_classes = INPUT_BASE_CLASSES.replace("h-9", "min-h-[60px]").replace("py-1", "py-2")
 
     # Build class list
     classes = [base_classes]
@@ -117,7 +110,7 @@ def textarea_component(
 
     # Add error message if provided
     if error:
-        elements.append(span(class_="text-sm text-red-600", **{"role": "alert"})[error])
+        elements.append(span(class_="text-sm text-destructive", **{"role": "alert"})[error])
 
     # Return single element or fragment
     if len(elements) == 1:

@@ -6,6 +6,21 @@ from htpy import button
 from htpy import span
 from htpy import with_children
 
+from ._styles import (
+    BTN_BASE_CLASSES,
+    BTN_ICON_LG_CLASSES,
+    BTN_ICON_MD_CLASSES,
+    BTN_ICON_SM_CLASSES,
+    BTN_SIZE_LG_CLASSES,
+    BTN_SIZE_MD_CLASSES,
+    BTN_SIZE_SM_CLASSES,
+    BTN_VARIANT_DESTRUCTIVE_CLASSES,
+    BTN_VARIANT_GHOST_CLASSES,
+    BTN_VARIANT_LINK_CLASSES,
+    BTN_VARIANT_OUTLINE_CLASSES,
+    BTN_VARIANT_PRIMARY_CLASSES,
+    BTN_VARIANT_SECONDARY_CLASSES,
+)
 from ._types import ButtonSize
 from ._types import ButtonType
 from ._types import ButtonVariant
@@ -42,61 +57,42 @@ def button_component(
         Renderable: Styled ``<button>`` element.
     """
 
-    # Base classes - Tailwind utilities mirroring Basecoat `.btn` defaults
-    base_classes = (
-        "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all "
-        "disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 "
-        "shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 "
-        "focus-visible:ring-[3px] aria-invalid:ring-destructive/20 "
-        "aria-invalid:border-destructive cursor-pointer rounded-md gap-2 h-9 px-4 has-[>svg]:px-3"
-    )
+    # Build class list using shared styles
+    classes = [BTN_BASE_CLASSES]
 
-    # Build class list based on variant and size
-    classes = [base_classes]
-
-    # Add variant classes - using Tailwind equivalents
+    # Add variant classes
     variant_classes: dict[ButtonVariant, str] = {
-        "primary": "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
-        "secondary": "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        # Use white text on destructive buttons to match reference (strong contrast)
-        "destructive": (
-            "bg-destructive text-white shadow-xs focus-visible:ring-destructive/20 "
-            "hover:bg-destructive/90"
-        ),
-        "outline": "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-        "ghost": "hover:bg-accent hover:text-accent-foreground",
-        "link": "text-primary underline-offset-4 hover:underline",
-        "danger": (
-            "bg-destructive text-white shadow-xs focus-visible:ring-destructive/20 "
-            "hover:bg-destructive/90"
-        ),
+        "primary": BTN_VARIANT_PRIMARY_CLASSES,
+        "secondary": BTN_VARIANT_SECONDARY_CLASSES,
+        "destructive": BTN_VARIANT_DESTRUCTIVE_CLASSES,
+        "outline": BTN_VARIANT_OUTLINE_CLASSES,
+        "ghost": BTN_VARIANT_GHOST_CLASSES,
+        "link": BTN_VARIANT_LINK_CLASSES,
+        "danger": BTN_VARIANT_DESTRUCTIVE_CLASSES,  # Alias for destructive
     }
-    # All variants should be handled in the dictionary
     if variant in variant_classes:
         classes.append(variant_classes[variant])
     else:
-        # This should never happen if ButtonVariant and variant_classes are kept in sync
         raise ValueError(f"Unsupported button variant: {variant}")
 
-    # Add size classes
-    if size == "md":
-        classes.append("gap-2 h-9 px-4 has-[>svg]:px-3")
-    elif size == "sm":
-        classes.append("gap-1.5 h-8 px-3 text-xs has-[>svg]:px-2.5")
-    elif size == "lg":
-        classes.append("gap-2 h-10 px-6 has-[>svg]:px-4")
-    else:
-        assert_never(size)
-
-    # Add icon variant if icon_only - use padding=0 and square dimensions
-    if icon_only:
-        # icon-only variants use square sizing similar to `.btn-icon` classes
-        if size == "sm":
-            classes.append("p-0 size-8")
+    # Add size classes (only if not icon-only)
+    if not icon_only:
+        if size == "md":
+            classes.append(BTN_SIZE_MD_CLASSES)
+        elif size == "sm":
+            classes.append(BTN_SIZE_SM_CLASSES)
         elif size == "lg":
-            classes.append("p-0 size-10")
+            classes.append(BTN_SIZE_LG_CLASSES)
+        else:
+            assert_never(size)
+    else:
+        # Icon-only variants use square sizing
+        if size == "sm":
+            classes.append(BTN_ICON_SM_CLASSES)
+        elif size == "lg":
+            classes.append(BTN_ICON_LG_CLASSES)
         elif size == "md":
-            classes.append("p-0 size-9")
+            classes.append(BTN_ICON_MD_CLASSES)
         else:
             assert_never(size)
 

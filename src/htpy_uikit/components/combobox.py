@@ -5,6 +5,9 @@ from htpy import input as input_
 from htpy import span
 from sourcetypes import js
 
+from ._styles import LISTBOX_EMPTY_CLASSES
+from ._styles import LISTBOX_OPTION_BASE_CLASSES
+from ._styles import POPOVER_PANEL_PADDED_CLASSES
 from ._types import SelectOption
 from .button import button_component
 from .icons import icon_check
@@ -112,11 +115,7 @@ def combobox(
                 "@mouseenter": "onHover($el, true)",
                 "@mouseleave": "onHover($el, false)",
             },
-            class_=(
-                "relative flex cursor-pointer items-center gap-2 rounded-sm pl-2 "
-                "py-1.5 pr-7.5 text-sm outline-hidden select-none w-full truncate [&_svg]:shrink-0 [&_svg]:size-4 "
-                "focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent hover:text-accent-foreground"
-            ),
+            class_=LISTBOX_OPTION_BASE_CLASSES,
         )[
             span(class_="flex-1 truncate")[option["label"]],
             # trailing check positioned right (hidden/shown by component JS)
@@ -147,10 +146,7 @@ def combobox(
             "data_side": side,
             "data_align": align,
         },
-        class_=(
-            "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-48 w-max border-border"
-        ),
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
     )[
         # Header with search icon and input - match reference exactly
         header(class_="flex h-9 items-center gap-2 border-b px-3 mb-1 border-border")[

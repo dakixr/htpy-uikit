@@ -4,6 +4,10 @@ from htpy import button
 from htpy import div
 from htpy import nav
 
+from ._styles import CARD_BASE_CLASSES
+from ._styles import TAB_BASE_CLASSES
+from ._styles import TAB_LIST_CONTAINER_CLASSES
+from ._styles import TAB_SELECTED_CLASSES
 from ._types import TabContentItem
 from ._utils import merge_classes
 
@@ -58,15 +62,8 @@ def tabs(
         tab_id = f"{container_id}-tab-{index}"
         panel_id = f"{container_id}-panel-{index}"
 
-        tab_classes_btn_base = (
-            "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring "
-            "text-muted-foreground inline-flex h-[calc(100%_-_1px)] flex-1 "
-            "items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 "
-            "text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] "
-            "focus-visible:outline-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed "
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
-        )
-        selected_classes = "bg-background text-foreground border border-input shadow-sm"
+        tab_classes_btn_base = TAB_BASE_CLASSES
+        selected_classes = TAB_SELECTED_CLASSES
 
         is_disabled = tab_value in disabled_values
 
@@ -105,12 +102,7 @@ def tabs(
                     ":aria-selected": f"activeTab === {index}",
                     ":hidden": f"activeTab !== {index}",
                 },
-                class_=(
-                    "mt-3 outline-none bg-card text-card-foreground rounded-xl "
-                    "border border-border shadow-sm"
-                    if background
-                    else "mt-3"
-                ),
+                class_=(f"mt-3 outline-none {CARD_BASE_CLASSES}" if background else "mt-3"),
             )[tab_content]
         )
 
@@ -118,10 +110,7 @@ def tabs(
     # Create nav for tabs
     nav_attrs = {
         "role": "tablist",
-        "class_": (
-            "bg-muted text-muted-foreground inline-flex h-9 w-full items-center "
-            "justify-center rounded-lg p-[3px]"
-        ),
+        "class_": TAB_LIST_CONTAINER_CLASSES,
         "@keydown.arrow-right.prevent": "activeTab = (activeTab + 1) % numTabs; $refs['tab'+activeTab].focus()",
         "@keydown.arrow-left.prevent": "activeTab = (activeTab - 1 + numTabs) % numTabs; $refs['tab'+activeTab].focus()",
         "@keydown.home.prevent": "activeTab = 0; $refs['tab'+activeTab].focus()",
@@ -138,7 +127,7 @@ def tabs(
     }
 
     # Tabs container
-    container_classes = merge_classes("tabs flex flex-col gap-2", class_)
+    container_classes = merge_classes("flex flex-col gap-2", class_)
     alpine_attrs["class_"] = container_classes
 
     return div(**alpine_attrs)[tab_list, *panel_elements]

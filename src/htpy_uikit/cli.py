@@ -82,11 +82,11 @@ def _resolve_dependencies(entry_files: Sequence[Path]) -> list[Path]:
             src = _read_text(fp)
             for dep in _iter_internal_imports(src, file_dir=fp.parent):
                 queue.append(dep)
-    # return in stable order: support files first so copies don’t break imports
+    # return in stable order: support files first so copies don't break imports
     internals = []
     components = []
     for p in wanted.values():
-        if p.stem in {"_utils", "_types", "__init__"}:
+        if p.stem in {"_utils", "_types", "_styles", "__init__"}:
             internals.append(p)
         else:
             components.append(p)

@@ -9,6 +9,8 @@ from htpy import span
 from htpy import with_children
 from sourcetypes import js
 
+from ._styles import MENU_ITEM_BASE_CLASSES
+from ._styles import POPOVER_PANEL_CLASSES
 from ._utils import merge_classes
 from .button import button_component
 from .icons import icon_check
@@ -235,7 +237,11 @@ def dropdown_menu(
     }}
     """
 
-    alpine_attrs = {"x-data": alpine_state, **attrs}
+    alpine_attrs = {
+        "x-data": alpine_state,
+        "@click.outside": "close(false)",
+        **attrs,
+    }
 
     if isinstance(trigger, str):
         trigger_node = button_component(variant="outline")[trigger]
@@ -289,10 +295,7 @@ def dropdown_menu(
                 id=menu_id,
                 role="menu",
                 aria_labelledby=trigger_id,
-                class_=(
-                    "rounded-md border border-border bg-popover text-popover-foreground "
-                    "shadow-md p-2 min-w-[16rem]"
-                ),
+                class_=f"{POPOVER_PANEL_CLASSES} p-2 min-w-[16rem]",
                 **{
                     "x-ref": "menu",
                     "@mousemove": "hoverMove($event)",
@@ -330,20 +333,14 @@ def dropdown_menu_item(
         Renderable: Menu item ``<div>`` node.
     """
 
-    # Base classes - using Tailwind equivalent of Basecoat menu item
+    # Base classes - using shared menu item styles
     base_classes = (
-        "cursor-pointer aria-hidden:hidden [&_svg]:text-muted-foreground relative flex items-center gap-2 "
-        "rounded-sm px-2 py-1.5 text-sm outline-hidden select-none [&_svg]:shrink-0 [&_svg]:size-4 w-full truncate"
+        f"cursor-pointer aria-hidden:hidden [&_svg]:text-muted-foreground {MENU_ITEM_BASE_CLASSES}"
     )
 
     if disabled:
         base_classes += " opacity-50 pointer-events-none"
         attrs["aria-disabled"] = "true"
-    else:
-        base_classes += (
-            " focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent "
-            "hover:text-accent-foreground"
-        )
 
     # Add optional inset
     if inset:
@@ -451,17 +448,11 @@ def dropdown_menu_item_checkbox(
         Renderable: Checkbox-style menuitem DOM tree.
     """
     base_classes = (
-        "group aria-hidden:hidden [&_svg]:text-muted-foreground relative flex cursor-default items-center gap-2 "
-        "rounded-sm px-2 py-1.5 text-sm outline-hidden select-none [&_svg]:shrink-0 [&_svg]:size-4 w-full truncate"
+        f"group aria-hidden:hidden [&_svg]:text-muted-foreground {MENU_ITEM_BASE_CLASSES}"
     )
     if disabled:
         base_classes += " opacity-50 pointer-events-none"
         attrs["aria-disabled"] = "true"
-    else:
-        base_classes += (
-            " focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent "
-            "hover:text-accent-foreground"
-        )
     if class_:
         base_classes += f" {class_}"
     attrs["class_"] = base_classes
@@ -498,18 +489,10 @@ def dropdown_menu_item_radio(
     Returns:
         Renderable: Radio-style menuitem DOM tree.
     """
-    base_classes = (
-        "group aria-hidden:hidden relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 "
-        "text-sm outline-hidden select-none w-full truncate"
-    )
+    base_classes = f"group aria-hidden:hidden {MENU_ITEM_BASE_CLASSES}"
     if disabled:
         base_classes += " opacity-50 pointer-events-none"
         attrs["aria-disabled"] = "true"
-    else:
-        base_classes += (
-            " focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent "
-            "hover:text-accent-foreground"
-        )
     if class_:
         base_classes += f" {class_}"
     attrs["class_"] = base_classes

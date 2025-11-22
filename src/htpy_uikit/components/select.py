@@ -7,6 +7,12 @@ from htpy import select
 from htpy import span
 from sourcetypes import js
 
+from ._styles import LISTBOX_EMPTY_CLASSES
+from ._styles import LISTBOX_OPTION_BASE_CLASSES
+from ._styles import LISTBOX_OPTION_SELECTED_CLASSES
+from ._styles import LISTBOX_SECTION_HEADING_CLASSES
+from ._styles import POPOVER_PANEL_PADDED_CLASSES
+from ._styles import SELECT_NATIVE_BASE_CLASSES
 from ._types import SelectGroup
 from ._types import SelectItem
 from ._types import SelectOption
@@ -53,15 +59,8 @@ def native_select(
         Renderable: htpy nodes for the label (if any), the select element, and error text.
     """
 
-    # Base classes - Tailwind utility equivalents for Basecoat `.select` class
-    # Mirrors rules from `staticfiles/css/basecoat.0.3.2.css` for native selects
-    base_classes = (
-        "appearance-none border-input focus-visible:border-ring focus-visible:ring-ring/50 "
-        "aria-invalid:ring-destructive/20 aria-invalid:border-destructive "
-        "flex w-fit items-center justify-between gap-2 rounded-md border bg-input/30 hover:bg-input/50 hover:text-foreground "
-        "pl-3 pr-9 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] "
-        "disabled:cursor-not-allowed disabled:opacity-50 h-9 bg-(image:--chevron-down-icon-50) bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
-    )
+    # Use shared native select base classes
+    base_classes = SELECT_NATIVE_BASE_CLASSES
 
     # Build class list
     classes = [base_classes]
@@ -132,7 +131,7 @@ def native_select(
 
     # Add error message if provided
     if error:
-        elements.append(span(class_="text-sm text-red-600", **{"role": "alert"})[error])
+        elements.append(span(class_="text-sm text-destructive", **{"role": "alert"})[error])
 
     # Return single element or fragment
     if len(elements) == 1:
@@ -291,11 +290,7 @@ def select_component(
         return div(
             role="option",
             **attrs,
-            class_=(
-                "relative flex cursor-pointer items-center gap-2 rounded-sm pl-2 "
-                "py-1.5 pr-7.5 text-sm outline-hidden select-none w-full truncate [&_svg]:shrink-0 [&_svg]:size-4 "
-                "focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent hover:text-accent-foreground"
-            ),
+            class_=LISTBOX_OPTION_BASE_CLASSES,
         )[*children]
 
     group_index = 0
@@ -306,7 +301,7 @@ def select_component(
             heading = div(
                 role="heading",
                 id=heading_id,
-                class_="flex text-muted-foreground px-2 py-1.5 text-xs",
+                class_=LISTBOX_SECTION_HEADING_CLASSES,
             )[entry.get("label", "")]
             option_nodes.append(
                 div(role="group", aria_labelledby=heading_id)[
@@ -320,9 +315,9 @@ def select_component(
     if not has_selectable_item:
         option_nodes.append(
             div(
-                class_="flex items-center justify-center p-2 text-muted-foreground opacity-50 pointer-events-none select-none gap-2",
+                class_=LISTBOX_EMPTY_CLASSES,
                 aria_hidden="true",
-            )[icon_circle_alert(), span(class_="text-sm")[empty_text]]
+            )[icon_circle_alert(), span(class_="text-sm")[empty_text]],
         )
 
     # Popover body
@@ -370,10 +365,7 @@ def select_component(
             "data_side": side,
             "data_align": align,
         },
-        class_=(
-            "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-48 w-max border-border p-1"
-        ),
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
     )[*pop_children]
 
     hidden_input = input_(
@@ -680,11 +672,7 @@ def multiselect_component(
         return div(
             role="option",
             **attrs_i,
-            class_=(
-                "relative flex cursor-pointer items-center gap-2 rounded-sm pl-2 "
-                "py-1.5 pr-7.5 text-sm outline-hidden select-none w-full truncate [&_svg]:shrink-0 [&_svg]:size-4 "
-                "focus-visible:bg-accent focus-visible:text-accent-foreground hover:bg-accent hover:text-accent-foreground"
-            ),
+            class_=LISTBOX_OPTION_BASE_CLASSES,
         )[*children]
 
     group_index = 0
@@ -695,7 +683,7 @@ def multiselect_component(
             heading = div(
                 role="heading",
                 id=heading_id,
-                class_="flex text-muted-foreground px-2 py-1.5 text-xs",
+                class_=LISTBOX_SECTION_HEADING_CLASSES,
             )[entry.get("label", "")]
             option_nodes.append(
                 div(role="group", aria_labelledby=heading_id)[
@@ -709,9 +697,9 @@ def multiselect_component(
     if not has_selectable_item:
         option_nodes.append(
             div(
-                class_="flex items-center justify-center p-2 text-muted-foreground opacity-50 pointer-events-none select-none gap-2",
+                class_=LISTBOX_EMPTY_CLASSES,
                 aria_hidden="true",
-            )[icon_circle_alert(), span(class_="text-sm")[empty_text]]
+            )[icon_circle_alert(), span(class_="text-sm")[empty_text]],
         )
 
     # Popover body
@@ -737,10 +725,7 @@ def multiselect_component(
             "data_side": side,
             "data_align": align,
         },
-        class_=(
-            "absolute left-0 top-full mt-1 z-50 bg-popover text-popover-foreground "
-            "rounded-md border shadow-md min-w-48 w-max border-border p-1"
-        ),
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
     )[
         div(
             id=listbox_id,

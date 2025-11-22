@@ -6,6 +6,10 @@
 - Copy components into your app (not import at runtime) so Tailwind sees classes and you can fully customize
 - Ships a default theme (CSS variables) you can import and override
 
+## Architecture
+
+Components are htpy helper functions that generate HTML with inline Tailwind CSS classes. Interactive behavior is handled by Alpine.js directives (`x-data`, `x-show`, `@click`, etc.) rather than custom JavaScript. The CLI (`htpyuikit`) copies component files into your project, allowing Tailwind to see all classes and enabling full customization. This design is inspired by [Basecoat UI](https://basecoatui.com/), ported to Python/htpy.
+
 ## Demo
 
 🚀 **[Live Demo](https://dakixr.github.io/htpy-uikit/)** - See all components in action with the kitchen sink demo
@@ -61,8 +65,20 @@ theme_path     = "styles/htpy-uikit.css"  # default for `add-theme`
 
 All component styles are adapted from [Basecoat UI](https://basecoatui.com/), a beautiful components library built with Tailwind CSS. A big thank you to the creators for their excellent work and for making it available to the community!
 
+## Color System
+
+All components use a consistent shadcn-compatible color token system defined in the theme CSS:
+
+- **Semantic tokens**: `--background`, `--foreground`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`
+- **Component-specific**: `--card`, `--popover` for elevated surfaces
+- **Consistent usage**: All components reference these tokens via Tailwind classes (e.g., `bg-primary`, `text-destructive`, `border-border`)
+- **Shared styles**: Common patterns are centralized in `_styles.py` (automatically vendored with components) for consistency
+
+The color system has been aligned with Basecoat UI's visual design, ensuring consistent destructive reds, outline variant backgrounds, input/select triggers, and border colors across all components.
+
 ## Notes
 
 - Requires Tailwind and Alpine in your app
 - Override protection: existing files prompt for confirmation. Use `-y/--yes` or `--force` to overwrite without prompts
 - No production dependency: your app should not import `htpy_uikit` at runtime. The CLI copies components into your codebase, so this package can be dev-only
+- **Visual changes**: Component colors and styles have been unified to match Basecoat UI. If you've previously vendored components, re-vendor them to get the updated shared `_styles.py` module and consistent color usage.

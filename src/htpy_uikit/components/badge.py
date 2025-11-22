@@ -1,11 +1,14 @@
-from typing import assert_never
-
 from htpy import Node
 from htpy import Renderable
 from htpy import a
 from htpy import span
 from htpy import with_children
 
+from ._styles import BADGE_BASE_CLASSES
+from ._styles import BADGE_VARIANT_DESTRUCTIVE_CLASSES
+from ._styles import BADGE_VARIANT_OUTLINE_CLASSES
+from ._styles import BADGE_VARIANT_PRIMARY_CLASSES
+from ._styles import BADGE_VARIANT_SECONDARY_CLASSES
 from ._types import BadgeStatus
 from ._types import BadgeVariant
 from .icons import icon_arrow_right
@@ -17,30 +20,16 @@ def _compute_badge_classes(variant: BadgeVariant, extra: str | None = None) -> s
     Kept as a module-level helper so other helpers (like `badge_link`) can reuse the
     exact same visuals as `badge`.
     """
-    base_classes = (
-        "inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium h-6 "
-        "whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none focus-visible:border-ring "
-        "focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden"
-    )
+    variant_classes: dict[BadgeVariant, str] = {
+        "primary": BADGE_VARIANT_PRIMARY_CLASSES,
+        "secondary": BADGE_VARIANT_SECONDARY_CLASSES,
+        "destructive": BADGE_VARIANT_DESTRUCTIVE_CLASSES,
+        "outline": BADGE_VARIANT_OUTLINE_CLASSES,
+    }
 
-    if variant == "primary":
-        var = "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90"
-    elif variant == "secondary":
-        var = "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90"
-    elif variant == "destructive":
-        var = (
-            "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 "
-            "focus-visible:ring-destructive/20"
-        )
-    elif variant == "outline":
-        var = (
-            "bg-background border border-border text-foreground "
-            "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
-        )
-    else:
-        assert_never(variant)
-
-    parts = [base_classes, var]
+    # All variants are handled in the dictionary above
+    var = variant_classes.get(variant, BADGE_VARIANT_PRIMARY_CLASSES)
+    parts = [BADGE_BASE_CLASSES, var]
     if extra:
         parts.append(extra)
     return " ".join(parts)
@@ -183,7 +172,7 @@ def badge_count(
     """
     display = str(count if count < cap else f"{cap}+")
 
-    counter_classes = "rounded-full h-6 px-2 min-w-[1.5rem] flex items-center justify-center"
+    counter_classes = "rounded-full h-6 px-2 min-w-6 flex items-center justify-center"
     merged_class = f"{counter_classes} {class_}" if class_ else counter_classes
     return badge(variant=variant, class_=merged_class, **kwargs)[display]
 
@@ -211,12 +200,7 @@ def badge_link(
         Renderable: Anchor element styled like a badge.
     """
     # Reuse the badge outline visual but as an anchor
-    base = (
-        "inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium h-6 "
-        "whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden"
-    )
-    outline = "bg-background border border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
-    classes = f"{base} {outline}"
+    classes = f"{BADGE_BASE_CLASSES} {BADGE_VARIANT_OUTLINE_CLASSES}"
     if class_:
         classes = f"{classes} {class_}"
 

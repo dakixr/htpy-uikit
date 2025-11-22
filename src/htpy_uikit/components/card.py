@@ -8,6 +8,8 @@ from htpy import p
 from htpy import section
 from htpy import with_children
 
+from ._styles import CARD_BASE_CLASSES
+
 
 @with_children
 def card(
@@ -49,7 +51,7 @@ def card(
     # Use the same border token as `alert` for consistency and visibility.
     # Keep padding on header/section/footer so the container itself doesn't add extra px.
     # Add container padding so the card contents have consistent inner spacing
-    base_classes = "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border border-border shadow-sm p-6"
+    base_classes = f"{CARD_BASE_CLASSES} p-6"
     classes = [base_classes]
     if class_:
         classes.append(class_)

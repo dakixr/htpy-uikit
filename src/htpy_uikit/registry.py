@@ -11,8 +11,8 @@ COMPONENTS_DIR = PKG_DIR / "components"
 
 
 # Files considered internal/shared; they may be dependencies but are not end-user components.
-# Support files that shouldn’t be listed as user-facing components
-INTERNAL_COMPONENT_MODULES = {"__init__", "_utils", "_types"}
+# Support files that shouldn't be listed as user-facing components
+INTERNAL_COMPONENT_MODULES = {"__init__", "_utils", "_types", "_styles"}
 INTERNAL_ROOT_MODULES = {"__init__"}
 
 

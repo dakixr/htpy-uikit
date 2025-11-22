@@ -5,6 +5,7 @@ from htpy import div
 from htpy import input as input_
 from htpy import span
 
+from ._styles import INPUT_BASE_CLASSES
 from ._types import InputType
 from .label import label_component
 
@@ -50,16 +51,8 @@ def input_component(
         Renderable: Input node optionally wrapped with label/error elements.
     """
 
-    base_classes = (
-        "bg-input/30 appearance-none file:text-foreground placeholder:text-muted-foreground "
-        "selection:bg-primary selection:text-primary-foreground border-input "
-        "flex h-9 w-full min-w-0 rounded-md border bg-card "
-        "px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none "
-        "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm "
-        "file:font-medium disabled:cursor-not-allowed "
-        "disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 "
-        "focus-visible:ring-[3px] aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
-    )
+    # Use shared input base classes
+    base_classes = INPUT_BASE_CLASSES
 
     # Build class list
     classes = [base_classes]
@@ -118,7 +111,7 @@ def input_component(
 
     # Add helper or error message if provided
     if error:
-        elements.append(span(class_="text-sm text-red-600", **{"role": "alert"})[error])
+        elements.append(span(class_="text-sm text-destructive", **{"role": "alert"})[error])
     elif description:
         elements.append(span(class_="text-muted-foreground text-sm")[description])
 

@@ -50,7 +50,7 @@ def checkbox_component(
         "size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] "
         "disabled:cursor-not-allowed disabled:opacity-50 "
         "checked:after:content-[''] checked:after:block checked:after:size-3.5 checked:after:bg-primary-foreground "
-        "checked:after:mask-[image:var(--check-icon)] checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
+        "checked:after:mask-(--check-icon) checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
     )
 
     # Build class list
@@ -112,7 +112,7 @@ def checkbox_component(
 
     # Add error message if provided
     if error:
-        elements.append(span(class_="text-sm text-red-600", **{"role": "alert"})[error])
+        elements.append(span(class_="text-sm text-destructive", **{"role": "alert"})[error])
 
     # Return single element or fragment
     if len(elements) == 1:
@@ -163,7 +163,7 @@ def checkbox_card_component(
         "size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] "
         "disabled:cursor-not-allowed disabled:opacity-50 "
         "checked:after:content-[''] checked:after:block checked:after:size-3.5 checked:after:bg-primary-foreground "
-        "checked:after:mask-[image:var(--check-icon)] checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
+        "checked:after:mask-(--check-icon) checked:after:mask-size-[0.875rem] checked:after:mask-no-repeat checked:after:mask-center"
     )
 
     # Wrapper label acts as the clickable card (visual container)
@@ -193,16 +193,26 @@ def checkbox_card_component(
     if error:
         attrs["aria-invalid"] = "true"
 
-    # Determine card-inner classes to color full card area on checked state and hover effects
+    # Determine card-inner classes to color full card area on checked state and hover effects.
+    # Light theme keeps colored tints; dark theme uses softer, token-based overlays.
     if card_color == "blue":
         classes_card_checked = "peer-checked:bg-blue-700/30 peer-checked:border-blue-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-blue-50 peer-not-checked:hover:border-blue-200"
+        classes_card_hover = (
+            "peer-not-checked:hover:bg-blue-50 peer-not-checked:hover:border-blue-200 "
+            "dark:peer-not-checked:hover:bg-accent/20 dark:peer-not-checked:hover:border-border"
+        )
     elif card_color == "green":
         classes_card_checked = "peer-checked:bg-green-700/30 peer-checked:border-green-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-green-50 peer-not-checked:hover:border-green-200"
+        classes_card_hover = (
+            "peer-not-checked:hover:bg-green-50 peer-not-checked:hover:border-green-200 "
+            "dark:peer-not-checked:hover:bg-accent/20 dark:peer-not-checked:hover:border-border"
+        )
     elif card_color == "red":
         classes_card_checked = "peer-checked:bg-red-700/30 peer-checked:border-red-700/60"
-        classes_card_hover = "peer-not-checked:hover:bg-red-50 peer-not-checked:hover:border-red-200"
+        classes_card_hover = (
+            "peer-not-checked:hover:bg-red-50 peer-not-checked:hover:border-red-200 "
+            "dark:peer-not-checked:hover:bg-accent/20 dark:peer-not-checked:hover:border-border"
+        )
     else:
         assert_never(card_color)
 
