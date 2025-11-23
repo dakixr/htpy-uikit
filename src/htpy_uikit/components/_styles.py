@@ -77,7 +77,7 @@ BTN_VARIANT_DESTRUCTIVE_CLASSES = (
 )
 
 BTN_VARIANT_OUTLINE_CLASSES = (
-    "border bg-background shadow-xs dark:bg-input/30 dark:border-input "
+    "border bg-input/40 shadow-xs dark:bg-input/30 dark:border-input "
     "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
 )
 
@@ -91,7 +91,7 @@ BTN_VARIANT_LINK_CLASSES = "text-primary underline-offset-4 hover:underline"
 
 # Base field trigger (for select, combobox triggers - uses button outline variant)
 FIELD_TRIGGER_BASE_CLASSES = (
-    "border bg-background shadow-xs dark:bg-input/30 dark:border-input "
+    "border bg-input/40 shadow-xs dark:bg-input/30 dark:border-input "
     "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 "
     f"{INTERACTIVE_STATE_CLASSES}"
 )
@@ -101,7 +101,7 @@ INPUT_BASE_CLASSES = (
     "appearance-none file:text-foreground placeholder:text-muted-foreground "
     "selection:bg-primary selection:text-primary-foreground "
     "dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border "
-    "bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] "
+    "bg-input/40 px-3 py-1 text-base shadow-xs transition-[color,box-shadow] "
     f"{INTERACTIVE_STATE_CLASSES} md:text-sm "
     "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium"
 )
@@ -109,7 +109,7 @@ INPUT_BASE_CLASSES = (
 # Native select specific (includes chevron icon background)
 SELECT_NATIVE_BASE_CLASSES = (
     "appearance-none border-input dark:bg-input/30 dark:hover:bg-input/50 "
-    "flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent "
+    "flex w-fit items-center justify-between gap-2 rounded-md border bg-input/40 "
     "pl-3 pr-9 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] "
     f"{INTERACTIVE_STATE_CLASSES} h-9 "
     "bg-(image:--chevron-down-icon-50) bg-no-repeat bg-position-[center_right_0.75rem] bg-size-[1rem]"
