@@ -128,7 +128,7 @@ SURFACE_POPOVER_CLASSES = "bg-popover text-popover-foreground border border-bord
 # ============================================================================
 
 # Popover panel surface (used by select, combobox, dropdown-menu, tooltip, etc.)
-POPOVER_PANEL_CLASSES = f"absolute rounded-md z-50 {SURFACE_POPOVER_CLASSES}"
+POPOVER_PANEL_CLASSES = f"rounded-md z-50 {SURFACE_POPOVER_CLASSES}"
 
 # Popover panel with padding (for content)
 POPOVER_PANEL_PADDED_CLASSES = f"{POPOVER_PANEL_CLASSES} p-1"
