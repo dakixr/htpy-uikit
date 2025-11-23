@@ -7,9 +7,10 @@ from htpy import select
 from htpy import span
 from sourcetypes import js
 
+from ._styles import FOCUS_ACCENT_CLASSES
+from ._styles import ICON_INLINE_CLASSES
 from ._styles import LISTBOX_EMPTY_CLASSES
 from ._styles import LISTBOX_OPTION_BASE_CLASSES
-from ._styles import LISTBOX_OPTION_SELECTED_CLASSES
 from ._styles import LISTBOX_SECTION_HEADING_CLASSES
 from ._styles import POPOVER_PANEL_PADDED_CLASSES
 from ._styles import SELECT_NATIVE_BASE_CLASSES
@@ -290,7 +291,7 @@ def select_component(
         return div(
             role="option",
             **attrs,
-            class_=LISTBOX_OPTION_BASE_CLASSES,
+            class_=f"{LISTBOX_OPTION_BASE_CLASSES} transition-none",
         )[*children]
 
     group_index = 0
@@ -614,6 +615,14 @@ def multiselect_component(
     inputs_id = f"{base_id}-inputs"
 
     initial_values = values or []
+    option_classes = (
+        "relative flex cursor-pointer items-center gap-2 rounded-sm pl-2 py-1.5 pr-7.5 "
+        "text-sm outline-hidden select-none w-full truncate transition-none mb-1 "
+        f"{ICON_INLINE_CLASSES} "
+        f"{FOCUS_ACCENT_CLASSES} hover:bg-muted hover:text-foreground "
+        "aria-selected:bg-accent aria-selected:text-accent-foreground "
+        "aria-selected:hover:bg-accent/90"
+    )
 
     # Trigger button
     trigger = button_component(
@@ -666,13 +675,11 @@ def multiselect_component(
             "data-label": item.get("label", "") if icon_node is None else "",
             # aria-selected managed by Alpine; seed from initial values
             "aria-selected": "true" if item.get("value") in initial_values else "false",
-            "@mouseenter": "onHover($el, true)",
-            "@mouseleave": "onHover($el, false)",
         }
         return div(
             role="option",
             **attrs_i,
-            class_=LISTBOX_OPTION_BASE_CLASSES,
+            class_=option_classes,
         )[*children]
 
     group_index = 0
@@ -790,18 +797,6 @@ def multiselect_component(
             const idx = opts.indexOf(el);
             if (idx > -1) this.setActive(idx);
         }},
-        onHover(el, enter) {{
-            try {{
-                if (enter) {{
-                    if (el.getAttribute('aria-selected') !== 'true') {{
-                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
-                    }}
-                }} else {{
-                    el.style.background = '';
-                    el.style.color = '';
-                }}
-            }} catch (e) {{}}
-        }},
         openMenu() {{
             if ({"true" if disabled else "false"}) return;
             this.state.open = true;
@@ -844,10 +839,9 @@ def multiselect_component(
                 opts.forEach((o) => {{
                     const selected = this.state.selected.includes(o.dataset.value || '');
                     o.setAttribute('aria-selected', String(selected));
+                    o.dataset.selected = selected ? 'true' : 'false';
                     const s = o.querySelector('.select-check svg');
                     if (s) s.style.display = selected ? '' : 'none';
-                    o.classList.toggle('bg-accent', selected);
-                    o.classList.toggle('text-accent-foreground', selected);
                 }});
             }} catch (e) {{}}
         }},

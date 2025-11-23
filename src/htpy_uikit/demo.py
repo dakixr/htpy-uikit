@@ -84,6 +84,7 @@ from htpy_uikit.components.popover import popover_trigger_button
 from htpy_uikit.components.radio_group import radio_group
 from htpy_uikit.components.radio_group import radio_group_cards
 from htpy_uikit.components.select import native_select
+from htpy_uikit.components.select import multiselect_component
 from htpy_uikit.components.select import select_component
 from htpy_uikit.components.skeleton import skeleton_avatar
 from htpy_uikit.components.skeleton import skeleton_button
@@ -1131,6 +1132,78 @@ def components_demo_page() -> Node:
                                 ],
                                 value="bar",
                             ),
+                        ],
+                        div(class_="grid gap-3 mt-6 max-w-4xl")[
+                            p(class_="text-sm text-muted-foreground")[
+                                "Multiselect popover with grouped items and icon options."
+                            ],
+                            div(class_="flex flex-wrap items-start gap-4")[
+                                multiselect_component(
+                                    id="multiselect-fruits",
+                                    name="favorite-fruits",
+                                    width_class="w-[240px]",
+                                    options=[
+                                        {
+                                            "type": "group",
+                                            "label": "Berries",
+                                            "items": [
+                                                {"type": "item", "value": "strawberry", "label": "Strawberry"},
+                                                {"type": "item", "value": "blueberry", "label": "Blueberry"},
+                                                {"type": "item", "value": "raspberry", "label": "Raspberry"},
+                                            ],
+                                        },
+                                        {
+                                            "type": "group",
+                                            "label": "Tropical",
+                                            "items": [
+                                                {"type": "item", "value": "pineapple", "label": "Pineapple"},
+                                                {"type": "item", "value": "mango", "label": "Mango"},
+                                                {"type": "item", "value": "kiwi", "label": "Kiwi"},
+                                            ],
+                                        },
+                                    ],
+                                    values=["blueberry", "mango"],
+                                ),
+                                multiselect_component(
+                                    id="multiselect-charts",
+                                    name="chart-types",
+                                    width_class="w-[240px]",
+                                    options=[
+                                        {
+                                            "type": "item",
+                                            "value": "bar",
+                                            "label": "Bar",
+                                            "icon": icon_bar(class_="text-muted-foreground"),
+                                        },
+                                        {
+                                            "type": "item",
+                                            "value": "line",
+                                            "label": "Line",
+                                            "icon": icon_line(class_="text-muted-foreground"),
+                                        },
+                                        {
+                                            "type": "item",
+                                            "value": "pie",
+                                            "label": "Pie",
+                                            "icon": icon_pie(class_="text-muted-foreground"),
+                                        },
+                                        {
+                                            "type": "item",
+                                            "value": "area",
+                                            "label": "Area",
+                                            "icon": icon_pie(class_="text-muted-foreground rotate-90"),
+                                        },
+                                        {
+                                            "type": "item",
+                                            "value": "donut",
+                                            "label": "Donut",
+                                            "icon": icon_pie(class_="text-muted-foreground/80"),
+                                        },
+                                    ],
+                                    values=["bar", "line"],
+                                    placeholder="Pick chart types",
+                                ),
+                            ],
                         ],
                     ],
                 ),
