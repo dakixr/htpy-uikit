@@ -59,45 +59,34 @@ def tabs(
     active_index = next((i for i, (val, _, _) in enumerate(normalized) if val == active_tab), 0)
 
     for index, (tab_value, tab_label, tab_content) in enumerate(normalized):
-        tab_id = f"{container_id}-tab-{index}"
-        panel_id = f"{container_id}-panel-{index}"
-
-        tab_classes_btn_base = TAB_BASE_CLASSES
-        selected_classes = TAB_SELECTED_CLASSES
-
-        is_disabled = tab_value in disabled_values
-
         tab_elements.append(
             button(
                 type="button",
                 **{
                     "role": "tab",
-                    "id": tab_id,
-                    "aria-controls": panel_id,
+                    "id": f"{container_id}-tab-{index}",
+                    "aria-controls": f"{container_id}-panel-{index}",
                     ":aria-selected": f"activeTab === {index}",
                     ":tabindex": f"activeTab === {index} ? '0' : '-1'",
                     "@click": f"activeTab = {index}",
                     "x-ref": f"tab{index}",
-                    ":class": f"activeTab === {index} ? '{selected_classes}' : ''",
-                    "disabled": "true" if is_disabled else None,
+                    ":class": f"activeTab === {index} ? '{TAB_SELECTED_CLASSES}' : ''",
+                    "disabled": "true" if tab_value in disabled_values else None,
                 },
-                class_=tab_classes_btn_base,
+                class_=TAB_BASE_CLASSES,
             )[tab_label]
         )
 
     # Create panels with Alpine.js show/hide
     panel_elements = []
     for index, (tab_value, tab_label, tab_content) in enumerate(normalized):
-        panel_id = f"{container_id}-panel-{index}"
-        tab_id = f"{container_id}-tab-{index}"
-
         # Panel background and container styling to match card component (no extra padding)
         panel_elements.append(
             div(
                 **{
                     "role": "tabpanel",
-                    "id": panel_id,
-                    "aria-labelledby": tab_id,
+                    "id": f"{container_id}-panel-{index}",
+                    "aria-labelledby": f"{container_id}-tab-{index}",
                     "tabindex": "-1",
                     ":aria-selected": f"activeTab === {index}",
                     ":hidden": f"activeTab !== {index}",

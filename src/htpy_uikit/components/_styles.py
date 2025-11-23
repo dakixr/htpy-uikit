@@ -231,9 +231,12 @@ TAB_BASE_CLASSES = (
     f"{ICON_INLINE_CLASSES}"
 )
 
-TAB_SELECTED_CLASSES = "bg-input/30 text-foreground border border-input! shadow-sm"
+TAB_SELECTED_CLASSES = (
+    "bg-background text-foreground border border-border shadow-sm "
+    "dark:text-foreground dark:border-input dark:bg-input/30"
+)
 
 TAB_LIST_CONTAINER_CLASSES = (
-    "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center "
+    "bg-muted text-muted-foreground inline-flex h-9 w-full items-center "
     "justify-center rounded-lg p-[3px] border border-border"
 )
