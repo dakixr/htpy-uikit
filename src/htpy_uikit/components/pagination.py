@@ -120,7 +120,11 @@ def pagination(
                 a(
                     class_=prev_classes,
                     href=prev_url if not is_disabled else None,
-                    **{"aria-label": "Previous page", "hx-boost": "true"},
+                    **{
+                        "aria-label": "Previous page",
+                        "hx-boost": "true",
+                        "hx-push-url": "true",
+                    },
                 )[
                     icon_chevron_left(class_="size-4 shrink-0"),
                     span()[" Previous"],
@@ -135,7 +139,10 @@ def pagination(
                 a(
                     class_=classes_btn("ghost", icon=True, size_key=size),
                     href=build_url(1),
-                    **{"hx-boost": "true"},
+                    **{
+                        "hx-boost": "true",
+                        "hx-push-url": "true",
+                    },
                 )["1"]
             ]
         )
@@ -156,7 +163,11 @@ def pagination(
                 a(
                     class_=page_classes,
                     href="#" if is_current else build_url(page),
-                    **{"aria-current": "page" if is_current else None, "hx-boost": "true"},
+                    **{
+                        "aria-current": "page" if is_current else None,
+                        "hx-boost": "true",
+                        "hx-push-url": "true",
+                    },
                 )[str(page)]
             ]
         )
@@ -171,7 +182,10 @@ def pagination(
                 a(
                     class_=classes_btn("ghost", icon=True, size_key=size),
                     href=build_url(total_pages),
-                    **{"hx-boost": "true"},
+                    **{
+                        "hx-boost": "true",
+                        "hx-push-url": "true",
+                    },
                 )[str(total_pages)]
             ]
         )
@@ -190,7 +204,11 @@ def pagination(
                 a(
                     class_=next_classes,
                     href=next_url if not is_disabled else None,
-                    **{"aria-label": "Next page", "hx-boost": "true"},
+                    **{
+                        "aria-label": "Next page",
+                        "hx-boost": "true",
+                        "hx-push-url": "true",
+                    },
                 )[
                     span()["Next "],
                     icon_chevron_right(class_="size-4 shrink-0"),
