@@ -5,7 +5,6 @@ from htpy import input as input_
 from htpy import span
 from sourcetypes import js
 
-from ._styles import LISTBOX_EMPTY_CLASSES
 from ._styles import LISTBOX_OPTION_BASE_CLASSES
 from ._styles import POPOVER_PANEL_PADDED_CLASSES
 from ._types import SelectOption
@@ -103,7 +102,7 @@ def combobox(
     if popover_width_class:
         popover_classes = f"{popover_classes} {popover_width_class}"
 
-    # Options as div[role=option] - match reference CSS exactly
+    # Options as div[role=option] - use CSS for hover/selection states
     option_nodes: list[Renderable] = [
         div(
             role="option",
@@ -112,10 +111,8 @@ def combobox(
                 "data-label": option["label"],
                 "aria-selected": "true" if (option["value"] == initial_value) else "false",
                 "@click": "updateLabelFromValue($el.dataset.value); closeMenu();",
-                "@mouseenter": "onHover($el, true)",
-                "@mouseleave": "onHover($el, false)",
             },
-            class_=LISTBOX_OPTION_BASE_CLASSES,
+            class_=f"{LISTBOX_OPTION_BASE_CLASSES} aria-selected:bg-accent aria-selected:text-accent-foreground",
         )[
             span(class_="flex-1 truncate")[option["label"]],
             # trailing check positioned right (hidden/shown by component JS)
@@ -141,12 +138,11 @@ def combobox(
             "x-transition:leave": "transition ease-in duration-150",
             "x-transition:leave-start": "opacity-100 scale-100",
             "x-transition:leave-end": "opacity-0 scale-95",
-            "@click.outside": "closeMenu(false)",
             # Placement attributes consumed by CSS
             "data_side": side,
             "data_align": align,
         },
-        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} fixed min-w-48 w-max z-[9999]",
     )[
         # Header with search icon and input - match reference exactly
         header(class_="flex h-9 items-center gap-2 border-b px-3 mb-1 border-border")[
@@ -216,6 +212,9 @@ def combobox(
             options: [],
             visible: []
         }},
+        _scrollHandler: null,
+        _resizeHandler: null,
+        _clickOutsideHandler: null,
         init() {{
             this.$nextTick(() => {{
                 this.state.options = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
@@ -223,21 +222,71 @@ def combobox(
                 this.updateLabelFromValue(this.state.selected, false);
                 this.$refs.popover.setAttribute('aria-hidden', 'true');
             }});
-
+            // Click outside handler
+            this._clickOutsideHandler = (e) => {{
+                if (this.state.open && !this.$el.contains(e.target) && !this.$refs.popover.contains(e.target)) {{
+                    this.closeMenu(false);
+                }}
+            }};
             // Watch for search changes and filter automatically
             this.$watch('state.search', () => {{
                 this.filter();
             }});
         }},
+        destroy() {{
+            this._removePositionListeners();
+            if (this._clickOutsideHandler) {{
+                document.removeEventListener('click', this._clickOutsideHandler, true);
+            }}
+        }},
+        _positionPopover() {{
+            const trigger = this.$refs.trigger;
+            const popover = this.$refs.popover;
+            if (!trigger || !popover) return;
+            const rect = trigger.getBoundingClientRect();
+            const popoverRect = popover.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            const popoverHeight = popover.offsetHeight || 200;
+            let top;
+            if (spaceBelow >= popoverHeight || spaceBelow >= spaceAbove) {{
+                top = rect.bottom + 4;
+            }} else {{
+                top = rect.top - popoverHeight - 4;
+            }}
+            let left = rect.left;
+            if (left + popoverRect.width > viewportWidth) {{
+                left = Math.max(4, viewportWidth - popoverRect.width - 4);
+            }}
+            popover.style.top = top + 'px';
+            popover.style.left = left + 'px';
+            popover.style.minWidth = rect.width + 'px';
+        }},
+        _addPositionListeners() {{
+            this._scrollHandler = () => this._positionPopover();
+            this._resizeHandler = () => this._positionPopover();
+            window.addEventListener('scroll', this._scrollHandler, true);
+            window.addEventListener('resize', this._resizeHandler);
+        }},
+        _removePositionListeners() {{
+            if (this._scrollHandler) {{
+                window.removeEventListener('scroll', this._scrollHandler, true);
+                this._scrollHandler = null;
+            }}
+            if (this._resizeHandler) {{
+                window.removeEventListener('resize', this._resizeHandler);
+                this._resizeHandler = null;
+            }}
+        }},
         resetVisible() {{
             this.state.visible = [];
             this.state.options.forEach((o) => {{
                 o.setAttribute('aria-hidden', 'false');
-                // Ensure option is visible when resetting and clear transient hover styles
+                // Ensure option is visible when resetting
                 try {{
                     o.style.display = '';
-                    o.style.background = '';
-                    o.style.color = '';
                 }} catch (e) {{}}
                 this.state.visible.push(o);
             }});
@@ -253,11 +302,6 @@ def combobox(
                 // Hide/show the element directly so component is self-contained
                 try {{
                     o.style.display = match ? '' : 'none';
-                    // Clear any transient hover styling when filtering
-                    if (o.getAttribute('aria-selected') !== 'true') {{
-                        o.style.background = '';
-                        o.style.color = '';
-                    }}
                 }} catch (e) {{}}
                 if (match) this.state.visible.push(o);
                 // ensure check icon hidden by default (we'll show for selected)
@@ -282,20 +326,6 @@ def combobox(
                     if (existing) existing.remove();
                 }}
             }} catch (e) {{ /* noop if DOM not available */ }}
-        }},
-        onHover(el, enter) {{
-            try {{
-                if (enter) {{
-                    // apply hover bg only when not selected
-                    if (!el.classList.contains('bg-accent')) {{
-                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
-                    }}
-                }} else {{
-                    // remove hover bg; restore selected bg if needed
-                    el.style.background = '';
-                    el.style.color = '';
-                }}
-            }} catch (e) {{}}
         }},
         setActive(i) {{
             if (this.state.activeIndex > -1 && this.state.options[this.state.activeIndex]) {{
@@ -327,6 +357,9 @@ def combobox(
             this.$refs.popover.setAttribute('aria-hidden', 'false');
             this.$refs.trigger.setAttribute('aria-expanded', 'true');
             this.$nextTick(() => {{
+                this._positionPopover();
+                this._addPositionListeners();
+                document.addEventListener('click', this._clickOutsideHandler, true);
                 if (this.$refs.filter) this.$refs.filter.focus();
                 const sel = this.$refs.listbox.querySelector('[role="option"][aria-selected="true"]');
                 if (sel) {{
@@ -338,6 +371,8 @@ def combobox(
         closeMenu(focus = true) {{
             if (!this.state.open) return;
             this.state.open = false;
+            this._removePositionListeners();
+            document.removeEventListener('click', this._clickOutsideHandler, true);
             this.$refs.popover.setAttribute('aria-hidden', 'true');
             this.$refs.trigger.setAttribute('aria-expanded', 'false');
             if (this.$refs.filter) {{
@@ -345,18 +380,6 @@ def combobox(
                 this.resetVisible();
             }}
             this.setActive(-1);
-            // After closing, ensure only the selected item (if any) has selected styling
-            try {{
-                this.state.options.forEach((o) => {{
-                    if (o.getAttribute('aria-selected') === 'true') {{
-                        o.style.background = 'var(--color-accent, rgba(255,255,255,0.06))';
-                        o.style.color = 'var(--color-accent-foreground, var(--color-foreground))';
-                    }} else {{
-                        o.style.background = '';
-                        o.style.color = '';
-                    }}
-                }});
-            }} catch (e) {{}}
             if (focus) this.$refs.trigger.focus();
         }},
         updateLabelFromValue(val, triggerEvent = true) {{
@@ -365,19 +388,18 @@ def combobox(
             this.$refs.selected.innerHTML = opt.dataset.label || opt.innerHTML;
             this.state.selected = opt.dataset.value || '';
             this.$refs.input.value = this.state.selected;
+            // Update aria-selected attributes - CSS handles the styling via aria-selected:bg-accent
             const prev = this.$refs.listbox.querySelector('[role="option"][aria-selected="true"]');
-            if (prev) prev.removeAttribute('aria-selected');
+            if (prev) prev.setAttribute('aria-selected', 'false');
             opt.setAttribute('aria-selected', 'true');
-            // show check icon for the selected element and apply selected bg
+            // Update checkmark visibility
             try {{
                 this.state.options.forEach((o) => {{
                     const chk = o.querySelector('svg');
                     if (chk) chk.style.display = 'none';
-                    o.classList.remove('bg-accent', 'text-accent-foreground', 'rounded-md');
                 }});
                 const chk = opt.querySelector('svg');
                 if (chk) chk.style.display = '';
-                opt.classList.add('bg-accent', 'text-accent-foreground', 'rounded-md');
             }} catch (e) {{}}
             if (triggerEvent) this.$el.dispatchEvent(new CustomEvent('change', {{ detail: {{ value: this.state.selected }}, bubbles: true }}));
         }},
@@ -438,7 +460,6 @@ def combobox(
         "x-data": alpine_data,
         "data-side": side,
         "data-align": align,
-        "@click.outside": "closeMenu(false)",
         "@combobox:popover.window": "if($event.detail.source!==$el) closeMenu(false)",
     }
     # Merge caller attrs last so they can override if necessary

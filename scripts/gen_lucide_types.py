@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import urllib.request
 from pathlib import Path
 
@@ -52,6 +53,15 @@ def write_if_changed(path: Path, content: str) -> bool:
     return True
 
 
+def format_with_ruff(path: Path) -> None:
+    """Format the generated file with ruff."""
+    subprocess.run(
+        ["ruff", "format", str(path)],
+        check=True,
+        capture_output=True,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate Lucide icon Literal types")
     parser.add_argument(
@@ -70,6 +80,8 @@ def main(argv: list[str] | None = None) -> int:
     names = fetch_icon_names(args.version)
     content = generate_types_py(names, version=args.version)
     changed = write_if_changed(args.dest, content)
+    if changed:
+        format_with_ruff(args.dest)
     out = "updated" if changed else "up-to-date"
     print(f"Wrote {args.dest} ({out}) with {len(names)} icons from lucide-static@{args.version}")
     return 0

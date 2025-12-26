@@ -285,13 +285,13 @@ def select_component(
             # innerHTML from `.select-content` when updating the trigger.
             "data-label": item.get("label", "") if icon_node is None else "",
             "aria-selected": "true" if item.get("value") == initial_value else "false",
-            "@mouseenter": "onHover($el, true)",
-            "@mouseleave": "onHover($el, false)",
         }
+        # Use data-selected for CSS styling of selected state
+        # aria-selected:bg-accent handles selected items, hover:bg-accent handles hover
         return div(
             role="option",
             **attrs,
-            class_=f"{LISTBOX_OPTION_BASE_CLASSES} transition-none",
+            class_=f"{LISTBOX_OPTION_BASE_CLASSES} transition-none aria-selected:bg-accent aria-selected:text-accent-foreground",
         )[*children]
 
     group_index = 0
@@ -362,11 +362,10 @@ def select_component(
             "x-transition:leave": "transition ease-in duration-150",
             "x-transition:leave-start": "opacity-100 scale-100",
             "x-transition:leave-end": "opacity-0 scale-95",
-            "@click.outside": "closeMenu(false)",
             "data_side": side,
             "data_align": align,
         },
-        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} fixed min-w-48 w-max z-[9999]",
     )[*pop_children]
 
     hidden_input = input_(
@@ -386,12 +385,70 @@ def select_component(
             activeIndex: -1,
             selected: '{initial_value_js}'
         }},
+        _scrollHandler: null,
+        _resizeHandler: null,
+        _clickOutsideHandler: null,
         init() {{
             this.$nextTick(() => {{
                 this.updateFromValue(this.state.selected, false);
                 this.$refs.popover.setAttribute('aria-hidden', 'true');
                 this.$el.selectByValue = (v) => this.updateFromValue(v);
             }});
+            // Click outside handler
+            this._clickOutsideHandler = (e) => {{
+                if (this.state.open && !this.$el.contains(e.target) && !this.$refs.popover.contains(e.target)) {{
+                    this.closeMenu(false);
+                }}
+            }};
+        }},
+        destroy() {{
+            this._removePositionListeners();
+            if (this._clickOutsideHandler) {{
+                document.removeEventListener('click', this._clickOutsideHandler, true);
+            }}
+        }},
+        _positionPopover() {{
+            const trigger = this.$refs.trigger;
+            const popover = this.$refs.popover;
+            if (!trigger || !popover) return;
+            const rect = trigger.getBoundingClientRect();
+            const popoverRect = popover.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            const popoverHeight = popover.offsetHeight || 200;
+            // Decide whether to show above or below
+            let top;
+            if (spaceBelow >= popoverHeight || spaceBelow >= spaceAbove) {{
+                top = rect.bottom + 4;
+            }} else {{
+                top = rect.top - popoverHeight - 4;
+            }}
+            // Horizontal positioning
+            let left = rect.left;
+            if (left + popoverRect.width > viewportWidth) {{
+                left = Math.max(4, viewportWidth - popoverRect.width - 4);
+            }}
+            popover.style.top = top + 'px';
+            popover.style.left = left + 'px';
+            popover.style.minWidth = rect.width + 'px';
+        }},
+        _addPositionListeners() {{
+            this._scrollHandler = () => this._positionPopover();
+            this._resizeHandler = () => this._positionPopover();
+            window.addEventListener('scroll', this._scrollHandler, true);
+            window.addEventListener('resize', this._resizeHandler);
+        }},
+        _removePositionListeners() {{
+            if (this._scrollHandler) {{
+                window.removeEventListener('scroll', this._scrollHandler, true);
+                this._scrollHandler = null;
+            }}
+            if (this._resizeHandler) {{
+                window.removeEventListener('resize', this._resizeHandler);
+                this._resizeHandler = null;
+            }}
         }},
         setActive(i) {{
             const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
@@ -415,21 +472,6 @@ def select_component(
                 this.setActive(idx);
             }}
         }},
-        onHover(el, enter) {{
-            try {{
-                if (enter) {{
-                    // apply hover bg only when not selected
-                    if (el.getAttribute('aria-selected') !== 'true') {{
-                        el.style.background = 'var(--color-muted, rgba(255,255,255,0.03))';
-                    }}
-                }} else {{
-                    // remove hover bg; restore selected bg if needed
-                    el.style.background = '';
-                    el.style.color = '';
-                }}
-            }} catch (e) {{}}
-        }},
-
         openMenu() {{
             if ({"true" if disabled else "false"}) return;
             this.state.open = true;
@@ -437,6 +479,9 @@ def select_component(
             this.$refs.popover.setAttribute('aria-hidden', 'false');
             this.$refs.trigger?.setAttribute('aria-expanded', 'true');
             this.$nextTick(() => {{
+                this._positionPopover();
+                this._addPositionListeners();
+                document.addEventListener('click', this._clickOutsideHandler, true);
                 const sel = this.$refs.listbox.querySelector('[role="option"][aria-selected="true"]');
                 if (sel) {{
                     const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
@@ -448,6 +493,8 @@ def select_component(
         closeMenu(focus = true) {{
             if (!this.state.open) return;
             this.state.open = false;
+            this._removePositionListeners();
+            document.removeEventListener('click', this._clickOutsideHandler, true);
             this.$refs.popover.setAttribute('aria-hidden', 'true');
             this.$refs.trigger?.setAttribute('aria-expanded', 'false');
             this.setActive(-1);
@@ -457,29 +504,22 @@ def select_component(
             const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
             const opt = opts.find((o) => o.dataset.value === val) || opts[0];
             if (!opt) return;
-            // When an option has `.select-content` (e.g., icon + label), use it to populate the trigger,
-            // otherwise fallback to `data-label`/innerHTML for plain text items.
             const content = opt.querySelector('.select-content');
             this.$refs.selected.innerHTML = content ? content.outerHTML : (opt.dataset.label || opt.innerHTML);
             this.state.selected = opt.dataset.value || '';
             this.$refs.input.value = this.state.selected;
+            // Update aria-selected attributes - CSS handles the styling via aria-selected:bg-accent
             const prev = this.$refs.listbox.querySelector('[role="option"][aria-selected="true"]');
-            if (prev) prev.removeAttribute('aria-selected');
+            if (prev) prev.setAttribute('aria-selected', 'false');
             opt.setAttribute('aria-selected', 'true');
+            // Update checkmark visibility
             try {{
                 opts.forEach((o) => {{
                     const s = o.querySelector('.select-check svg');
                     if (s) s.style.display = 'none';
-                    o.classList.remove('bg-accent', 'text-accent-foreground');
-                    // clear hover styles applied by onHover for non-selected items
-                    if (o.getAttribute('aria-selected') !== 'true') {{
-                        o.style.background = '';
-                        o.style.color = '';
-                    }}
                 }});
                 const s = opt.querySelector('.select-check svg');
                 if (s) s.style.display = '';
-                opt.classList.add('bg-accent', 'text-accent-foreground');
             }} catch (e) {{}}
             if (triggerEvent) this.$el.dispatchEvent(new CustomEvent('change', {{ detail: {{ value: this.state.selected }}, bubbles: true }}));
         }},
@@ -490,9 +530,9 @@ def select_component(
                 this.closeMenu();
                 return;
             }}
-            if (this.state.visible.length > 0) {{
-                const first = this.state.visible[0];
-                this.updateFromValue(first.dataset.value);
+            const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
+            if (opts.length > 0) {{
+                this.updateFromValue(opts[0].dataset.value);
                 this.closeMenu();
             }}
         }},
@@ -536,7 +576,6 @@ def select_component(
         "x-data": alpine_data,
         "data-side": side,
         "data-align": align,
-        "@click.outside": "closeMenu(false)",
         "@select:popover.window": "if($event.detail.source!==$el) closeMenu(false)",
     }
     root_attrs.update(attrs)
@@ -619,9 +658,9 @@ def multiselect_component(
         "relative flex cursor-pointer items-center gap-2 rounded-sm pl-2 py-1.5 pr-7.5 "
         "text-sm outline-hidden select-none w-full truncate transition-none mb-1 "
         f"{ICON_INLINE_CLASSES} "
-        f"{FOCUS_ACCENT_CLASSES} hover:bg-muted hover:text-foreground "
+        f"{FOCUS_ACCENT_CLASSES} hover:bg-accent hover:text-accent-foreground "
         "aria-selected:bg-accent aria-selected:text-accent-foreground "
-        "aria-selected:hover:bg-accent/90"
+        "aria-selected:hover:bg-accent/80"
     )
 
     # Trigger button
@@ -728,11 +767,10 @@ def multiselect_component(
             "x-transition:leave": "transition ease-in duration-150",
             "x-transition:leave-start": "opacity-100 scale-100",
             "x-transition:leave-end": "opacity-0 scale-95",
-            "@click.outside": "closeMenu(false)",
             "data_side": side,
             "data_align": align,
         },
-        class_=f"{POPOVER_PANEL_PADDED_CLASSES} absolute left-0 top-full mt-1 min-w-48 w-max",
+        class_=f"{POPOVER_PANEL_PADDED_CLASSES} fixed min-w-48 w-max z-[9999]",
     )[
         div(
             id=listbox_id,
@@ -769,6 +807,9 @@ def multiselect_component(
             activeIndex: -1,
             selected: {initial_values_js}
         }},
+        _scrollHandler: null,
+        _resizeHandler: null,
+        _clickOutsideHandler: null,
         init() {{
             this.$nextTick(() => {{
                 this.updateTrigger(false);
@@ -776,6 +817,58 @@ def multiselect_component(
                 this.syncHiddenInputs();
                 this.applySelectionStyles();
             }});
+            this._clickOutsideHandler = (e) => {{
+                if (this.state.open && !this.$el.contains(e.target) && !this.$refs.popover.contains(e.target)) {{
+                    this.closeMenu(false);
+                }}
+            }};
+        }},
+        destroy() {{
+            this._removePositionListeners();
+            if (this._clickOutsideHandler) {{
+                document.removeEventListener('click', this._clickOutsideHandler, true);
+            }}
+        }},
+        _positionPopover() {{
+            const trigger = this.$refs.trigger;
+            const popover = this.$refs.popover;
+            if (!trigger || !popover) return;
+            const rect = trigger.getBoundingClientRect();
+            const popoverRect = popover.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const viewportWidth = window.innerWidth;
+            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            const popoverHeight = popover.offsetHeight || 200;
+            let top;
+            if (spaceBelow >= popoverHeight || spaceBelow >= spaceAbove) {{
+                top = rect.bottom + 4;
+            }} else {{
+                top = rect.top - popoverHeight - 4;
+            }}
+            let left = rect.left;
+            if (left + popoverRect.width > viewportWidth) {{
+                left = Math.max(4, viewportWidth - popoverRect.width - 4);
+            }}
+            popover.style.top = top + 'px';
+            popover.style.left = left + 'px';
+            popover.style.minWidth = rect.width + 'px';
+        }},
+        _addPositionListeners() {{
+            this._scrollHandler = () => this._positionPopover();
+            this._resizeHandler = () => this._positionPopover();
+            window.addEventListener('scroll', this._scrollHandler, true);
+            window.addEventListener('resize', this._resizeHandler);
+        }},
+        _removePositionListeners() {{
+            if (this._scrollHandler) {{
+                window.removeEventListener('scroll', this._scrollHandler, true);
+                this._scrollHandler = null;
+            }}
+            if (this._resizeHandler) {{
+                window.removeEventListener('resize', this._resizeHandler);
+                this._resizeHandler = null;
+            }}
         }},
         setActive(i) {{
             const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
@@ -804,6 +897,9 @@ def multiselect_component(
             this.$refs.popover.setAttribute('aria-hidden', 'false');
             this.$refs.trigger?.setAttribute('aria-expanded', 'true');
             this.$nextTick(() => {{
+                this._positionPopover();
+                this._addPositionListeners();
+                document.addEventListener('click', this._clickOutsideHandler, true);
                 const sel = this.$refs.listbox.querySelector('[role="option"][aria-selected="true"]');
                 if (sel) {{
                     const opts = Array.from(this.$refs.listbox.querySelectorAll('[role="option"]'));
@@ -815,6 +911,8 @@ def multiselect_component(
         closeMenu(focus = true) {{
             if (!this.state.open) return;
             this.state.open = false;
+            this._removePositionListeners();
+            document.removeEventListener('click', this._clickOutsideHandler, true);
             this.$refs.popover.setAttribute('aria-hidden', 'true');
             this.$refs.trigger?.setAttribute('aria-expanded', 'false');
             this.setActive(-1);
@@ -860,7 +958,7 @@ def multiselect_component(
                 this.$refs.selected.removeAttribute('title');
             }} else {{
                 const triggerWidth = this.$refs.trigger ? this.$refs.trigger.clientWidth : 180;
-                const approxCharPx = 8; // rough average width per character in px
+                const approxCharPx = 8;
                 const maxChars = Math.max(10, Math.floor(triggerWidth / approxCharPx) - 8);
                 let acc = '';
                 let shown = [];
@@ -939,7 +1037,6 @@ def multiselect_component(
         "x-data": alpine_data,
         "data-side": side,
         "data-align": align,
-        "@click.outside": "closeMenu(false)",
         "@multiselect:popover.window": "if($event.detail.source!==$el) closeMenu(false)",
     }
     root_attrs.update(attrs)

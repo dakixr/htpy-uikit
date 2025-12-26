@@ -59,9 +59,9 @@ BTN_SIZE_SM_CLASSES = "gap-1.5 h-8 px-3 text-xs has-[>svg]:px-2.5"
 BTN_SIZE_LG_CLASSES = "gap-2 h-10 px-6 has-[>svg]:px-4"
 
 # Button icon-only sizes
-BTN_ICON_MD_CLASSES = "p-0 size-9"
-BTN_ICON_SM_CLASSES = "p-0 size-8"
-BTN_ICON_LG_CLASSES = "p-0 size-10"
+BTN_ICON_MD_CLASSES = "p-0 size-9 min-w-9"
+BTN_ICON_SM_CLASSES = "p-0 size-8 min-w-8"
+BTN_ICON_LG_CLASSES = "p-0 size-10 min-w-10"
 
 # Button variant classes
 BTN_VARIANT_PRIMARY_CLASSES = "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"

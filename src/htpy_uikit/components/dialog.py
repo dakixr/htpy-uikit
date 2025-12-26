@@ -6,12 +6,11 @@ from htpy import button
 from htpy import div
 from htpy import h2
 from htpy import p
-from htpy import path
 from htpy import span
-from htpy import svg
 from htpy import with_children
 
 from ._utils import merge_classes
+from .icons import icon_close
 
 
 def dialog(
@@ -61,21 +60,15 @@ def dialog(
         )[
             # Close button
             button(
-            class_=(
-                "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white "
-                "transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 "
-                "focus:ring-ring/50 focus:ring-offset-2 disabled:pointer-events-none "
-                "data-[state=open]:bg-muted/20"
-            ),
+                class_=(
+                    "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white "
+                    "transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 "
+                    "focus:ring-ring/50 focus:ring-offset-2 disabled:pointer-events-none "
+                    "data-[state=open]:bg-muted/20"
+                ),
                 **{"data-state": "closed"},
             )[
-                svg(
-                    class_="h-4 w-4",
-                    fill="none",
-                    viewbox="0 0 24 24",
-                    stroke="currentColor",
-                    stroke_width="2",
-                )[path(d="M18 6L6 18M6 6l12 12")],
+                icon_close(class_="h-4 w-4"),
                 span(class_="sr-only")["Close"],
             ],
             # Dialog header
